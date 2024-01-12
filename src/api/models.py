@@ -44,3 +44,25 @@ class Ongs(db.Model):
             # do not serialize the password, its a security breach
         }
 
+class Voluntario(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+    ciudad = db.Column(db.String(80), unique=False, nullable=False)
+    lat = db.Column(db.Integer, unique=True, nullable=False)
+    lng = db.Column(db.Integer, unique=True, nullable=False)
+    nth_campaign = db.Column(db.Integer, unique=True, nullable=False)
+
+
+    def __repr__(self):
+        return f'<Voluntario {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "ciudad": self.ciudad,
+            "email": self.email,
+            # do not serialize the password, its a security breach
+        }
