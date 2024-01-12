@@ -2,7 +2,11 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
+<<<<<<< HEAD
 from api.models import db, User, Campaign
+=======
+from api.models import db, User, Ongs, Voluntario
+>>>>>>> develop
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 
