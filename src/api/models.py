@@ -17,3 +17,30 @@ class User(db.Model):
             "email": self.email,
             # do not serialize the password, its a security breach
         }
+
+class Ongs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    nombre = db.Column(db.String(80), unique=False, nullable=False)
+    ciudad = db.Column(db.String(80), unique=False, nullable=False)
+    nif = db.Column(db.String(80), unique=False, nullable=False)
+    actividad = db.Column(db.String(80), unique=False, nullable=False)
+    password = db.Column(db.String(80), unique=False, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    aprobado = db.Column(db.Boolean(), unique=False, nullable=False)
+    lat = db.Column(db.Integer, unique=True, nullable=False)
+    lng = db.Column(db.Integer, unique=True, nullable=False)
+
+
+    def __repr__(self):
+        return f'<Ongs {self.email}>'
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "nombre": self.nombre,
+            "ciudad": self.ciudad,
+            "actividad": self.actividad,
+            "email": self.email,
+            # do not serialize the password, its a security breach
+        }
+
