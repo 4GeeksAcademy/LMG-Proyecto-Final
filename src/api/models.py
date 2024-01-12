@@ -40,7 +40,6 @@ class Campaign(db.Model):
 
 
 
-     
 
 class Voluntario(db.Model):
     id = db.Column(db.Integer, primary_key=True)
