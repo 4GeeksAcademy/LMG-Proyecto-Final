@@ -79,6 +79,30 @@ def get_ong(ong_id):
     return jsonify(ong.serialize()), 200
 
 
+@app.route('/ong', methods=['POST'])
+def post_ong():
+    nombre_ong = request.get_json()['nombre']
+    body = request.get_json()
+
+    ong = Ongs(nif= body['nif'],
+                nombre= body['nombre'],
+                email= body['email'],
+                ciudad= body['ciudad'],
+                actividad= body['actividad'],
+                aprobado= body['aprobado'],
+                password= body['password'],
+                lat= body['lat'],
+                lng= body['lng'])
+
+    db.session.add(ong)
+    db.session.commit()
+
+    response_body = {
+        "msg": "ONG creada correctamente"
+    }
+
+    return jsonify(response_body), 200
+
 
 
 
