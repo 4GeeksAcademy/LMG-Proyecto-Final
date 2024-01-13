@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, User, Campaign, Voluntario, Ongs
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -50,22 +50,40 @@ def handle_invalid_usage(error):
 # generate sitemap with all your endpoints
 
 
+
 @app.route('/')
 def sitemap():
-    if ENV == "development":
         return generate_sitemap(app)
-    return send_from_directory(static_file_dir, 'index.html')
+    
 
 # any other endpoint will try to serve it like a static file
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
+@app.route('/ong', methods=['GET'])
+def get_ongs():
+    all_ongs = Ongs.query.all()
+    print(all_ongs)
+    results = list(map(lambda ongs: ongs.serialize(),all_ongs))
+    print(results)
+
+    return jsonify(results), 200
+
+@app.route('/ong/<int:ong_id>', methods=['GET'])
+def get_ong(ong_id):
+    print(ong_id)
+    ong = Ongs.query.filter_by(id=ong_id).first()
+    print(ong)
+    all_ongs = Ongs.query.all()
+    results = list(map(lambda ong: ong.serialize(),all_ongs))
+    
+    return jsonify(ong.serialize()), 200
+
+
+
+
+
+
+# fin
 
 
 # this only runs if `$ python src/main.py` is executed
