@@ -81,7 +81,6 @@ def get_ong(ong_id):
 
 @app.route('/ong', methods=['POST'])
 def post_ong():
-    nombre_ong = request.get_json()['nombre']
     body = request.get_json()
 
     ong = Ongs(nif= body['nif'],
@@ -104,7 +103,59 @@ def post_ong():
     return jsonify(response_body), 200
 
 
+@app.route('/ong/<int:ong_id>', methods=['PUT'])
+def update_ong(ong_id):
+    try:
+        body = request.get_json()
+        print("Request Body:", body)
 
+        ong = Ongs.query.filter_by(id=ong_id).first()
+
+        if ong is None:
+            raise APIException("ONG no encontrada", status_code=404)
+
+        # Actualiza solo los campos que se proporcionan en la solicitud
+        ong.nif = body.get('nif', ong.nif)
+        ong.nombre = body.get('nombre', ong.nombre)
+        ong.email = body.get('email', ong.email)
+        ong.ciudad = body.get('ciudad', ong.ciudad)
+        ong.actividad = body.get('actividad', ong.actividad)
+        ong.aprobado = body.get('aprobado', ong.aprobado)
+        ong.password = body.get('password', ong.password)
+        ong.lat = body.get('lat', ong.lat)
+        ong.lng = body.get('lng', ong.lng)
+
+        db.session.commit()
+
+        response_body = {
+            "msg": "ONG actualizada correctamente"
+        }
+
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Error al actualizar ONG", status_code=500)
+        
+
+@app.route('/ong/<int:ong_id>', methods=['DELETE'])
+def delete_ong(ong_id):
+    try:
+        ong = Ongs.query.get(ong_id)
+
+        if not ong:
+            raise APIException("ONG no encontrada", status_code=404)
+
+        db.session.delete(ong)
+        db.session.commit()
+
+        response_body = {
+            "msg": "ONG eliminada correctamente"
+        }
+
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Error al eliminar ONG", status_code=500)       
 
 
 # fin
