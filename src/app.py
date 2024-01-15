@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, Voluntario
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -67,6 +67,100 @@ def serve_any_other_file(path):
     response.cache_control.max_age = 0  # avoid cache memory
     return response
 
+#  inicio 
+@app.route('/voluntario', methods=['GET'])
+def get_voluntario():
+    all_voluntario = Voluntario.query.all()
+    print(all_voluntario)
+    results = list(map(lambda voluntario: voluntario.serialize(),all_voluntario))
+    print(results)
+
+    return jsonify(results), 200
+
+
+@app.route('/voluntario/<int:voluntario_id>', methods=['GET'])
+def get_voluntario_id(voluntario_id):
+    print(voluntario_id)
+    
+    voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+    
+    if voluntario:
+        # Assuming `serialize` is a method in your Voluntario model
+        result = voluntario.serialize()
+        return jsonify(result)
+    else:
+        return jsonify({"error": "Voluntario not found"}), 404
+    
+
+@app.route('/voluntario', methods=['POST'])
+def post_voluntario():
+    body = request.get_json()
+
+    new_voluntario = Voluntario(
+                nombre= body['nombre'],
+                email= body['email'],
+                password= body['password'],
+                ciudad= body['ciudad'],
+                lat= body['lat'],
+                lng= body['lng'])
+
+    db.session.add(new_voluntario)
+    db.session.commit()
+
+    response_body = {
+        "msg": "nuevo voluntario creado"
+    }
+
+    return jsonify(response_body), 200
+
+@app.route('/voluntario/<int:voluntario_id>', methods = ['PUT'])
+def update_voluntario(voluntario_id):
+    try:
+        body = request.get_json()
+        print("Request Body:", body)
+
+        voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+
+        if voluntario is None:
+            raise APIException("voluntario no encontrado", status_code=404)
+
+        voluntario.nombre = body.get('nombre', voluntario.nombre)
+        voluntario.email = body.get('email', voluntario.email)
+        voluntario.password = body.get('password', voluntario.password)
+        voluntario.ciudad = body.get('ciudad', voluntario.ciudad)
+        voluntario.lat = body.get('lat', voluntario.lat)
+        voluntario.lng = body.get('lng', voluntario.lng)
+
+        db.session.commit()
+
+        response_body = {
+            "msg": "voluntario actualizado"
+        }
+
+        return jsonify(response_body), 200
+    
+    except Exception as e:
+            print("Error:", str(e))
+            raise APIException("Error al actualizar voluntario", status_code=500)
+
+@app.route('/voluntario/<int:voluntario_id>', methods=['DELETE'])
+def delete_voluntario(voluntario_id):
+    try:
+        voluntario = Voluntario.query.get(voluntario_id)
+        if not voluntario:
+            raise APIException("voluntario no encontrado", status_code=404)
+        db.session.delete(voluntario)
+        db.session.commit()
+        response_body = {
+            "msg": "voluntario eliminado correctamente"
+        }
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Error al eliminar voluntario", status_code=500)
+    
+    
+#  fin
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
