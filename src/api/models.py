@@ -68,6 +68,7 @@ class Ongs(db.Model):
             "ciudad": self.ciudad,
             "actividad": self.actividad,
             "email": self.email,
+            "aprobado": self.aprobado,
             # do not serialize the password, its a security breach
         }
 class Campaign(db.Model):
