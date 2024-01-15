@@ -6,7 +6,7 @@ from flask import Flask, request, jsonify, url_for, send_from_directory
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
-from api.models import db
+from api.models import db, Campaign
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
@@ -57,17 +57,106 @@ def sitemap():
     return send_from_directory(static_file_dir, 'index.html')
 
 # any other endpoint will try to serve it like a static file
+#Inicio
 
 
-@app.route('/<path:path>', methods=['GET'])
-def serve_any_other_file(path):
-    if not os.path.isfile(os.path.join(static_file_dir, path)):
-        path = 'index.html'
-    response = send_from_directory(static_file_dir, path)
-    response.cache_control.max_age = 0  # avoid cache memory
-    return response
 
 
+
+# Get all campaigns
+@app.route('/campaign', methods=['GET'])
+def get_campaigns():
+    all_campaigns = Campaign.query.all()
+    print(all_campaigns)
+    results = list(map(lambda campaign: campaign.serialize(),all_campaigns))
+    print(results)
+
+    return jsonify(results), 200
+
+
+#  Get a specific campaign by ID
+@app.route('/campaign/<int:campaign_id>', methods=['GET'])
+def get_campaign_id(campaign_id):
+    print(campaign_id)
+    
+    campaign = Campaign.query.filter_by(id=campaign_id).first()
+    
+    if campaign:
+        # Assuming `serialize` is a method in your Campaign model
+        result = campaign.serialize()
+        return jsonify(result)
+    else:
+        return jsonify({"error": "Campaign not found"}), 404
+
+
+
+# # Create a new campaign
+@app.route('/campaign', methods=['POST'])
+def post_campaign():
+    body = request.get_json()
+    new_campaign = Campaign(
+                fecha_inicio=body['fecha_inicio'],
+                fecha_finalizacion=body['fecha_finalizacion'],
+                nombre=body['nombre'],
+                ong_id=body['ong_id'])
+    db.session.add(new_campaign)
+    db.session.commit()
+    response_body = {
+        "msg": "new campaign created"
+    }
+    return jsonify(response_body), 200
+
+
+
+
+# # Update a campaign by ID
+@app.route('/campaign/<int:campaign_id>', methods=['PUT'])
+def update_campaign(campaign_id):
+    try:
+        body = request.get_json()
+        print("Request Body:", body)
+        campaign = Campaign.query.filter_by(id=campaign_id).first()
+        if campaign is None:
+            raise APIException("Campaign not found", status_code=404)
+        # Actualiza solo los campos que se proporcionan en la solicitud
+        campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
+        campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
+        campaign.nombre = body.get('nombre', campaign.nombre)
+        campaign.ong_id = body.get('ong_id', campaign.ong_id)
+       
+        db.session.commit()
+        response_body = {
+            "msg": "Campaign updated correctly"
+        }
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Campaign updating error", status_code=500)
+
+
+
+# # Delete a campaign by ID
+@app.route('/campaign/<int:campaign_id>', methods=['DELETE'])
+def delete_campaign(campaign_id):
+    try:
+        campaign = Campaign.query.get(campaign_id)
+        if not campaign:
+            raise APIException("Campaign not found", status_code=404)
+        db.session.delete(campaign)
+        db.session.commit()
+        response_body = {
+            "msg": "Campaign deleted correctly"
+        }
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Campaign deleting error", status_code=500)
+
+
+
+
+
+#Fin
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
     PORT = int(os.environ.get('PORT', 3001))
