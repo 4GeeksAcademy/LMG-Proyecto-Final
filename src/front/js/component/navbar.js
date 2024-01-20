@@ -17,3 +17,21 @@ export const Navbar = () => {
 		</nav>
 	);
 };
+
+
+// export const Navbar = () => {
+// 	return (
+// 		<nav className="navbar navbar-light bg-light mb-3">
+// 			<div className="container">
+// 			<Link to="/">
+// 				<span className="navbar-brand mb-0 h1">Let me Give</span>
+// 			</Link>
+// 			<div className="ml-auto">
+// 				<Link className="addCampaignButton" to="/campaignForm/">
+// 					<button className="btn btn-success">Add new Campaign</button>
+// 				</Link>
+// 			</div>
+// 			</div>
+// 		</nav>
+// 	);
+// };
