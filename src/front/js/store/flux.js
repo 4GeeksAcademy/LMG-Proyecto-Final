@@ -37,15 +37,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: { 'Content-Type': 'application/json' },
 					mode: 'cors',
 					body: JSON.stringify({
-						"ong": newCampaign.ong,
+						"articulos":newCampaign.articulos,
+						"fecha_finalizacion":newCampaign.fecha_finalizacion,
 						"fecha_inicio": newCampaign.fecha_inicio,
-						//"fecha_finalizacion":newCampaign.fecha_fin,
 						"nombre":newCampaign.nombre,
 						"objetivo":newCampaign.objetivo,
-						"articulos":newCampaign.articulos,
+						"ong_id": newCampaign.ong_id,
+
 					})
 				};
-				fetch(process.env.BACKEND_URL + "api/campaign/", requestOptions)
+				fetch("https://obscure-invention-x5w59xrjx4pgf6xj7-3001.app.github.dev/api/campaign", requestOptions)
+				// fetch(process.env.BACKEND_URL + "api/campaign/", requestOptions)
+
 			},
 			deleteCampaign: (id) => {
 				const deleteOptions = {
@@ -54,9 +57,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					mode: 'cors',
 					
 				};
+				//  fetch("https://obscure-invention-x5w59xrjx4pgf6xj7-3001.app.github.dev/api/campaign" + id, deleteOptions)
 				fetch(process.env.BACKEND_URL + "/api/campaign/" + id, deleteOptions)
+
 					.then(response => response.json())
 					.then((data =>{ 
+						// fetch("https://obscure-invention-x5w59xrjx4pgf6xj7-3001.app.github.dev/api/campaign")
 						fetch(process.env.BACKEND_URL + "/api/campaing/")
 							.then((response) => response.json())
 							.then((data) => {
@@ -73,11 +79,13 @@ const getState = ({ getStore, getActions, setStore }) => {
 			   mode: 'cors',
 			   body: JSON.stringify({
 				   "ong": editCampaign.ong,
-					"fecha_inicio": editCampaign.fecha_inicio,
+					"articulos":editCampaign.articulos,
 					"fecha_finalizacion":editCampaign.fecha_fin,
+					"fecha_inicio": editCampaign.fecha_inicio,
 					"nombre":editCampaign.nombre,
 					"objetivo":editCampaign.objetivo,
-					"articulos":editCampaign.articulos,
+					"ong_id": editCampaign.ong_id,
+
 			   })
 		   };
 		   fetch(process.env.BACKEND_URL + "/api/campaign/" + id, editOptions)

@@ -7,25 +7,25 @@ import { useParams } from "react-router-dom";
 
 export const CampaignEditForm = () => {
 	const { store, actions } = useContext(Context);
-	const [ong, setOng] = useState("");
+    const [articulos, setArticulos] = useState("");
+    const [fecha_finalizacion, setFechaFinalizacion] = useState("");
     const [fecha_inicio, setFechaInicio] = useState("");
-	const [fecha_fin, setFechaFin] = useState("");
 	const [nombre, setNombre] = useState("");
 	const [objetivo, setObjetivo] = useState("");
-    const [articulos, setArticulos] = useState("");
+	const [ongId, setOngId] = useState(0);
 	const { theid } = useParams();
 
 
     const inputOng = (eOng) =>{
-		setOng(eOng.target.value)	
+		setOngId(eOng.target.value)	
 	};
 
 	const inputFechaInicio = (eFechaInicio) =>{
 		setFechaInicio(eFechaInicio.target.value)	
 	};
 
-    const inputFechaFin = (eFechaFin) =>{
-		setFechaFin(eFechaFin.target.value)	
+    const inputFechaFinalizacion = (eFechaFin) =>{
+		setFechaFinalizacion(eFechaFin.target.value)	
 	};
 
 	const inputNombre = (eNombre) =>{
@@ -48,20 +48,23 @@ export const CampaignEditForm = () => {
 
     const handleSave = () => {
         actions.editCampaign({
-            ong: ong,
+            articulos: articulos,
+            fecha_finalizacion: fecha_finalizacion,
             fecha_inicio: fecha_inicio,
-            fecha_fin: fecha_fin,
             nombre: nombre,
             objetivo: objetivo,
-            articulos: articulos,
-        }, theid);
-        setOng("");
+            ong_id: ongId,
+        }, theid);       
+        setArticulos("");
+        setFechaFinalizacion("");
         setFechaInicio("");
-        setFechaFin("");
         setNombre("");
         setObjetivo("");
-        setArticulos("");
+        setOngId(0);
+
     };
+
+
 
 
 	return (
@@ -70,6 +73,24 @@ export const CampaignEditForm = () => {
 			<h1>Editar Campaña</h1>
 		</div>
         <div className=" row ms-5 p-3">
+        <div className="col-12 mt-3">
+                    <label>Lista de artículos</label>
+                </div>
+                <div className="col-12">
+                    <input className="inputs mx-auto" onChange={inputArticulos} value={articulos} placeholder="Lista de articulos"></input>
+                </div>
+                <div className="col-12 mt-3">
+                    <label>Fecha Finalizacion</label>
+                </div>
+                <div className="col-12">
+                    <input className="inputs mx-auto" type="date" onChange={inputFechaFinalizacion} value={fecha_finalizacion} placeholder="Fecha finalizacion"></input>
+                </div>
+                <div className="col-12 mt-3">
+                    <label>Fecha Inicio</label>
+                </div>
+                <div className="col-12">
+                    <input className="inputs mx-auto" type="date" onChange={inputFechaInicio} value={fecha_inicio} placeholder="Fecha inicio"></input>
+                </div>
                 <div className="col-12">
                     <label>Nombre de la campaña</label>
                 </div>
@@ -78,39 +99,18 @@ export const CampaignEditForm = () => {
                 </div>
 
                 <div className="col-12 mt-3">
-                    <label>Fecha Inicio</label>
-                </div>
-                <div className="col-12">
-                    <input className="inputs mx-auto" type="date" onChange={inputFechaInicio} value={fecha_inicio} placeholder="Fecha inicio"></input>
-                </div>
-
-                <div className="col-12 mt-3">
-                    <label>Fecha Fin</label>
-                </div>
-                <div className="col-12">
-                    <input className="inputs mx-auto" type="date" onChange={inputFechaFin} value={fecha_fin} placeholder="Fecha fin"></input>
-                </div>
-
-                <div className="col-12 mt-3">
-                    <label>Lista de artículos</label>
-                </div>
-                <div className="col-12">
-                    <input className="inputs mx-auto" onChange={inputArticulos} value={articulos} placeholder="Lista de articulos"></input>
-                </div>
-
-                <div className="col-12 mt-3">
-                    <label>Nombre Ong</label>
-                </div>
-                <div className="col-12">
-                    <input className="inputs mx-auto" onChange={inputOng} value={ong} placeholder="Nombre Ong"></input>
-                </div>
-
-                <div className="col-12 mt-3">
                     <label>Objetivo a cumplir</label>
                 </div>
                 <div className="col-12">
                     <input className="inputs mx-auto" onChange={inputObjetivo} value={objetivo} placeholder="Objetivo campaña"></input>
                 </div>
+                <div className="col-12 mt-3">
+                    <label>Id Ong</label>
+                </div>
+                <div className="col-12">
+                    <input className="inputs mx-auto" onChange={inputOng} value={ongId} placeholder="Id Ong"></input>
+                </div>
+                           
 
                 <div className="col-12 mt-3">
                     <button className="saveButton" style={{width:"90%"}} onClick={handleSave}>Guardar campaña</button>

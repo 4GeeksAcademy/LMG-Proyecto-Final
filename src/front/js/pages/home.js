@@ -22,10 +22,10 @@ export const Home = () => {
 		actions.loadCampaigns();
 	  }, []);
 
-	const botonEliminarCampana = (id) => {
-		actions.deleteCampaign(id);
+	//   const botonEliminarCampana = (id) => {
+	// 	actions.deleteCampaign(id);
 		
-	};
+	// };
 
 	return(
 		<>
@@ -37,14 +37,14 @@ export const Home = () => {
 			<p className="campaignElements" key={index}> 
 			 {campaign.fecha_inicio}</p>
 			 <p className="campaignElements" key={index}> 
-			 {campaign.fecha_fin}</p>
+			 {campaign.fecha_finalizacion}</p>
 			 <p className="campaignElements" key={index}> 
 			 {campaign.articulos}</p>
 			<p className="campaignElements" key={index}>  {campaign.ong}</p>
 			<p className="campaignElements" key={index}> 
 			 {campaign.objetivo}</p>
  		 </div>
-
+	
  		 <div className="col-lg-1 col-md-6 p-3 editButton">
 		  <Link to={`/editCampaign/${campaign.id}`} key={campaign}>
     <button className="sideButtons">
@@ -73,16 +73,15 @@ export const Home = () => {
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No.</button>
-        <button onClick={() => botonEliminarCampana(campaign.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button>
-      </div>
+        {/* <button onClick={() => botonEliminarCampana(campaign.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button> */}
+		<button className="btn btn-primary" onClick={()=>actions.deleteCampaign(campaign.id)}>Sí, quiero borrarla</button>
+	  
+	  </div>
     </div>
   </div>
-  
-		</div>
+  </div>
 	
 </div>
-
-
 		</div>
 	
 	</div>	

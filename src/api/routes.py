@@ -72,11 +72,13 @@ def update_campaign(campaign_id):
         if campaign is None:
             raise APIException("Campaign not found", status_code=404)
         # Actualiza solo los campos que se proporcionan en la solicitud
+        campaign.articulos = body.get('articulos', campaign.articulos)
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
         campaign.nombre = body.get('nombre', campaign.nombre)
+        campaign.objetivo = body.get('objetivo', campaign.objetivo)
         campaign.ong_id = body.get('ong_id', campaign.ong_id)
-       
+        
         db.session.commit()
         response_body = {
             "msg": "Campaign updated correctly"
