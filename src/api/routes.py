@@ -71,7 +71,6 @@ def update_campaign(campaign_id):
         campaign = Campaign.query.filter_by(id=campaign_id).first()
         if campaign is None:
             raise APIException("Campaign not found", status_code=404)
-        # Actualiza solo los campos que se proporcionan en la solicitud
         campaign.articulos = body.get('articulos', campaign.articulos)
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
@@ -104,3 +103,5 @@ def delete_campaign(campaign_id):
     except Exception as e:
         print("Error:", str(e))
         raise APIException("Campaign deleting error", status_code=500)
+    
+

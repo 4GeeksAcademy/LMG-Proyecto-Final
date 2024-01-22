@@ -5,27 +5,16 @@ import "../../styles/home.css";
 import { Link } from 'react-router-dom';
 
 
-
-// export const Home = () => {
-// 	const { store, actions } = useContext(Context);
-
-// 	return (
-// 		<h1>Lorem ipsum</h1>
-	
-// 	);
-// };
-
-
 export const Home = () => {
 	const {store, actions} = useContext(Context)
 	useEffect(() => {
 		actions.loadCampaigns();
 	  }, []);
 
-	//   const botonEliminarCampana = (id) => {
-	// 	actions.deleteCampaign(id);
-		
-	// };
+	  const botonEliminarCampana = (id) => {
+		actions.deleteCampaign(id);
+	
+	};
 
 	return(
 		<>
@@ -65,7 +54,7 @@ export const Home = () => {
   <div className="modal-dialog">
     <div className="modal-content">
       <div className="modal-header">
-        <h1 className="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <h1 className="modal-title fs-5" id="exampleModalLabel">Eliminar Campaña</h1>
         <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div className="modal-body">
@@ -73,9 +62,7 @@ export const Home = () => {
       </div>
       <div className="modal-footer">
         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No.</button>
-        {/* <button onClick={() => botonEliminarCampana(campaign.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button> */}
-		<button className="btn btn-primary" onClick={()=>actions.deleteCampaign(campaign.id)}>Sí, quiero borrarla</button>
-	  
+        <button onClick={() => botonEliminarCampana(campaign.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button>	  
 	  </div>
     </div>
   </div>

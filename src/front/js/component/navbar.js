@@ -6,32 +6,14 @@ export const Navbar = () => {
 		<nav className="navbar navbar-light bg-light">
 			<div className="container">
 				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
+					<span className="navbar-brand mb-0 h1">Let me give</span>
 				</Link>
 				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
+					<Link to="/campaign">
+						<button className="btn btn-primary">Campaign</button>
 					</Link>
 				</div>
 			</div>
 		</nav>
 	);
 };
-
-
-// export const Navbar = () => {
-// 	return (
-// 		<nav className="navbar navbar-light bg-light mb-3">
-// 			<div className="container">
-// 			<Link to="/">
-// 				<span className="navbar-brand mb-0 h1">Let me Give</span>
-// 			</Link>
-// 			<div className="ml-auto">
-// 				<Link className="addCampaignButton" to="/campaignForm/">
-// 					<button className="btn btn-success">Add new Campaign</button>
-// 				</Link>
-// 			</div>
-// 			</div>
-// 		</nav>
-// 	);
-// };

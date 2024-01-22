@@ -82,8 +82,6 @@ class Campaign(db.Model):
     articulos = db.Column(db.String(80), nullable=False)
     ong_id = db.Column(db.Integer, db.ForeignKey('ongs.id'), nullable=False)
     
-    ## ong = db.relationship('Ongs', backref=db.backref('campaign', lazy=True))
-
     def __repr__(self):
         return f'<Campaign {self.nombre}>'
 
