@@ -4,8 +4,10 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
+import { Voluntario } from "./pages/voluntario";
 import { Single } from "./pages/single";
+import { AddForm } from "./pages/addVoluntario";
+import { EditForm } from "./pages/editForm"
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -26,9 +28,11 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
+                        <Route element={<Voluntario />} path="/voluntario" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route path="/editForm/:theid" element={<EditForm />} />
+                        <Route path="/addVoluntario" element={<AddForm />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

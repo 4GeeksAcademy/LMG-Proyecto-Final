@@ -1,54 +1,100 @@
 const getState = ({ getStore, getActions, setStore }) => {
-	return {
-		store: {
-			message: null,
-			demo: [
-				{
-					title: "FIRST",
-					background: "white",
-					initial: "white"
-				},
-				{
-					title: "SECOND",
-					background: "white",
-					initial: "white"
-				}
-			]
-		},
-		actions: {
-			// Use getActions to call a function within a fuction
-			exampleFunction: () => {
-				getActions().changeColor(0, "green");
-			},
+    return {
+        store: {
+            message: null,
+            voluntarios: []
+        },
+        actions: {
+            getVoluntarios: () => {
+                const requestOptions = {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                };
+                fetch(process.env.BACKEND_URL + "/api/voluntario/", requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+                    setStore({ voluntarios: data });
+                })
+             },
 
-			getMessage: async () => {
-				try{
-					// fetching data from the backend
-					const resp = await fetch(process.env.BACKEND_URL + "/api/hello")
-					const data = await resp.json()
-					setStore({ message: data.message })
-					// don't forget to return something, that is how the async resolves
-					return data;
-				}catch(error){
-					console.log("Error loading message from backend", error)
-				}
-			},
-			changeColor: (index, color) => {
-				//get the store
-				const store = getStore();
+    
+            addVoluntario(newVoluntario) {
+                const requestOptions = {
+                method: 'POST',
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "nombre": newVoluntario.nombre,
+                    "email": newVoluntario.email,
+                    "password": newVoluntario.password,
+                    "ciudad": newVoluntario.ciudad,
+                    "lat":newVoluntario.lat,
+                    "lng": newVoluntario.lng,
+                    
+                    })
+                };
 
-				//we have to loop the entire demo array to look for the respective index
-				//and change its color
-				const demo = store.demo.map((elm, i) => {
-					if (i === index) elm.background = color;
-					return elm;
-				});
+                fetch(process.env.BACKEND_URL + "/api/voluntario/", requestOptions)
+                    .then((response) => {
+                        if (response.ok) {
+                            // Voluntario creado correctamente
+                            alert("Voluntario creado correctamente");
+                        } else {
+                            // Error creando el voluntario
+                            alert("Lo sentimos, ha habido un error creando el voluntario :(");
+                        }
+                    })
+                    .catch((error) => {
+                        // Error general
+                        alert(error);
+                    });
+            },
 
-				//reset the global store
-				setStore({ demo: demo });
-			}
-		}
-	};
-};
 
+            
+            deleteVoluntario: (id) => {
+                            const deleteOptions = {
+                                method: "DELETE",
+                                mode: 'cors',
+                                headers: { 'Content-Type': 'application/json'  },
+                            };
+                            fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, deleteOptions)
+                                .then(response => response.json())
+                                .then((data =>{
+                                    fetch(process.env.BACKEND_URL + "/api/voluntario/")
+                                        .then((response) => response.json())
+                                        .then((data) => {
+                                            setStore({ voluntarios: data });
+                            })
+                        }))
+            },
+
+            
+            editVoluntario: (editVoluntario, id) => {
+                    const editOptions = {
+                method: "PUT",
+                mode: 'cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    "nombre": editVoluntario.nombre,
+                    "email": editVoluntario.email,
+                    "password": editVoluntario.password,
+                    "ciudad": editVoluntario.ciudad,
+                    "lat": editVoluntario.lat,
+                    "lng":  editVoluntario.lng,
+
+                    
+                })
+
+                    };
+                    fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, editOptions)
+                    .then(response => response.json())
+                    .then(console.log(process.env.BACKEND_URL + "/api/voluntario/" + id));
+            },	
+
+
+        }
+            };
+        };
 export default getState;
