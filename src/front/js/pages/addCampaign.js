@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 /* import "../../styles/form.css"; */
 
@@ -55,8 +55,10 @@ export const CampaignForm = () => {
 
     return (
         <>
+        {store.auth_admin === true ? 
+            <>
             <div className="container text-center">
-                <h1>Add a new Campaign</h1>
+                <h1>Crear campaña</h1>
             </div>
             <div className="row ms-5 p-3">
                 <div className="col-12 mb-3">
@@ -89,11 +91,13 @@ export const CampaignForm = () => {
                 </div>
 
                 <div className="container mb-3">
-                    <Link to="/">
+                    <Link to="/campaign">
                         Volver a campañas
                     </Link>
                 </div>
             </div>
+            </>
+           : <Navigate to="/adminLogin" /> }
         </>
     );
 };

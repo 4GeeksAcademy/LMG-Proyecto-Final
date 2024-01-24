@@ -1,26 +1,22 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
-import { Navigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-
-
+import { Link, Navigate } from "react-router-dom"; // Import Navigate
 
 const AdminLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { store, actions } = useContext(Context);
 
-
   function sendData(e) {
     e.preventDefault();
     console.log('send data');
     console.log(email, password);
-    actions.adminLogin(email, password)
+    actions.adminLogin(email, password);
   }
 
   return (
     <div className="container mt-3">
-       {store.auth === true ? <Navigate to="/Admin" /> : 
+       {store.auth_admin === true ? <Navigate to="/admin" /> : 
         <form className="w-50 mx-auto" onSubmit={sendData}>
           <div className="mb-3">
           <h1>Login admin</h1>
@@ -33,10 +29,9 @@ const AdminLogin = () => {
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="passwordInput"></input>
           </div>
           <button type="submit" style={{ width: "100%" }}  className="btn btn-primary">
-            Acceder
+          Acceder
           </button>
-            <p className="mt-3">¿Todavía no tienes cuenta? <Link to="/adminSignup">puedes crearla aquí
-        </Link></p>
+            <p className="mt-3">¿Todavía no tienes cuenta? <Link to="/adminSignup">puedes crearla aquí</Link></p>
         </form>
       }
     </div>

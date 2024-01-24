@@ -134,7 +134,7 @@ def admin_login():
 #route to let the user signup 
 @api.route("/adminSignup", methods=["POST"])
 def admin_signup():
-    ##request_body = request.get_jason()
+    #request_body = request.get_jason()
     request_body = request.get_json()
     user = User.query.filter_by(email=request_body["email"]).first()
     if user is None:

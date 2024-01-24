@@ -2,7 +2,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			campaign: [],
-			auth: false,
+			auth_admin: false,
 		},
 		actions: {
 			// campaign actions
@@ -10,9 +10,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const requestOptions = {
 					method: 'GET',
 					headers: { 'Content-Type': 'application/json' },
-					 mode: 'cors',
+					mode: 'cors',
 				};
-				fetch(process.env.BACKEND_URL + "api/campaign/")
+				fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
 					setStore({ campaign: data });
@@ -33,7 +33,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					})
 				};
-				fetch(process.env.BACKEND_URL + "api/campaign/", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
 
 			},
 
@@ -89,11 +89,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				)
 			};
-			fetch(process.env.BACKEND_URL + "/api/adminLogin", requestOptions)
+			fetch(process.env.BACKEND_URL + "/api/adminLogin/", requestOptions)
 				.then(response => {
 					console.log(response.status)
 					if(response.status === 200){
-						setStore({ auth: true });
+						setStore({ auth_admin: true });
 					}
 					return response.json()
 				})
@@ -115,10 +115,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 				)
 			  };
 			  
-			fetch(process.env.BACKEND_URL + "/api/adminSignup", requestOptions)
+			fetch(process.env.BACKEND_URL + "/api/adminSignup/", requestOptions)
 				.then(response => {
 					if(response.status == 200){
-						setStore({ auth: true });
+						setStore({ auth_admin: true });
 					}
 					return response.text()
 				})
@@ -126,7 +126,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.catch(error => console.log('error', error));
 		},
 		adminLogout: () => {
-			setStore({ auth: false });
+			setStore({ auth_admin: false });
 			localStorage.removeItem("token");				
 		},
 		}
