@@ -2,8 +2,10 @@ import React, { useState, useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 
+
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
+
 
     useEffect(() => {
         actions.loadCampaigns();
@@ -26,7 +28,7 @@ export const Campaign = () => {
                             <p className="campaignElements">{campaign.ong}</p>
                             <p className="campaignElements">{campaign.objetivo}</p>
                         </div>
-
+                        {store.auth_admin === true ?
                         <div className="col-md-1 p-3 editButton">
                             <Link to={`/editCampaign/${campaign.id}`} key={campaign}>
                                 <button className="sideButtons">
@@ -35,8 +37,10 @@ export const Campaign = () => {
                                     </svg>
                                 </button>
                             </Link>
+                           
                         </div>
-
+                        : null }
+                    {store.auth_admin === true ?
                         <div className="col-md-1 p-3">
                             <button type="button" className="btn sideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
@@ -60,14 +64,24 @@ export const Campaign = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> : null}
                     </div>
                 </div>
             ))}
             <div className="container mt-5 mb-3">
-                <Link to="/addCampaign">
+            {/* {store.auth_admin === true ? <Link to="/addCampaign">
                     <button className="btn btn-primary" style={{ width: "90%" }}>Crear campaña</button>
-                </Link>
+                </Link> : 
+           <link to="/adminLogin">
+            <button className="btn btn-primary" style={{ width: "90%" }}>Crear campaña</button>    
+            </link>
+            } */}
+             {store.auth_admin === true ? <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
+                   Crear campaña </Link> : 
+           <Link className="btn btn-primary" style={{ width: "90%" }} to="/adminLogin">
+           Crear campaña
+            </Link>
+            }
             </div>
         </>
     );

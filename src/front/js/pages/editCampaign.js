@@ -92,7 +92,7 @@ export const CampaignEditForm = () => {
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar campaña</button>
                 </div>
                 <div className="container mb-3">
-                    <Link to="/">
+                    <Link to="/campaign">
                         Volver a campañas
                     </Link>
                 </div>
