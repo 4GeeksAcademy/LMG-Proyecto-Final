@@ -2,8 +2,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 			campaign: [],
+			auth: false,
 		},
 		actions: {
+			// campaign actions
 			loadCampaigns:() => {
 				const requestOptions = {
 					method: 'GET',
@@ -74,6 +76,59 @@ const getState = ({ getStore, getActions, setStore }) => {
 		   .then(response => response.json())
 		   .then(console.log(process.env.BACKEND_URL + "/api/campaign/"+ id));
   		 },	
+		// admin login system 
+		adminLogin: (email,password) => {
+			console.log('Login desde flux')
+			 const requestOptions = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(
+					{
+						"email":email,
+						"password":password
+					}
+				)
+			};
+			fetch(process.env.BACKEND_URL + "/api/adminLogin", requestOptions)
+				.then(response => {
+					console.log(response.status)
+					if(response.status === 200){
+						setStore({ auth: true });
+					}
+					return response.json()
+				})
+				.then(data => {
+					localStorage.setItem("token", data.access_token);
+					console.log(data)
+
+				});
+		},
+		adminSignup: (email, password) => {
+			const requestOptions = {
+				method: 'POST',
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify(
+					{
+						"email":email,
+						"password":password
+					}
+				)
+			  };
+			  
+			fetch(process.env.BACKEND_URL + "/api/adminSignup", requestOptions)
+				.then(response => {
+					if(response.status == 200){
+						setStore({ auth: true });
+					}
+					return response.text()
+				})
+				.then(result => console.log(result))
+				.catch(error => console.log('error', error));
+		},
+		adminLogout: () => {
+			setStore({ auth: false });
+			localStorage.removeItem("token");				
+		},
 		}
 	};
 };
