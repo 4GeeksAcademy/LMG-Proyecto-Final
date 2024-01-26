@@ -4,7 +4,11 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
-import { Demo } from "./pages/demo";
+import { OngForm } from "./pages/addOng";
+import { OngEditForm } from "./pages/editOng";
+import { Ong } from "./pages/ong";
+import { OngLogin } from "./pages/ongLogin";
+import { TuOng } from "./pages/tuOng";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
@@ -26,7 +30,11 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
-                        <Route element={<Demo />} path="/demo" />
+                        <Route path="/addOng" element={<OngForm />} />
+                        <Route path="/editOng/:theid" element={<OngEditForm />} />
+                        <Route element={<Ong />} path="/ong" />
+                        <Route path="/ongLogin" element={<OngLogin />} />
+                        <Route element={<TuOng />} path="/tuOng" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

@@ -52,13 +52,15 @@ class Ongs(db.Model):
     actividad = db.Column(db.String(80), unique=False, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    aprobado = db.Column(db.Boolean(), unique=False, nullable=False)
+    aprobado = db.Column(db.String(120), unique=True, nullable=False)
     lat = db.Column(db.Float, unique=True, nullable=False)
     lng = db.Column(db.Float, unique=True, nullable=False)
+    campaigns = db.relationship ('Campaign', backref=db.backref('ongs', lazy=True))
+
 
 
     def __repr__(self):
-        return f'<Ongs {self.email}>'
+        return f'<Ongs {self.nombre}>'
 
 
     def serialize(self):
@@ -76,18 +78,20 @@ class Campaign(db.Model):
     fecha_inicio = db.Column(db.Date, nullable=False)
     fecha_finalizacion = db.Column(db.Date, nullable=False)
     nombre = db.Column(db.String(80), nullable=False)
+    objetivo = db.Column(db.String(80), nullable=False)
+    articulos = db.Column(db.String(80), nullable=False)
     ong_id = db.Column(db.Integer, db.ForeignKey('ongs.id'), nullable=False)
     
-    ong = db.relationship('Ongs', backref=db.backref('campaigns', lazy=True))
-
     def __repr__(self):
         return f'<Campaign {self.nombre}>'
 
     def serialize(self):
         return {
             "id": self.id,
-            "fecha_inicio": str(self.fecha_inicio),
-            "fecha_finalizacion": str(self.fecha_finalizacion),
+            "fecha_inicio": self.fecha_inicio,
+            "fecha_finalizacion": self.fecha_finalizacion,
             "nombre": self.nombre,
+            "objetivo": self.objetivo,
+            "articulos": self.articulos,
             "ong_id": self.ong_id,
         }
