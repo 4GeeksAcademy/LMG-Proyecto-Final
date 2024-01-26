@@ -11,6 +11,7 @@ export const Navbar = () => {
 
 	function handlelogout(){
 		actions.ongLogout()
+		actions.adminLogout()
 		navigate('/')
 	}
 	return (
@@ -26,18 +27,14 @@ export const Navbar = () => {
 					<ul className="dropdown-menu">
 						<li><a className="dropdown-item" href="/ong">Ong</a></li>
 						<li><a className="dropdown-item" href="/ongLogin">Ong Login</a></li>
-						<li><a className="dropdown-item" href="/addOng">Crear Ong</a></li>
+						<li><a className="dropdown-item" href="/campaign">Campaign</a></li>
 						<li><hr className="dropdown-divider"/></li>
-						<li><a className="dropdown-item" href="#">Para Logout</a></li>
 					</ul>
+					{store.auth_admin === true ? <button onClick={()=>handlelogout()} className="btn btn-primary">Logout</button>
+					: null}
 					</div>		
-				{/* <div className="ml-auto">
-					<Link className="btn btn-primary" to="/ong">
-						ong
-					</Link>
-				</div> */}
-				{/* {store.auth_ong === true ? <button onClick={()=>handlelogout()} className="btn btn-primary">Logout ONG</button>
-					: null} */}
+				
+				
 			</div>
 		</nav>
 	);

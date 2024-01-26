@@ -9,6 +9,12 @@ import { OngEditForm } from "./pages/editOng";
 import { Ong } from "./pages/ong";
 import { OngLogin } from "./pages/ongLogin";
 import { TuOng } from "./pages/tuOng";
+import { CampaignForm } from "./pages/addCampaign";
+import { CampaignEditForm } from "./pages/editCampaign";
+import { Campaign } from "./pages/campaign";
+import { AdminLogin} from "./pages/adminLogin";
+import { AdminSignup } from "./pages/adminSignup";
+import { Admin } from "./pages/admin";
 import { Single } from "./pages/single";
 import injectContext from "./store/appContext";
 
@@ -35,6 +41,12 @@ const Layout = () => {
                         <Route element={<Ong />} path="/ong" />
                         <Route path="/ongLogin" element={<OngLogin />} />
                         <Route element={<TuOng />} path="/tuOng" />
+                        <Route path="/addCampaign" element={<CampaignForm />} />
+                        <Route path="/editCampaign/:theid" element={<CampaignEditForm />} />
+                        <Route element={<Campaign />} path="/campaign" />
+                        <Route path="/adminLogin" element={<AdminLogin />} />
+                        <Route path="/adminSignup" element={<AdminSignup />} />
+                        <Route element={<Admin />} path="/admin" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
                     </Routes>

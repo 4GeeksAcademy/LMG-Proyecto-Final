@@ -77,8 +77,7 @@ export const OngForm = () => {
     };
 
     return (
-        <>
-        {store.auth_ong === true ? 
+       
             <>
             <div className="container text-center">
                 <h1>Crear Ong</h1>
@@ -132,7 +131,6 @@ export const OngForm = () => {
                 </div>
             </div>
             </>
-           : <Navigate to="/ongLogin" /> }
-        </>
+           
     );
 };
