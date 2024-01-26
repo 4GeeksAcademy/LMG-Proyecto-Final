@@ -9,18 +9,17 @@ const VoluntarioLogin = () => {
 
   function sendData(e) {
     e.preventDefault();
-    console.log('send data');
     console.log(email, password);
     actions.voluntarioLogin(email, password);
   }
 
   return (
     <div className="container mt-3">
-       {store.auth_admin === true ? <Navigate to="/voluntario" /> : 
+       {store.auth_voluntario === true ? <Navigate to="/voluntario" /> : 
         <form className="w-50 mx-auto" onSubmit={sendData}>
           <div className="mb-3">
-          <h1>Login admin</h1>
-            <p>Accede a tu cuenta de administrador</p>
+          <h1>Login voluntario</h1>
+            <p>Accede a tu cuenta de voluntario</p>
             <label htmlFor="inputEmail" className="form-label">Email</label>
             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="emailInput" className="form-control"></input>
           </div>

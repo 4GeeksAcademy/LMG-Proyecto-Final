@@ -307,11 +307,11 @@ def voluntario_login():
 
 @api.route("/voluntarioSignup", methods=["POST"])
 def voluntario_signup():
- 
+    #request_body = request.get_jason()
     request_body = request.get_json()
     voluntario = Voluntario.query.filter_by(email=request_body["email"]).first()
     if voluntario is None:
-        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"], is_active=True)
+        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"])
         db.session.add(new_voluntario)
         db.session.commit()
         response_body ={
@@ -319,7 +319,7 @@ def voluntario_signup():
          }
         return jsonify(response_body), 201
     else:
-        return jsonify({"msg": "An user associated with this email has already been created" }),401
+        return jsonify({"msg": "A voluntario associated with this email has already been created" }),401
     
 
 # Protect a route with jwt_required, which will kick out requests

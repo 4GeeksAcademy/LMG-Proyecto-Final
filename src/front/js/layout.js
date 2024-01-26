@@ -10,6 +10,7 @@ import { AddForm } from "./pages/addVoluntario";
 import { EditForm } from "./pages/editForm";
 import { VoluntarioLogin } from "./pages/voluntarioLogin";
 import { VoluntarioSignup } from "./pages/voluntarioSignup";
+import { DashboardVoluntario } from "./pages/dashboardVoluntario";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -37,6 +38,7 @@ const Layout = () => {
                         <Route path="/addVoluntario" element={<AddForm />} />
                         <Route path="/voluntarioLogin" element={<VoluntarioLogin />} />
                         <Route path="/voluntarioSignup" element={<VoluntarioSignup />} />
+                        <Route path="/dashboardVoluntario" element={<DashboardVoluntario />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

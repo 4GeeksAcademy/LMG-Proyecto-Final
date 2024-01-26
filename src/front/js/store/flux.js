@@ -123,10 +123,10 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
             },
 
-
             voluntarioSignup: (email, password) => {
                 const requestOptions = {
                     method: 'POST',
+                    mode: 'cors',
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(
                         {
@@ -139,7 +139,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 fetch(process.env.BACKEND_URL + "/api/voluntarioSignup/", requestOptions)
                     .then(response => {
                         if(response.status == 200){
-                            setStore({ auth_voluntario: true });
+                            setStore({ auth_admin: true });
                         }
                         return response.text()
                     })
