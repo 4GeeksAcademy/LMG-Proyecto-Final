@@ -142,7 +142,7 @@ const handleInputChange = (e) => {
 
           <div className="mb-3">
             <label htmlFor="lng" className="form-label">
-              Longitug
+              Longitud
             </label>
             <input
               type="number"

@@ -5,6 +5,10 @@ from flask import Flask, request, jsonify, url_for, Blueprint
 from api.models import db, User, Voluntario, Ongs, Campaign
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
+from flask_jwt_extended import create_access_token
+from flask_jwt_extended import get_jwt_identity
+from flask_jwt_extended import jwt_required
+from flask_jwt_extended import JWTManager
 
 api = Blueprint('api', __name__)
 cors = CORS(api, resources={r"/api/*": {"origins": "*"}})
@@ -194,9 +198,6 @@ def delete_ong(ong_id):
         raise APIException("Error al eliminar ONG", status_code=500)       
 
 
-# fin
-
-#  inicio 
 @api.route('/voluntario', methods=['GET'])
 def get_voluntario():
     all_voluntario = Voluntario.query.all()
@@ -288,11 +289,44 @@ def delete_voluntario(voluntario_id):
         print("Error:", str(e))
         raise APIException("Error al eliminar voluntario", status_code=500)
     
-@api.route('/hello', methods=['POST', 'GET'])
-def handle_hello():
 
-    response_body = {
-        "message": "Hello! I'm a message that came from the backend, check the network tab on the google inspector and you will see the GET request"
-    }
+@api.route("/voluntarioLogin", methods=["POST"])
+def voluntario_login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    voluntario = Voluntario.query.filter_by(email=email).first()
+    print(voluntario)
 
-    return jsonify(response_body), 200
+    if voluntario == None:
+        return jsonify({"msg":"Could not find email"}), 401
+    if email != voluntario.email or password != voluntario.password:
+        return jsonify({"msg": "Wrong email or password"}), 401
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
+
+
+@api.route("/voluntarioSignup", methods=["POST"])
+def voluntario_signup():
+ 
+    request_body = request.get_json()
+    voluntario = Voluntario.query.filter_by(email=request_body["email"]).first()
+    if voluntario is None:
+        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"], is_active=True)
+        db.session.add(new_voluntario)
+        db.session.commit()
+        response_body ={
+            "msg": "Voluntario created suscessfully"
+         }
+        return jsonify(response_body), 201
+    else:
+        return jsonify({"msg": "An user associated with this email has already been created" }),401
+    
+
+# Protect a route with jwt_required, which will kick out requests
+@api.route("/protected", methods=["GET"])
+@jwt_required()
+def protected():
+    # Access the identity of the current user with get_jwt_identity
+    current_voluntario = get_jwt_identity()
+    return jsonify(logged_in_as=current_voluntario), 200
+

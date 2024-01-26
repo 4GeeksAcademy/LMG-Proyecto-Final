@@ -7,7 +7,9 @@ import { Home } from "./pages/home";
 import { Voluntario } from "./pages/voluntario";
 import { Single } from "./pages/single";
 import { AddForm } from "./pages/addVoluntario";
-import { EditForm } from "./pages/editForm"
+import { EditForm } from "./pages/editForm";
+import { VoluntarioLogin } from "./pages/voluntarioLogin";
+import { VoluntarioSignup } from "./pages/voluntarioSignup";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -33,6 +35,8 @@ const Layout = () => {
                         <Route element={<h1>Not found!</h1>} />
                         <Route path="/editForm/:theid" element={<EditForm />} />
                         <Route path="/addVoluntario" element={<AddForm />} />
+                        <Route path="/voluntarioLogin" element={<VoluntarioLogin />} />
+                        <Route path="/voluntarioSignup" element={<VoluntarioSignup />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

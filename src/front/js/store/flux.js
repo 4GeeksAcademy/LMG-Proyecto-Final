@@ -2,7 +2,8 @@ const getState = ({ getStore, getActions, setStore }) => {
     return {
         store: {
             message: null,
-            voluntarios: []
+            voluntarios: [],
+            auth_voluntario: false,
         },
         actions: {
             getVoluntarios: () => {
@@ -51,7 +52,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     });
             },
 
-
             
             deleteVoluntario: (id) => {
                             const deleteOptions = {
@@ -62,6 +62,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                             fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, deleteOptions)
                                 .then(response => response.json())
                                 .then((data =>{
+                                    alert("Voluntario eliminado");
                                     fetch(process.env.BACKEND_URL + "/api/voluntario/")
                                         .then((response) => response.json())
                                         .then((data) => {
@@ -72,26 +73,85 @@ const getState = ({ getStore, getActions, setStore }) => {
 
             
             editVoluntario: (editVoluntario, id) => {
-                    const editOptions = {
-                method: "PUT",
-                mode: 'cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
+                const editOptions = {
+                  method: "PUT",
+                  mode: 'cors',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
                     "nombre": editVoluntario.nombre,
                     "email": editVoluntario.email,
                     "password": editVoluntario.password,
                     "ciudad": editVoluntario.ciudad,
                     "lat": editVoluntario.lat,
-                    "lng":  editVoluntario.lng,
+                    "lng": editVoluntario.lng
+                  })
+                };
+              
+                fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, editOptions)
+                  .then(response => response.json())
+                  .then(() => {
+                    alert("Voluntario editado correctamente");
+                    console.log(process.env.BACKEND_URL + "/api/voluntario/" + id);
+                  });
+            },
 
-                    
-                })
 
-                    };
-                    fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, editOptions)
-                    .then(response => response.json())
-                    .then(console.log(process.env.BACKEND_URL + "/api/voluntario/" + id));
-            },	
+            voluntarioLogin: (email, password) => {
+                console.log('Login desde flux')
+                 const requestOptions = {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(
+                        {
+                            "email":email,
+                            "password":password
+                        }
+                    )
+                };
+                fetch(process.env.BACKEND_URL + "/api/voluntarioLogin/", requestOptions)
+                    .then(response => {
+                        console.log(response.status)
+                        if(response.status === 200){
+                            setStore({ auth_voluntario: true });
+                        }
+                        return response.json()
+                    })
+                    .then(data => {
+                        localStorage.setItem("token", data.access_token);
+                        console.log(data)
+    
+                    });
+            },
+
+
+            voluntarioSignup: (email, password) => {
+                const requestOptions = {
+                    method: 'POST',
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(
+                        {
+                            "email":email,
+                            "password":password
+                        }
+                    )
+                  };
+                  
+                fetch(process.env.BACKEND_URL + "/api/voluntarioSignup/", requestOptions)
+                    .then(response => {
+                        if(response.status == 200){
+                            setStore({ auth_voluntario: true });
+                        }
+                        return response.text()
+                    })
+                    .then(result => console.log(result))
+                    .catch(error => console.log('error', error));
+            },
+
+
+            voluntarioLogout: () => {
+                setStore({ auth_voluntario: false });
+                localStorage.removeItem("token");				
+            },
 
 
         }
