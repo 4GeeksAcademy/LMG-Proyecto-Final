@@ -4,6 +4,11 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
+import { OngForm } from "./pages/addOng";
+import { OngEditForm } from "./pages/editOng";
+import { Ong } from "./pages/ong";
+import { OngLogin } from "./pages/ongLogin";
+import { TuOng } from "./pages/tuOng";
 import { CampaignForm } from "./pages/addCampaign";
 import { CampaignEditForm } from "./pages/editCampaign";
 import { Campaign } from "./pages/campaign";
@@ -31,6 +36,11 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+                        <Route path="/addOng" element={<OngForm />} />
+                        <Route path="/editOng/:theid" element={<OngEditForm />} />
+                        <Route element={<Ong />} path="/ong" />
+                        <Route path="/ongLogin" element={<OngLogin />} />
+                        <Route element={<TuOng />} path="/tuOng" />
                         <Route path="/addCampaign" element={<CampaignForm />} />
                         <Route path="/editCampaign/:theid" element={<CampaignEditForm />} />
                         <Route element={<Campaign />} path="/campaign" />

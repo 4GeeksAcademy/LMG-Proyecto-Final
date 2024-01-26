@@ -10,6 +10,7 @@ export const Navbar = () => {
 
 
 	function handlelogout(){
+		actions.ongLogout()
 		actions.adminLogout()
 		navigate('/')
 	}
@@ -19,13 +20,21 @@ export const Navbar = () => {
 				<Link to="/">
 					<span className="navbar-brand mb-0 h1">Let me give</span>
 				</Link>
-				<div className="ml-auto">
-					<Link className="btn btn-primary" to="/campaign">
-						Campaign
-					</Link>
-				</div>
-				{store.auth_admin === true ? <button onClick={()=>handlelogout()} className="btn btn-primary">Logout</button>
+				<div className="btn-group">
+					<button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+						Para Ongs
+					</button>
+					<ul className="dropdown-menu">
+						<li><a className="dropdown-item" href="/ong">Ong</a></li>
+						<li><a className="dropdown-item" href="/ongLogin">Ong Login</a></li>
+						<li><a className="dropdown-item" href="/campaign">Campaign</a></li>
+						<li><hr className="dropdown-divider"/></li>
+					</ul>
+					{store.auth_admin === true ? <button onClick={()=>handlelogout()} className="btn btn-primary">Logout</button>
 					: null}
+					</div>		
+				
+				
 			</div>
 		</nav>
 	);
