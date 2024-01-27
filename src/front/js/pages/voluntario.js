@@ -1,10 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Voluntario = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        console.log(store.voluntarios)
+        actions.getVoluntarios();
+    }, []);
 
     return (
         <div className="container">
