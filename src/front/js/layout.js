@@ -4,6 +4,8 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
+
+import { Voluntario } from "./pages/voluntario";
 import { OngForm } from "./pages/addOng";
 import { OngEditForm } from "./pages/editOng";
 import { Ong } from "./pages/ong";
@@ -16,6 +18,11 @@ import { AdminLogin} from "./pages/adminLogin";
 import { AdminSignup } from "./pages/adminSignup";
 import { Admin } from "./pages/admin";
 import { Single } from "./pages/single";
+import { AddForm } from "./pages/addVoluntario";
+import { EditForm } from "./pages/editForm";
+import { VoluntarioLogin } from "./pages/voluntarioLogin";
+import { VoluntarioSignup } from "./pages/voluntarioSignup";
+import { DashboardVoluntario } from "./pages/dashboardVoluntario";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -36,6 +43,9 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+
+                        <Route element={<Voluntario />} path="/voluntario" />
+
                         <Route path="/addOng" element={<OngForm />} />
                         <Route path="/editOng/:theid" element={<OngEditForm />} />
                         <Route element={<Ong />} path="/ong" />
@@ -49,6 +59,11 @@ const Layout = () => {
                         <Route element={<Admin />} path="/admin" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
+                        <Route path="/editForm/:theid" element={<EditForm />} />
+                        <Route path="/addVoluntario" element={<AddForm />} />
+                        <Route path="/voluntarioLogin" element={<VoluntarioLogin />} />
+                        <Route path="/voluntarioSignup" element={<VoluntarioSignup />} />
+                        <Route path="/dashboardVoluntario" element={<DashboardVoluntario />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

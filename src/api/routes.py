@@ -6,10 +6,10 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 
 
 
-
-
 # Crear el Blueprint
 api = Blueprint('api', __name__)
+cors = CORS(api, resources={r"/api/*": {"origins": "*"}})
+
 
 # Configuración de Flask
 
@@ -19,6 +19,18 @@ api = Blueprint('api', __name__)
 
 # Allow CORS requests to this API
 CORS(api)
+
+
+# Get all campaigns
+@api.route('/campaign', methods=['GET'])
+def get_campaigns():
+    all_campaigns = Campaign.query.all()
+    print(all_campaigns)
+    results = list(map(lambda campaign: campaign.serialize(),all_campaigns))
+
+    return jsonify(results), 200
+
+# Get all ONGS
 
 @api.route('/ong', methods=['GET'])
 # @jwt_required()
@@ -30,6 +42,32 @@ def get_ongs():
 
     return jsonify(results), 200
 
+
+# Get all voluntarios
+@api.route('/voluntario', methods=['GET'])
+def get_voluntarios():
+    all_voluntarios = Voluntario.query.all()
+    print(all_voluntarios)
+    results = list(map(lambda voluntario: voluntario.serialize(),all_voluntarios))
+    print(results)
+
+    return jsonify(results), 200
+
+#  Get an specific campaign by ID
+@api.route('/campaign/<int:campaign_id>', methods=['GET'])
+def get_campaign_id(campaign_id):
+    print(campaign_id)
+    
+    campaign = Campaign.query.filter_by(id=campaign_id).first()
+    
+    if campaign:
+        # Assuming `serialize` is a method in your Campaign model
+        result = campaign.serialize()
+        return jsonify(result)
+    else:
+        return jsonify({"error": "Campaign not found"}), 404
+
+#  Get an specific ONG by ID   
 @api.route('/ong/<int:ong_id>', methods=['GET'])
 def get_ong(ong_id):
     print(ong_id)
@@ -40,18 +78,53 @@ def get_ong(ong_id):
     
     return jsonify(ong.serialize()), 200
 
+#  Get an specific Voluntario by ID  
+api.route('/voluntario/<int:voluntario_id>', methods=['GET'])
+def get_voluntario_id(voluntario_id):
+    print(voluntario_id)
+    
+    voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+    
+    if voluntario:
+        # Assuming `serialize` is a method in your Voluntario model
+        result = voluntario.serialize()
+        return jsonify(result)
+    else:
+        return jsonify({"error": "Voluntario not found"}), 404
+    
+# Create a new campaign
 
+@api.route('/campaign', methods=['POST'])
+def post_campaign():
+    body = request.get_json()
+    new_campaign = Campaign(
+
+                fecha_inicio=body['fecha_inicio'],
+                fecha_finalizacion=body['fecha_finalizacion'],
+                nombre=body['nombre'],
+                ong_id=body['ong_id'],
+                objetivo=body['objetivo'],
+                articulos=body['articulos'])
+    
+
+    db.session.add(new_campaign)
+    db.session.commit()
+    response_body = {
+        "msg": "new campaign created"
+    }
+    return jsonify(response_body), 200
+
+
+# Create a new ONG
 @api.route('/ong', methods=['POST'])
 def post_ong():
     try:
         body = request.get_json()
-
         # Verifica la existencia de las claves requeridas en el cuerpo de la solicitud
         required_keys = ['nif', 'nombre', 'email', 'ciudad', 'actividad', 'aprobado', 'password', 'lat', 'lng']
         for key in required_keys:
             if key not in body:
                 raise APIException(f"Campo '{key}' no proporcionado en el cuerpo de la solicitud", status_code=400)
-
         ong = Ongs(
             nif=body['nif'],
             nombre=body['nombre'],
@@ -63,25 +136,82 @@ def post_ong():
             lat=body['lat'],
             lng=body['lng']
         )
-
         db.session.add(ong)
         db.session.commit()
-
         response_body = {
             "msg": "ONG creada correctamente"
         }
-
         return jsonify(response_body), 200
-
     except APIException as api_exception:
         # Captura y maneja excepciones específicas definidas en tu aplicación
         return jsonify({"error": str(api_exception)}), api_exception.status_code
-
     except Exception as e:
         # Captura excepciones genéricas
         print("Error:", str(e))
         return jsonify({"error": "Error interno del servidor"}), 500
 
+# Create a new voluntario
+@api.route('/voluntario', methods=['POST'])
+def post_voluntario():
+    try:
+        body = request.get_json()
+
+        # Validar que todos los campos necesarios estén presentes
+        required_fields = ['nombre', 'email', 'password', 'ciudad', 'lat', 'lng']
+        for field in required_fields:
+            if field not in body:
+                return jsonify({"error": f"El campo '{field}' es obligatorio"}), 400
+
+        # Crear un nuevo voluntario
+        new_voluntario = Voluntario(
+            nombre=body['nombre'],
+            email=body['email'],
+            password=body['password'],  # Deberías almacenar la contraseña de forma segura
+            ciudad=body['ciudad'],
+            lat=body['lat'],
+            lng=body['lng']
+        )
+
+        # Guardar en la base de datos
+        db.session.add(new_voluntario)
+        db.session.commit()
+
+        # Respuesta exitosa
+        return jsonify({"msg": "Nuevo voluntario creado"}), 201
+
+    except Exception as e:
+        # Manejar errores generales
+        return jsonify({"error": str(e)}), 500
+
+
+
+# # Update a campaign by ID
+@api.route('/campaign/<int:campaign_id>', methods=['PUT'])
+def update_campaign(campaign_id):
+    try:
+        body = request.get_json()
+        print("Request Body:", body)
+        campaign = Campaign.query.filter_by(id=campaign_id).first()
+        if campaign is None:
+            raise APIException("Campaign not found", status_code=404)
+
+        # Actualiza solo los campos que se proporcionan en la solicitud
+        campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
+        campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
+        campaign.nombre = body.get('nombre', campaign.nombre)
+        campaign.ong_id = body.get('ong_id', campaign.ong_id)
+       
+
+        db.session.commit()
+        response_body = {
+            "msg": "Campaign updated correctly"
+        }
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Campaign updating error", status_code=500)
+
+# # Update an ONG by ID
 @api.route('/ong/<int:ong_id>', methods=['PUT'])
 def update_ong(ong_id):
     try:
@@ -114,108 +244,39 @@ def update_ong(ong_id):
     except Exception as e:
         print("Error:", str(e))
         raise APIException("Error al actualizar ONG", status_code=500)
-        
 
-@api.route('/ong/<int:ong_id>', methods=['DELETE'])
-def delete_ong(ong_id):
-    try:
-        ong = Ongs.query.get(ong_id)
-
-        if not ong:
-            raise APIException("ONG no encontrada", status_code=404)
-
-        db.session.delete(ong)
-        db.session.commit()
-
-        response_body = {
-            "msg": "ONG eliminada correctamente"
-        }
-
-        return jsonify(response_body), 200
-    except Exception as e:
-        print("Error:", str(e))
-        raise APIException("Error al eliminar ONG", status_code=500)     
-    
-
-
-
-@api.route("/ongLogin", methods=["POST"])
-def ong_login():
-    email = request.json.get("email", None)
-    password = request.json.get("password", None)
-    ong = Ongs.query.filter_by(email=email).first()
-
-    if ong is None or password != ong.password:
-        return jsonify({"msg": "Wrong email or password"}), 401
-
-    access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
-
-
-
-# Get all campaigns
-@api.route('/campaign', methods=['GET'])
-def get_campaigns():
-    all_campaigns = Campaign.query.all()
-    print(all_campaigns)
-    results = list(map(lambda campaign: campaign.serialize(),all_campaigns))
-    return jsonify(results), 200
-
-
-#  Get a specific campaign by ID
-@api.route('/campaign/<int:campaign_id>', methods=['GET'])
-def get_campaign_id(campaign_id):
-    print(campaign_id)
-    campaign = Campaign.query.filter_by(id=campaign_id).first()
-    
-    if campaign:
-        result = campaign.serialize()
-        return jsonify(result)
-    else:
-        return jsonify({"error": "Campaign not found"}), 404
-
-# # Create a new campaign
-@api.route('/campaign', methods=['POST'])
-def post_campaign():
-    body = request.get_json()
-    new_campaign = Campaign(
-                articulos =body["articulos"],
-                fecha_inicio=body['fecha_inicio'],
-                fecha_finalizacion=body['fecha_finalizacion'],
-                nombre=body['nombre'],
-                objetivo=body['objetivo'],
-                ong_id=body['ong_id'])
-    db.session.add(new_campaign)
-    db.session.commit()
-    response_body = {
-        "msg": "new campaign created"
-    }
-    return jsonify(response_body), 200
-
-# # Update a campaign by ID
-@api.route('/campaign/<int:campaign_id>', methods=['PUT'])
-def update_campaign(campaign_id):
+# # Update a voluntario by ID
+ 
+@api.route('/voluntario/<int:voluntario_id>', methods = ['PUT'])
+def update_voluntario(voluntario_id):
     try:
         body = request.get_json()
         print("Request Body:", body)
-        campaign = Campaign.query.filter_by(id=campaign_id).first()
-        if campaign is None:
-            raise APIException("Campaign not found", status_code=404)
-        campaign.articulos = body.get('articulos', campaign.articulos)
-        campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
-        campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
-        campaign.nombre = body.get('nombre', campaign.nombre)
-        campaign.objetivo = body.get('objetivo', campaign.objetivo)
-        campaign.ong_id = body.get('ong_id', campaign.ong_id)
-        
+
+        voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+
+        if voluntario is None:
+            raise APIException("voluntario no encontrado", status_code=404)
+
+        voluntario.nombre = body.get('nombre', voluntario.nombre)
+        voluntario.email = body.get('email', voluntario.email)
+        voluntario.password = body.get('password', voluntario.password)
+        voluntario.ciudad = body.get('ciudad', voluntario.ciudad)
+        voluntario.lat = body.get('lat', voluntario.lat)
+        voluntario.lng = body.get('lng', voluntario.lng)
+
         db.session.commit()
+
         response_body = {
-            "msg": "Campaign updated correctly"
+            "msg": "voluntario actualizado"
         }
+
         return jsonify(response_body), 200
+    
     except Exception as e:
-        print("Error:", str(e))
-        raise APIException("Campaign updating error", status_code=500)
+            print("Error:", str(e))
+            raise APIException("Error al actualizar voluntario", status_code=500)
+       
 
 # # Delete a campaign by ID
 @api.route('/campaign/<int:campaign_id>', methods=['DELETE'])
@@ -234,6 +295,52 @@ def delete_campaign(campaign_id):
         print("Error:", str(e))
         raise APIException("Campaign deleting error", status_code=500)
     
+
+    return jsonify(results), 200
+
+# # Delete an ONG by ID
+@api.route('/ong/<int:ong_id>', methods=['DELETE'])
+def delete_ong(ong_id):
+    try:
+        ong = Ongs.query.get(ong_id)
+
+        if not ong:
+            raise APIException("ONG no encontrada", status_code=404)
+
+        db.session.delete(ong)
+        db.session.commit()
+
+        response_body = {
+            "msg": "ONG eliminada correctamente"
+        }
+
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+        raise APIException("Error al eliminar ONG", status_code=500) 
+
+# # Delete a Voluntario by ID
+@api.route('/voluntario/<int:voluntario_id>', methods=['DELETE'])
+def delete_voluntario(voluntario_id):
+    try:
+        voluntario = Voluntario.query.get(voluntario_id)
+        if not voluntario:
+            raise APIException("voluntario no encontrado", status_code=404)
+        db.session.delete(voluntario)
+        db.session.commit()
+        response_body = {
+            "msg": "voluntario eliminado correctamente"
+        }
+        return jsonify(response_body), 200
+    except Exception as e:
+        print("Error:", str(e))
+
+        raise APIException("Error al eliminar voluntario", status_code=500)
+
+
+
+# Login Admin
+
 #### admin login routes ####
 
 @api.route('/user', methods=['GET'])
@@ -262,7 +369,38 @@ def admin_login():
     access_token = create_access_token(identity=email)
     return jsonify(access_token=access_token)
 
-#route to let the user signup 
+# Login ONG
+@api.route("/ongLogin", methods=["POST"])
+def ong_login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    ong = Ongs.query.filter_by(email=email).first()
+
+    if ong is None or password != ong.password:
+        return jsonify({"msg": "Wrong email or password"}), 401
+
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
+
+# Login Voluntario        
+@api.route("/voluntarioLogin", methods=["POST"])
+def voluntario_login():
+    email = request.json.get("email", None)
+    password = request.json.get("password", None)
+    voluntario = Voluntario.query.filter_by(email=email).first()
+    print(voluntario)
+
+    if voluntario == None:
+        return jsonify({"msg":"Could not find email"}), 401
+    if email != voluntario.email or password != voluntario.password:
+        return jsonify({"msg": "Wrong email or password"}), 401
+
+    access_token = create_access_token(identity=email)
+    return jsonify(access_token=access_token)
+
+
+# Signup Admin
+
 @api.route("/adminSignup", methods=["POST"])
 def admin_signup():
     #request_body = request.get_jason()
@@ -278,7 +416,25 @@ def admin_signup():
         return jsonify(response_body), 201
     else:
         return jsonify({"msg": "An user associated with this email has already been created" }),401
-    
+
+
+# Signup Voluntario
+@api.route("/voluntarioSignup", methods=["POST"])
+def voluntario_signup():
+    #request_body = request.get_jason()
+    request_body = request.get_json()
+    voluntario = Voluntario.query.filter_by(email=request_body["email"]).first()
+    if voluntario is None:
+        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"])
+        db.session.add(new_voluntario)
+        db.session.commit()
+        response_body ={
+            "msg": "Voluntario created suscessfully"
+         }
+        return jsonify(response_body), 201
+    else:
+        return jsonify({"msg": "A voluntario associated with this email has already been created" }),401
+
 
 # Protect a route with jwt_required, which will kick out requests
 @api.route("/protected", methods=["GET"])

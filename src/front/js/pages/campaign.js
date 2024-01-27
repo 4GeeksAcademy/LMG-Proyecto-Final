@@ -78,7 +78,9 @@ export const Campaign = () => {
             } */}
              {store.auth_admin === true ? <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
                    Crear campaña </Link> : 
-           <Link className="btn btn-primary" style={{ width: "90%" }} to="/adminLogin">
+
+           <Link className="btn btn-primary" style={{ width: "90%" }} to="/ongLogin">
+
            Crear campaña
             </Link>
             }

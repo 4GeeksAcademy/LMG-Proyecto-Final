@@ -53,7 +53,9 @@ export const OngForm = () => {
     };
 
     const handleSave = () => {
-        actions.addCampaign({
+
+        actions.addOng({
+
             nif: nif,
             email: email,
             ciudad: ciudad,
@@ -62,7 +64,8 @@ export const OngForm = () => {
             aprobado:  aprobado,
             password:  password,
             lat:  lat,
-            lng:  lng,
+            lng:  lng
+
         });
 
         setNif("");
@@ -70,8 +73,8 @@ export const OngForm = () => {
         setCiudad("");
         setNombre("");
         setActividad("");
-        setAprobado();
-        setPassword();
+        setAprobado("");
+        setPassword("");
         setLat();
         setLng();
     };
@@ -89,11 +92,13 @@ export const OngForm = () => {
                 </div>
                 <div className="col-12 mb-3">
                     <label>Email</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputEmail} value={email} placeholder="Email"></input>
+
+                    <input className="form-control mx-auto" type="email" onChange={inputEmail} value={email} placeholder="Email"></input>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Ciudad</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
+                    <input className="form-control mx-auto" type="text" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
+
                 </div>
                 <div className="col-12 mb-3">
                     <label>Nombre</label>
