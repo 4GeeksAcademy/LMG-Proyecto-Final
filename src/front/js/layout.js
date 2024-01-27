@@ -4,6 +4,7 @@ import ScrollToTop from "./component/scrollToTop";
 import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
+
 import { Voluntario } from "./pages/voluntario";
 import { OngForm } from "./pages/addOng";
 import { OngEditForm } from "./pages/editOng";
@@ -42,7 +43,9 @@ const Layout = () => {
                     <Navbar />
                     <Routes>
                         <Route element={<Home />} path="/" />
+
                         <Route element={<Voluntario />} path="/voluntario" />
+
                         <Route path="/addOng" element={<OngForm />} />
                         <Route path="/editOng/:theid" element={<OngEditForm />} />
                         <Route element={<Ong />} path="/ong" />

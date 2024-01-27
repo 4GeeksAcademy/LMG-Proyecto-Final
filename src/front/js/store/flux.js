@@ -7,6 +7,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			auth_admin: false,
 			ong: [],
 			auth_ong: false,
+
             voluntarios: [],
             auth_voluntario: false,
 		},
@@ -158,6 +159,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                 setStore({ auth_voluntario: false });
                 localStorage.removeItem("token");				
             },
+
 			// ong actions
 			loadOngs:() => {
 				const requestOptions = {
@@ -259,7 +261,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => {
 					console.log(response.status)
 					if(response.status === 200){
+
 						setStore({ auth_ong: true });
+
 					}
 					return response.json()
 				})
@@ -274,6 +278,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			setStore({ auth_ong: false });
 			localStorage.removeItem("token");				
 		},
+
 
 		// campaign actions
 		loadCampaigns:() => {

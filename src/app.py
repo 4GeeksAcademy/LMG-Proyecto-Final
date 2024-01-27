@@ -10,6 +10,7 @@ from api.models import db,Ongs,Voluntario,Campaign
 from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
+
 from flask_jwt_extended import create_access_token
 from flask_jwt_extended import get_jwt_identity
 from flask_jwt_extended import jwt_required
@@ -158,6 +159,7 @@ def sitemap():
 #     except Exception as e:
 #         print("Error:", str(e))
 #         raise APIException("Campaign deleting error", status_code=500)
+
 
 
 @app.route('/ong', methods=['GET'])

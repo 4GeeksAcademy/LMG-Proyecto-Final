@@ -5,13 +5,21 @@ from flask_cors import CORS
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required, JWTManager
 
 
+
 # Crear el Blueprint
 api = Blueprint('api', __name__)
 cors = CORS(api, resources={r"/api/*": {"origins": "*"}})
 
 
+# Configuración de Flask
+
+
+# Inicialización del JWTManager
+
+
 # Allow CORS requests to this API
 CORS(api)
+
 
 # Get all campaigns
 @api.route('/campaign', methods=['GET'])
@@ -23,6 +31,7 @@ def get_campaigns():
     return jsonify(results), 200
 
 # Get all ONGS
+
 @api.route('/ong', methods=['GET'])
 # @jwt_required()
 def get_ongs():
@@ -32,6 +41,7 @@ def get_ongs():
     print(results)
 
     return jsonify(results), 200
+
 
 # Get all voluntarios
 @api.route('/voluntario', methods=['GET'])
@@ -83,10 +93,12 @@ def get_voluntario_id(voluntario_id):
         return jsonify({"error": "Voluntario not found"}), 404
     
 # Create a new campaign
+
 @api.route('/campaign', methods=['POST'])
 def post_campaign():
     body = request.get_json()
     new_campaign = Campaign(
+
                 fecha_inicio=body['fecha_inicio'],
                 fecha_finalizacion=body['fecha_finalizacion'],
                 nombre=body['nombre'],
@@ -94,12 +106,14 @@ def post_campaign():
                 objetivo=body['objetivo'],
                 articulos=body['articulos'])
     
+
     db.session.add(new_campaign)
     db.session.commit()
     response_body = {
         "msg": "new campaign created"
     }
     return jsonify(response_body), 200
+
 
 # Create a new ONG
 @api.route('/ong', methods=['POST'])
@@ -170,6 +184,7 @@ def post_voluntario():
         return jsonify({"error": str(e)}), 500
 
 
+
 # # Update a campaign by ID
 @api.route('/campaign/<int:campaign_id>', methods=['PUT'])
 def update_campaign(campaign_id):
@@ -179,12 +194,14 @@ def update_campaign(campaign_id):
         campaign = Campaign.query.filter_by(id=campaign_id).first()
         if campaign is None:
             raise APIException("Campaign not found", status_code=404)
+
         # Actualiza solo los campos que se proporcionan en la solicitud
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
         campaign.nombre = body.get('nombre', campaign.nombre)
         campaign.ong_id = body.get('ong_id', campaign.ong_id)
        
+
         db.session.commit()
         response_body = {
             "msg": "Campaign updated correctly"
@@ -260,6 +277,7 @@ def update_voluntario(voluntario_id):
             print("Error:", str(e))
             raise APIException("Error al actualizar voluntario", status_code=500)
        
+
 # # Delete a campaign by ID
 @api.route('/campaign/<int:campaign_id>', methods=['DELETE'])
 def delete_campaign(campaign_id):
@@ -277,6 +295,7 @@ def delete_campaign(campaign_id):
         print("Error:", str(e))
         raise APIException("Campaign deleting error", status_code=500)
     
+
     return jsonify(results), 200
 
 # # Delete an ONG by ID
@@ -321,7 +340,7 @@ def delete_voluntario(voluntario_id):
 
 
 # Login Admin
-    
+
 #### admin login routes ####
 
 @api.route('/user', methods=['GET'])
@@ -381,6 +400,7 @@ def voluntario_login():
 
 
 # Signup Admin
+
 @api.route("/adminSignup", methods=["POST"])
 def admin_signup():
     #request_body = request.get_jason()
@@ -396,6 +416,7 @@ def admin_signup():
         return jsonify(response_body), 201
     else:
         return jsonify({"msg": "An user associated with this email has already been created" }),401
+
 
 # Signup Voluntario
 @api.route("/voluntarioSignup", methods=["POST"])
@@ -413,7 +434,7 @@ def voluntario_signup():
         return jsonify(response_body), 201
     else:
         return jsonify({"msg": "A voluntario associated with this email has already been created" }),401
-    
+
 
 # Protect a route with jwt_required, which will kick out requests
 @api.route("/protected", methods=["GET"])

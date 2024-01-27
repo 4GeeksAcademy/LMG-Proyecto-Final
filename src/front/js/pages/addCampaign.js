@@ -38,11 +38,11 @@ export const CampaignForm = () => {
 
     const handleSave = () => {
         actions.addCampaign({
-            
             fecha_finalizacion: fecha_finalizacion,
             fecha_inicio: fecha_inicio,
             nombre: nombre,
             objetivo: objetivo,
+
             articulos: articulos,
             ong_id: ongId,
         });
@@ -58,8 +58,8 @@ export const CampaignForm = () => {
 
     return (
         <>
-        {store.auth_ong === true ? 
-            <>
+        {store.auth_ong === true ?     
+            <> 
             <div className="container text-center">
                 <h1>Crear campaña</h1>
             </div>
@@ -82,11 +82,13 @@ export const CampaignForm = () => {
                 </div>
                 <div className="col-12 mb-3">
                     <label>Objetivo a cumplir</label>
+
                     <input className="form-control mx-auto" type="text" onChange={inputObjetivo} value={objetivo} placeholder="Objetivo campaña"></input>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Id Ong</label>
                     <input className="form-control mx-auto" type="text" onChange={inputOng} value={ongId} placeholder="Id Ong"></input>
+
                 </div>
 
                 <div className="col-12 mb-3">
@@ -100,7 +102,9 @@ export const CampaignForm = () => {
                 </div>
             </div>
             </>
+
            : <Navigate to="/ongLogin" /> }
+
         </>
     );
 };

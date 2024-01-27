@@ -53,7 +53,9 @@ export const OngForm = () => {
     };
 
     const handleSave = () => {
+
         actions.addOng({
+
             nif: nif,
             email: email,
             ciudad: ciudad,
@@ -63,6 +65,7 @@ export const OngForm = () => {
             password:  password,
             lat:  lat,
             lng:  lng
+
         });
 
         setNif("");
@@ -89,11 +92,13 @@ export const OngForm = () => {
                 </div>
                 <div className="col-12 mb-3">
                     <label>Email</label>
+
                     <input className="form-control mx-auto" type="email" onChange={inputEmail} value={email} placeholder="Email"></input>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Ciudad</label>
                     <input className="form-control mx-auto" type="text" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
+
                 </div>
                 <div className="col-12 mb-3">
                     <label>Nombre</label>
