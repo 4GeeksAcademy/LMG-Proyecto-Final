@@ -4,23 +4,35 @@ import { useNavigate } from "react-router-dom";
 
 import "../../styles/home.css";
 
-
 export const Admin = () => {
-	const { store, actions } = useContext(Context);
-	const navigate = useNavigate(); 
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+    function verVoluntarios() {
+        navigate('/voluntarios');
+    }
+
+    function verONGs() {
+        navigate('/Ong');
+    }
+
+    function verCampaigns() {
+        navigate('/campaign');
+    }
 
 
-	function handlelogout(){
-		actions.adminLogout()
-		navigate('/')
-	}
-
-	return (
-		<div className="text-center mt-5">
-			<h1>Your Account</h1>
-			<p>Welcome to your admin account</p>
-			{store.auth_admin === true ? <button onClick={()=>handlelogout()} className="btn btn-primary">Logout</button>
-					: null}
-		</div>
-	);
+    return (
+        <div className="text-center mt-5">
+            <h1>Mi cuenta</h1>
+            <p>Bienvenido al perfil de administrador</p>
+            {store.auth_admin === true ?
+                <>
+                    <button onClick={() => verVoluntarios()} className="btn btn-primary">Voluntarios</button>
+                    <button onClick={() => verONGs()} className="btn btn-primary">ONGs</button>
+                    <button onClick={() => verCampaigns()} className="btn btn-primary">Campañas</button>
+                </>
+                : null
+            }
+        </div>
+    );
 };

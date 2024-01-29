@@ -10,13 +10,6 @@ from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_requir
 api = Blueprint('api', __name__)
 cors = CORS(api, resources={r"/api/*": {"origins": "*"}})
 
-
-# Configuración de Flask
-
-
-# Inicialización del JWTManager
-
-
 # Allow CORS requests to this API
 CORS(api)
 
@@ -44,7 +37,7 @@ def get_ongs():
 
 
 # Get all voluntarios
-@api.route('/voluntario', methods=['GET'])
+@api.route('/voluntarios', methods=['GET'])
 def get_voluntarios():
     all_voluntarios = Voluntario.query.all()
     print(all_voluntarios)
@@ -79,18 +72,15 @@ def get_ong(ong_id):
     return jsonify(ong.serialize()), 200
 
 #  Get an specific Voluntario by ID  
-api.route('/voluntario/<int:voluntario_id>', methods=['GET'])
-def get_voluntario_id(voluntario_id):
+@api.route('/voluntario/<int:voluntario_id>', methods=['GET'])
+def get_voluntario(voluntario_id):
     print(voluntario_id)
-    
     voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+    print(voluntario)
+    all_voluntarios = Voluntario.query.all()
+    results = list(map(lambda voluntario: voluntario.serialize(),all_voluntarios))
     
-    if voluntario:
-        # Assuming `serialize` is a method in your Voluntario model
-        result = voluntario.serialize()
-        return jsonify(result)
-    else:
-        return jsonify({"error": "Voluntario not found"}), 404
+    return jsonify(voluntario.serialize()), 200
     
 # Create a new campaign
 
@@ -296,8 +286,6 @@ def delete_campaign(campaign_id):
         raise APIException("Campaign deleting error", status_code=500)
     
 
-    return jsonify(results), 200
-
 # # Delete an ONG by ID
 @api.route('/ong/<int:ong_id>', methods=['DELETE'])
 def delete_ong(ong_id):
@@ -370,34 +358,131 @@ def admin_login():
     return jsonify(access_token=access_token)
 
 # Login ONG
+# @api.route("/ongLogin", methods=["POST"])
+# def ong_login():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+#     ong = Ongs.query.filter_by(email=email).first()
+
+#     if ong is None or password != ong.password:
+#         return jsonify({"msg": "Wrong email or password"}), 401
+
+#     access_token = create_access_token(identity=email)
+#     return jsonify(access_token=access_token)
+
 @api.route("/ongLogin", methods=["POST"])
 def ong_login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     ong = Ongs.query.filter_by(email=email).first()
 
-    if ong is None or password != ong.password:
-        return jsonify({"msg": "Wrong email or password"}), 401
+    if ong is None:
+        return jsonify({"msg": "No se pudo encontrar el correo electrónico"}), 401
 
+    if email != ong.email or password != ong.password:
+        return jsonify({"msg": "Correo electrónico o contraseña incorrectos"}), 401
+
+    # Obtener los detalles del voluntario
+    ong_data = {
+        "id": ong.id,
+        "nombre": ong.nombre,
+        "email": ong.email
+    }
+
+    # Crear un token de acceso
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
 
+    # Enviar el token de acceso y los datos del ong en la respuesta
+    return jsonify(access_token=access_token, ong_data=ong_data), 200
+
+
+@api.route('/tuOng/<int:ong_id>', methods=['GET'])
+def get_tuOng(ong_id):
+    ong = Ongs.query.filter_by(id=ong_id).first()
+    
+    if ong is None:
+        return jsonify({"msg": "No se pudo encontrar la ong"}), 404
+
+    ong_data = {
+        "id": ong.id,
+        "nombre": ong.nombre,
+        "email": ong.email,
+        "aprobado": ong.aprobado,
+        "ciudad": ong.ciudad,
+        "lat":ong.lat,
+        "lng":ong.lng
+    }
+
+    return jsonify(ong_data), 200
 # Login Voluntario        
+# @api.route("/voluntarioLogin", methods=["POST"])
+# def voluntario_login():
+#     email = request.json.get("email", None)
+#     password = request.json.get("password", None)
+#     voluntario = Voluntario.query.filter_by(email=email).first()
+#     print(voluntario)
+
+#     if voluntario == None:
+#         return jsonify({"msg":"Could not find email"}), 401
+#     if email != voluntario.email or password != voluntario.password:
+#         return jsonify({"msg": "Wrong email or password"}), 401
+    
+#      # Obtener las claves y valores del objeto Voluntario
+#     voluntario_data = {
+#         "email": voluntario.email,
+#         "nombre": voluntario.nombre,
+#         "id": voluntario.id,  # Reemplaza "name" con el nombre del atributo correspondiente en tu clase Voluntario
+#         # Agrega más campos si es necesario
+#     }
+
+#     access_token = create_access_token(identity=email)
+#     return jsonify(access_token=access_token, voluntario_data=voluntario_data,)
+
+
+
+# @api.route('/voluntarioDashboard/<int:voluntario_id>', methods=['GET'])
+# def get_voluntarioDashboard(voluntario_id):
+#     results = Voluntario.query.filter_by(id=voluntario_id).first()
+#     return jsonify(results), 200
 @api.route("/voluntarioLogin", methods=["POST"])
 def voluntario_login():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     voluntario = Voluntario.query.filter_by(email=email).first()
-    print(voluntario)
 
-    if voluntario == None:
-        return jsonify({"msg":"Could not find email"}), 401
+    if voluntario is None:
+        return jsonify({"msg": "No se pudo encontrar el correo electrónico"}), 401
+
     if email != voluntario.email or password != voluntario.password:
-        return jsonify({"msg": "Wrong email or password"}), 401
+        return jsonify({"msg": "Correo electrónico o contraseña incorrectos"}), 401
 
+    # Obtener los detalles del voluntario
+    voluntario_data = {
+        "id": voluntario.id,
+        "nombre": voluntario.nombre,
+        "email": voluntario.email
+    }
+
+    # Crear un token de acceso
     access_token = create_access_token(identity=email)
-    return jsonify(access_token=access_token)
 
+    # Enviar el token de acceso y los datos del voluntario en la respuesta
+    return jsonify(access_token=access_token, voluntario_data=voluntario_data), 200
+
+@api.route('/voluntarioDashboard/<int:voluntario_id>', methods=['GET'])
+def get_voluntarioDashboard(voluntario_id):
+    voluntario = Voluntario.query.filter_by(id=voluntario_id).first()
+    
+    if voluntario is None:
+        return jsonify({"msg": "No se pudo encontrar el voluntario"}), 404
+
+    voluntario_data = {
+        "id": voluntario.id,
+        "nombre": voluntario.nombre,
+        "email": voluntario.email
+    }
+
+    return jsonify(voluntario_data), 200
 
 # Signup Admin
 
@@ -421,19 +506,21 @@ def admin_signup():
 # Signup Voluntario
 @api.route("/voluntarioSignup", methods=["POST"])
 def voluntario_signup():
-    #request_body = request.get_jason()
+  #request_body = request.get_jason()
     request_body = request.get_json()
     voluntario = Voluntario.query.filter_by(email=request_body["email"]).first()
     if voluntario is None:
-        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"])
+        new_voluntario = Voluntario(email=request_body["email"], password=request_body["password"], is_active=True)
         db.session.add(new_voluntario)
         db.session.commit()
         response_body ={
-            "msg": "Voluntario created suscessfully"
+            "msg": "User created suscessfully"
          }
         return jsonify(response_body), 201
     else:
-        return jsonify({"msg": "A voluntario associated with this email has already been created" }),401
+        return jsonify({"msg": "An user associated with this email has already been created" }),401
+    
+
 
 
 # Protect a route with jwt_required, which will kick out requests

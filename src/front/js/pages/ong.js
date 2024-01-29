@@ -9,7 +9,7 @@ export const Ong = () => {
    
 
     useEffect(() => {
-        actions.loadOngs();
+        actions.getOngs();
     }, []);
 
 
@@ -21,8 +21,9 @@ export const Ong = () => {
     };
 
     return (
+        <div className="container">
         <>
-         {store.ong.map((ong, index) => (
+         {store.ongs.map((ong, index) => (
                 <div className="container border" key={index}>
                     <div className="row gx-1">
                         <div className="col-md-8">
@@ -36,7 +37,7 @@ export const Ong = () => {
 							<p className="ongElements">{ong.lat}</p>
 							<p className="ongElements">{ong.lng}</p>
                         </div>
-                        {store.auth_ong === true ?
+                        {store.auth_admin === true ?
                         <div className="col-md-1 p-3 editButton">
                             <Link to={`/editong/${ong.id}`} key={ong}>
                                 <button className="sideButtons">
@@ -48,7 +49,7 @@ export const Ong = () => {
                            
                         </div>
                         : null }
-                    {store.auth_ong === true ?
+                    {store.auth_admin === true ?
                         <div className="col-md-1 p-3">
                             <button type="button" className="btn sideButtons" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
@@ -86,5 +87,6 @@ export const Ong = () => {
             }
             </div>
         </>
+        </div>
     );
 };

@@ -2,29 +2,29 @@ import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom"; // Import Navigate
 
-export const TuOng = () => {
+export const VoluntarioDashboard = () => {
   const { store, actions } = useContext(Context);
   const navigate = useNavigate();
 
     useEffect(() => {
         var id = localStorage.getItem("id");
         console.log(id)
-        actions.getOngById(id);
-        console.log(store.ong)
+        actions.getVoluntarioById(id);
+        console.log(store.voluntario)
     }, []);
 
     return (
         
         <div className="container">
-            <h1>ONGS</h1>
-            {store.auth_ong === true ?
+            <h1>Voluntarios</h1>
+            {store.auth_voluntario === true ?
             <>
             <ul className="list-group">
-                    <li key={store.ong.id} className="list-group-item d-flex justify-content-between">
+                    <li key={store.voluntario.id} className="list-group-item d-flex justify-content-between">
                         <div>
-                            <div>{store.ong.nombre}</div>
-                            <div>{store.ong.email}</div>
-                            <div>{store.ong.ciudad}</div>
+                            <div>{store.voluntario.nombre}</div>
+                            <div>{store.voluntario.email}</div>
+                            <div>{store.voluntario.ciudad}</div>
                             
                             
                         </div>
@@ -35,7 +35,7 @@ export const TuOng = () => {
                                     Eliminar
                                 </button>
 
-                                <button onClick={() => navigate(`/editOng/${store.ong.id}`)} className="btn btn-primary">
+                                <button onClick={() => navigate(`/editVoluntario/${store.voluntario.id}`)} className="btn btn-primary">
                                     Editar
                                 </button>
                             </>
@@ -53,7 +53,7 @@ export const TuOng = () => {
                                     </div>
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Mejor no</button>
-                                        <button className="btn btn-primary" onClick={() => actions.deleteOng(store.ong.id)}>Eliminar</button>
+                                        <button className="btn btn-primary" onClick={() => actions.deleteVoluntario(store.voluntario.id)}>Eliminar</button>
                                     </div>
                                 </div>
                             </div>

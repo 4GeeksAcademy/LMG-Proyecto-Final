@@ -1,21 +1,26 @@
 import React, { useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
+import { Link } from 'react-router-dom';
 import rigoImageUrl from "../../img/rigo-baby.jpg";
 import "../../styles/home.css";
-import { Link } from 'react-router-dom';
-
-
 export const Home = () => {
-	return(
-		<>
-		<div className="container text-center">
-		<h1>Let me Give</h1>
-		<h4>Elige una causa y empieza a donar hoy mismo</h4>
-		</div>
-		</>
-
-	)
-
-
+    return (
+        <>
+            <div className="container text-center">
+                <h1>Let me Give</h1>
+                <h4>Elige una causa y empieza a donar hoy mismo</h4>
+                <div className="mt-4">
+                    {/* Botón para redirigir a /voluntariologin */}
+                    <Link to="/voluntariologin" className="btn btn-primary mr-3">
+                        Iniciar Sesión como Voluntario
+                    </Link>
+                    {/* Botón para redirigir a /onglogin */}
+                    <Link to="/onglogin" className="btn btn-secondary">
+                        Iniciar Sesión como ONG
+                    </Link>
+                </div>
+                
+            </div>
+        </>
+    );
 };
-
