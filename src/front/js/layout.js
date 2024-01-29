@@ -5,7 +5,7 @@ import { BackendURL } from "./component/backendURL";
 
 import { Home } from "./pages/home";
 
-import { Voluntario } from "./pages/voluntario";
+import { Voluntarios } from "./pages/voluntarios";
 import { OngForm } from "./pages/addOng";
 import { OngEditForm } from "./pages/editOng";
 import { Ong } from "./pages/ong";
@@ -19,10 +19,10 @@ import { AdminSignup } from "./pages/adminSignup";
 import { Admin } from "./pages/admin";
 import { Single } from "./pages/single";
 import { AddForm } from "./pages/addVoluntario";
-import { EditForm } from "./pages/editForm";
+import { EditVoluntario } from "./pages/editVoluntario";
 import { VoluntarioLogin } from "./pages/voluntarioLogin";
 import { VoluntarioSignup } from "./pages/voluntarioSignup";
-import { DashboardVoluntario } from "./pages/dashboardVoluntario";
+import { VoluntarioDashboard } from "./pages/voluntarioDashboard";
 import injectContext from "./store/appContext";
 
 import { Navbar } from "./component/navbar";
@@ -44,13 +44,12 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
 
-                        <Route element={<Voluntario />} path="/voluntario" />
-
+                        <Route element={<Voluntarios />} path="/voluntarios" />
                         <Route path="/addOng" element={<OngForm />} />
                         <Route path="/editOng/:theid" element={<OngEditForm />} />
                         <Route element={<Ong />} path="/ong" />
                         <Route path="/ongLogin" element={<OngLogin />} />
-                        <Route element={<TuOng />} path="/tuOng" />
+                        <Route path="/tuOng/:theid" element={<TuOng />} />
                         <Route path="/addCampaign" element={<CampaignForm />} />
                         <Route path="/editCampaign/:theid" element={<CampaignEditForm />} />
                         <Route element={<Campaign />} path="/campaign" />
@@ -59,11 +58,11 @@ const Layout = () => {
                         <Route element={<Admin />} path="/admin" />
                         <Route element={<Single />} path="/single/:theid" />
                         <Route element={<h1>Not found!</h1>} />
-                        <Route path="/editForm/:theid" element={<EditForm />} />
+                        <Route path="/editVoluntario/:theid" element={<EditVoluntario />} />
                         <Route path="/addVoluntario" element={<AddForm />} />
                         <Route path="/voluntarioLogin" element={<VoluntarioLogin />} />
                         <Route path="/voluntarioSignup" element={<VoluntarioSignup />} />
-                        <Route path="/dashboardVoluntario" element={<DashboardVoluntario />} />
+                        <Route path="/voluntarioDashboard/:theid" element={<VoluntarioDashboard />} />
                     </Routes>
                     <Footer />
                 </ScrollToTop>

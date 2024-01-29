@@ -2,22 +2,22 @@ import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
 import { Link, Navigate } from "react-router-dom"; // Import Navigate
 
-const OngLogin = () => {
+export const OngLogin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const { store, actions } = useContext(Context);
 
   function sendData(e) {
     e.preventDefault();
-    console.log('send data');
     console.log(email, password);
+    // console.log(store.ong)
     actions.ongLogin(email, password);
   }
 
   return (
 
        <>
-      {store.auth_ong === true ? <Navigate to="/addCampaign" /> : 
+      {store.auth_ong === true ? <Navigate to={`/tuOng/${localStorage.getItem("id")}`} /> : 
       <div className="container mt-3">
         <form className="w-50 mx-auto" onSubmit={sendData}>
           <div className="mb-3">
@@ -42,7 +42,4 @@ const OngLogin = () => {
     </>
   );
 }
-
-
-export { OngLogin };
 

@@ -31,7 +31,7 @@ const AdminLogin = () => {
           <button type="submit" style={{ width: "100%" }}  className="btn btn-primary">
           Acceder
           </button>
-            <p className="mt-3">¿Todavía no tienes cuenta? <Link to="/adminSignup">puedes crearla aquí</Link></p>
+            
         </form>
       }
     </div>

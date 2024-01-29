@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Context } from "../store/appContext";
+import { Link } from "react-router-dom";
 export const AddForm
  = () => {
   const { actions } = useContext(Context);
@@ -59,6 +60,7 @@ const handleInputChange = (e) => {
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="border border-dark rounded-3 p-4 w-75">
+        <h1>Crea un nuevo voluntario</h1>
         <form>
           <div className="mb-3">
             <label htmlFor="nombre" className="form-label">
@@ -164,7 +166,19 @@ const handleInputChange = (e) => {
             Guardar
           </button>
         </form>
+        
+        <div className="mb-3">
+                        <Link to="/voluntarios" className="btn btn-secondary">
+                            Volver a Voluntarios
+                        </Link>
+                    </div>
+        <div className="mb-3">
+                        <Link to="/" className="btn btn-secondary">
+                            Volver a Home
+                        </Link>
+                    </div>
       </div>
+     
     </div>
   );
 };

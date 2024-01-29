@@ -4,134 +4,142 @@ import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
 
 export const OngEditForm = () => {
-    const { store, actions } = useContext(Context);
-    const [nombre, setNombre] = useState("");
-    const [nif, setNif] = useState("");
-    const [password, setPassword] = useState("");
-    const [actividad, setActividad] = useState("");
-    const [aprobado, setAprobado] = useState("");
-    const [ciudad, setCiudad] = useState();
-    const [email, setEmail] = useState();
-    const [lat, setLat] = useState();
-    const [lng, setLng] = useState();
+    const { actions } = useContext(Context);
+    const { theid } = useParams();
+    const [ong, setOng] = useState({
+        nombre: "",
+        email: "",
+        password: "",
+        ciudad: ""
+    });
 
-
-    const inputNif = (eNif) => {
-        setNif(eNif.target.value);
-    };
-
-    const inputPassword = (ePassword) => {
-        setPassword(ePassword.target.value);
-    };
-
-    const inputActividad = (eActividad) => {
-        setActividad(eActividad.target.value);
-    };
-
-    const inputNombre = (eNombre) => {
-        setNombre(eNombre.target.value);
-    };
-
-    const inputAprobado = (eAprobado) => {
-        setAprobado(eAprobado.target.value);
-    };
-
-    const inputCiudad = (eCiudad) => {
-        setCiudad(eCiudad.target.value);
-    };
-
-    const inputEmail = (eEmail) => {
-        setEmail(eEmail.target.value);
-    };
-
-    const inputLat = (eLat) => {
-        setLat(eLat.target.value);
-    };
-
-    const inputLng = (eLng) => {
-        setLng(eLng.target.value);
-    };
-
-    const GetId = () => {
-        console.log(`El id del elemento es ----->${theid}`);
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setOng({ ...ong, [name]: value });
     };
 
     const handleSave = () => {
-        actions.addCampaign({
-            nif: nif,
-            email: email,
-            ciudad: ciudad,
-            nombre: nombre,
-            actividad: actividad,
-            aprobado:  aprobado,
-            password:  password,
-            lat:  lat,
-            lng:  lng,
-        }, theid);
-
-      
-        setNif("");
-        setEmail("");
-        setCiudad("");
-        setNombre("");
-        setActividad("");
-        setAprobado();
-        setPassword();
-        setLat();
-        setLng();
+        // Validar campos requeridos antes de guardar
+        if (ong.nif && ong.nombre && ong.email && ong.password && ong.actividad && ong.aprobado && ong.lat && ong.lng && ong.ciudad) {
+            actions.editOng(ong, theid);
+            // Limpiar los campos después de guardar
+            setOng({
+                nif: "",
+                nombre: "",
+                email: "",
+                password: "",
+                ciudad: "",
+                actividad: "",
+                aprobado: "",
+                lat: "",
+                lng: "",
+            });
+        } else {
+            alert("Por favor, complete todos los campos.");
+        }
     };
+
 
     return (
      
        
          <>
             <div className="container text-center">
-                <h1>Crear Ong</h1>
+                <h1>Edita tu Ong</h1>
             </div>
             <div className="row ms-5 p-3">
                 <div className="col-12 mb-3">
                     <label>Nif</label>
-                    <input className="form-control mx-auto" onChange={inputNif} value={nif} placeholder="Nif"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    type="text"
+                    name="nif"
+                    onChange={handleInputChange}
+                    value={ong.nif}
+                    placeholder="Nif"/>      
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Email</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputEmail} value={email} placeholder="Email"></input>
-                </div>
+                <div className="mb-3">
+                        <label>Email</label>
+                        <input
+                            className="form-control inputs"
+                            type="email"
+                            name="email"
+                            value={ong.email}
+                            onChange={handleInputChange}
+                            placeholder="Email"
+                        />
+                    </div>
                 <div className="col-12 mb-3">
                     <label>Ciudad</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
+                    <input 
+                    className="form-control mx-auto" 
+                    type="text" 
+                    onChange={handleInputChange} 
+                    value={ong.ciudad} 
+                    name="ciudad"
+                    placeholder="Ciudad"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Nombre</label>
-                    <input className="form-control mx-auto" onChange={inputNombre} value={nombre} placeholder="Nombre Ong"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.nombre}
+                    name="nombre"
+                    placeholder="Nombre Ong"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Actividad</label>
-                    <input className="form-control mx-auto" onChange={inputActividad} value={actividad} placeholder="Actividad"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.actividad}
+                    name="actividad"
+                    placeholder="Actividad"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Aprobado</label>
-                    <input className="form-control mx-auto" onChange={inputAprobado} value={aprobado} placeholder="Aprobado"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.aprobado}
+                    name="aprobado"
+                    placeholder="Aprobado"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Password</label>
-                    <input className="form-control mx-auto" onChange={inputPassword} value={password} placeholder="Contraseña"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.password}
+                    name="password"
+                    placeholder="Contraseña"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Latitud</label>
-                    <input className="form-control mx-auto" onChange={inputLat} value={lat} placeholder="Latitud"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.lat}
+                    name="lat"
+                    placeholder="Latitud"/>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Longitud</label>
-                    <input className="form-control mx-auto" onChange={inputLng} value={lng} placeholder="Longitud"></input>
+                    <input 
+                    className="form-control mx-auto"
+                    onChange={handleInputChange}
+                    value={ong.lng}
+                    name = "lng"
+                    placeholder="Longitud"/>
                 </div>
 
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>
                 </div>
                 <div className="container mb-3">
-                    <Link to="/ong">
-                        Volver a Ong
+                    <Link to="/tuOng/${`id`}">
+                        Volver a tu cuenta
                     </Link>
                 </div>
             </div>

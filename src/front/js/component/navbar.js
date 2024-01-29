@@ -14,7 +14,7 @@ export const Navbar = () => {
         actions.voluntarioLogout();
         navigate('/');
     }
-
+    const favoritesMap = store.favorites;
     return (
         <nav className="navbar navbar-light bg-light">
             <div className="container">
@@ -26,7 +26,7 @@ export const Navbar = () => {
                 {store.auth_ong &&
                     <div className="btn-group">
                         <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Para Ongs
+                            Ongs
                         </button>
                         <ul className="dropdown-menu">
                             <li><a className="dropdown-item" href="/ong">Ong</a></li>
@@ -42,12 +42,42 @@ export const Navbar = () => {
                 {store.auth_voluntario &&
                     <div className="btn-group">
                         <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                            Para Voluntarios
+                        Voluntarios
                         </button>
                         <ul className="dropdown-menu">
-                            <li><Link className="dropdown-item" to="/voluntario">Todos los voluntarios</Link></li>
-                            <li><Link className="dropdown-item" to="/voluntariologin">Voluntario Login</Link></li>
-                            <li><hr className="dropdown-divider"/></li>
+
+                            <li><Link className="dropdown-item" to="/voluntarioDashboard/:theid">Mi perfil</Link></li>
+                            <li><Link className="dropdown-item" to="/campaign">Todas las campañas</Link></li>
+                            <li><button className="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+							Favorites
+							<span className="btn btn-warningprimary text-ligth">{favoritesMap.length > 0 ? favoritesMap.length : " " }</span>
+						</button>
+						<ul className="dropdown-menu ">
+							{favoritesMap.map((item, i) => (
+								<li key={i} className="dropdown-item d-flex justify-content-between">
+									{item}
+									<span onClick={() => actions.deleteFavorite(item)}>
+									<i className="fas fa-trash "></i>
+									</span>
+								</li>
+							))}
+						</ul></li>
+                            
+                        </ul>
+                        <button onClick={handleLogout} className="btn btn-primary">Logout</button>
+                    </div>
+                }
+
+                {store.auth_admin &&
+                    <div className="btn-group">
+                        <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Admin
+                        </button>
+                        <ul className="dropdown-menu">
+                            <li><Link className="dropdown-item" to="/voluntarios"> Voluntarios</Link></li>
+                            <li><Link className="dropdown-item" to="/ong"> ONGS</Link></li>
+                            <li><Link className="dropdown-item" to="/campaign"> Campañas</Link></li>
+                           
                         </ul>
                         <button onClick={handleLogout} className="btn btn-primary">Logout</button>
                     </div>

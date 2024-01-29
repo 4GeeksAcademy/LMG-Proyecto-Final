@@ -69,11 +69,11 @@ export const CampaignForm = () => {
                     <input className="form-control mx-auto" onChange={inputArticulos} value={articulos} placeholder="Lista de articulos"></input>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Fecha Fin</label>
+                    <label>Fecha Inicio</label>
                     <input className="form-control mx-auto" type="date" onChange={inputFechaFin} value={fecha_finalizacion} placeholder="Fecha fin"></input>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Fecha Inicio</label>
+                    <label>Fecha Fin</label>
                     <input className="form-control mx-auto" type="date" onChange={inputFechaInicio} value={fecha_inicio} placeholder="Fecha inicio"></input>
                 </div>
                 <div className="col-12 mb-3">

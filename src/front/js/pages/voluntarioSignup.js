@@ -3,40 +3,172 @@ import { Context } from "../store/appContext";
 import { Link, Navigate } from "react-router-dom";
 
 export const VoluntarioSignup = () => {
-    const { store, actions } = useContext(Context);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-    function sendData(e) {
+    const { actions } = useContext(Context);
+    const [nombre, setNombre] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [ciudad, setCiudad] = useState("");
+    const [lat, setLat] = useState("");
+    const [lng, setLng] = useState("");
+    const [voluntarioLink, setVoluntarioLink] = useState(null);
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      if (name === "nombre") {
+        setNombre(value);
+      } else if (name === "email") {
+        setEmail(value);
+      } else if (name === "password") {
+        setPassword(value);
+      } else if (name === "ciudad") {
+        setCiudad(value);
+      } else if (name === "lat") {
+        setLat(value);
+      } else if (name === "lng") {
+        setLng(value);
+      } 
+    };
+    const addVoluntario = () => {
+      const newVoluntario = {
+        nombre: nombre,
+        email: email,
+        password: password,
+        ciudad: ciudad,
+        lat: lat,
+        lng: lng
+      };
+  
+      setVoluntarioLink(newVoluntario);
+      actions.addVoluntario(newVoluntario);
+      deleteHandleInputChange();
+      console.log("Nuevo Voluntario JSON:", newVoluntario);
+    };
+    const deleteHandleInputChange = () => {
+      setNombre("");
+      setEmail("");
+      setPassword("");
+      setCiudad("");
+      setLat("");
+      setLng("");
+    };
+  
+    const handleKeyPress = (e) => {
+      if (e.key === "Enter") {
         e.preventDefault();
-        actions.voluntarioSignup(email, password);
-        // Check if signup was successful before navigating
-        if (store.auth_voluntario) {
-            return <Navigate to="/Voluntario" />;
-        }
-    }
-
+        addVoluntarios();
+      }
+    };
     return (
-        <div className="container mt-3">
-            {store.auth_voluntario ? 
-                <Navigate to="/Voluntario" />
-             : (
-        
-                <form className="w-50 mx-auto" onSubmit={sendData}>
-                    <div className="mb-3">
-                        <h1>Signup Voluntario</h1>
-                        <p>Crea a tu cuenta de voluntario</p>
-                        <label htmlFor="emailInput" className="form-label">Email</label>
-                        <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="emailInput" aria-describedby="emailHelp" />
-                    </div>
-                    <div className="mb-3">
-                        <label htmlFor="passwordInput" className="form-label">Contraseña</label>
-                        <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="passwordInput" />
-                    </div>
-                    <button type="submit" style={{ width: "100%" }} className="btn btn-primary">Crear cuenta</button>
-                    <p className="mt-3">¿Ya tienes cuenta? <Link to="/voluntarioLogin">accede aquí</Link></p>
-                </form>
-            )}
+      <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="border border-dark rounded-3 p-4 w-75">
+        <h1>Signup Voluntario</h1>
+                        <p>Crea a tu cuenta y forma parte del cambio</p>
+          <form>
+            <div className="mb-3">
+              <label htmlFor="nombre" className="form-label">
+                Nombre
+              </label>
+              <input
+                type="text"
+                name="nombre"
+                value={nombre}
+                onChange={handleInputChange}
+                className="form-control"
+                id="nombre"
+                aria-describedby="nombreHelp"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+  
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                Email
+              </label>
+              <input
+                type="email"
+                name="email"
+                value={email}
+                onChange={handleInputChange}
+                className="form-control"
+                id="email"
+                aria-describedby="emailHelp"
+                onKeyDown={handleKeyPress}
+              />
+              <div id="emailHelp" className="form-text">
+                Tu correo electrónico
+              </div>
+  
+            </div>
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                Password
+              </label>
+              <input
+                type="text"
+                name="password"
+                value={password}
+                onChange={handleInputChange}
+                className="form-control"
+                id="password"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+  
+            <div className="mb-3">
+              <label htmlFor="ciudad" className="form-label">
+                Ciudad
+              </label>
+              <input
+                type="text"
+                name="ciudad"
+                value={ciudad}
+                onChange={handleInputChange}
+                className="form-control"
+                id="ciudad"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+  
+            <div className="mb-3">
+              <label htmlFor="lat" className="form-label">
+                Latitud
+              </label>
+              <input
+                type="number"
+                name="lat"
+                value={lat}
+                onChange={handleInputChange}
+                className="form-control"
+                id="lat"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+  
+            <div className="mb-3">
+              <label htmlFor="lng" className="form-label">
+                Longitud
+              </label>
+              <input
+                type="number"
+                name="lng"
+                value={lng}
+                onChange={handleInputChange}
+                className="form-control"
+                id="lng"
+                onKeyDown={handleKeyPress}
+              />
+            </div>
+  
+          
+            <button
+              type="button"
+              onClick={addVoluntario}
+              className="btn btn-primary"
+            >
+              Guardar
+            </button>
+            <p className="mt-3">¿Ya tienes cuenta? <Link to="/voluntarioLogin">accede aquí</Link></p>
+          </form>
         </div>
+      </div>
     );
-};
+  };

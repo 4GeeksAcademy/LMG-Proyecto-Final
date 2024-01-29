@@ -5,11 +5,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 			campaign: [],
 			auth_admin: false,
-			ong: [],
+			ongs: [],
+			ong:{},
 			auth_ong: false,
-
             voluntarios: [],
+			voluntario: {},
             auth_voluntario: false,
+			favorites: [],
+			favorite: []
 		},
 		actions: {
 			//	voluntario actions
@@ -19,13 +22,27 @@ const getState = ({ getStore, getActions, setStore }) => {
                     headers: { 'Content-Type': 'application/json' },
                     mode: 'cors',
                 };
-                fetch(process.env.BACKEND_URL + "/api/voluntario/", requestOptions)
+                fetch(process.env.BACKEND_URL + "/api/voluntarios/", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                     setStore({ voluntarios: data });
                 })
              },
 
+			 getVoluntarioById: (id) => {
+                const requestOptions = {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                };
+                fetch(process.env.BACKEND_URL + "/api/voluntario/" + id, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+				console.log(data)
+				console.log(id)
+                    setStore({ voluntario: data });
+                })
+             },
     
             addVoluntario(newVoluntario) {
                 const requestOptions = {
@@ -103,7 +120,7 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 
-            voluntarioLogin: (email, password) => {
+			voluntarioLogin: (email, password) => {
                 console.log('Login desde flux')
                  const requestOptions = {
                     method: 'POST',
@@ -121,10 +138,17 @@ const getState = ({ getStore, getActions, setStore }) => {
                         if(response.status === 200){
                             setStore({ auth_voluntario: true });
                         }
-                        return response.json()
+						console.log(response);
+						var response_body = response.json();
+						console.log(response_body);
+                        return response_body;
+
                     })
                     .then(data => {
+						console.log(data)
                         localStorage.setItem("token", data.access_token);
+						console.log(data.voluntario_data)
+						localStorage.setItem("id", data.voluntario_data.id);
                         console.log(data)
     
                     });
@@ -161,18 +185,34 @@ const getState = ({ getStore, getActions, setStore }) => {
             },
 
 			// ong actions
-			loadOngs:() => {
+			getOngs:() => {
 				const requestOptions = {
 					method: 'GET',
 					headers: { 'Content-Type': 'application/json' },
 					mode: 'cors',
 				};
-				fetch(process.env.BACKEND_URL + "/api/ong/", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/ongs/", requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
-					setStore({ ong: data });
+					setStore({ ongs: data });
 				})
 			},
+
+			getOngById: (id) => {
+                const requestOptions = {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' },
+                    mode: 'cors',
+                };
+                fetch(process.env.BACKEND_URL + "/api/ong/" + id, requestOptions)
+                .then((response) => response.json())
+                .then((data) => {
+				console.log(data)
+				console.log(id)
+                    setStore({ ong: data });
+                })
+             },
+
 			addOng(newOng) {
 				const requestOptions = {
 					method: 'POST',
@@ -405,6 +445,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 		setStore({ auth_admin: false });
 		localStorage.removeItem("token");				
 	},
+	//3. Añadir a favortios
+	addFavorites: (favorite) => {
+		const favoritesState = getStore().favorites.concat(favorite);
+		setStore({...getStore, favorites: favoritesState})
+	},
+	
+	//4. Eliminar favorito
+	deleteFavorite: (name) => {
+		const store = getStore()
+		const newFavorite = store.favorites.filter((item) => item !== name);
+		
+
+		setStore({favorites: newFavorite});
+
+	},
+
 		}
 	};
 };

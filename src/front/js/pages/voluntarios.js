@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
-export const Voluntario = () => {
+export const Voluntarios = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ export const Voluntario = () => {
                             <div>{item.actividad}</div>
                         </div>
 
-                        {store.auth_voluntario && (
+                        {store.auth_admin === true ?
                             <>
                                 <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Eliminar
@@ -35,7 +35,18 @@ export const Voluntario = () => {
                                     Editar
                                 </button>
                             </>
-                        )}
+                         : null }
+                    {/* {store.auth_voluntario && (
+                            <>
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                    Eliminar
+                                </button>
+
+                                <button onClick={() => navigate(`/editForm/${item.id}`)} className="btn btn-primary">
+                                    Editar
+                                </button>
+                            </>
+                        )} */}
 
                         <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
                             <div className="modal-dialog">
@@ -71,3 +82,4 @@ export const Voluntario = () => {
         </div>
     );
 };
+
