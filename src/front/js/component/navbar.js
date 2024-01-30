@@ -40,15 +40,9 @@ export const Navbar = () => {
 
                 {/* Mostrar el botón de Voluntario solo si el usuario está autenticado como Voluntario */}
                 {store.auth_voluntario &&
+                
                     <div className="btn-group">
-                        <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Voluntarios
-                        </button>
-                        <ul className="dropdown-menu">
-
-                            <li><Link className="dropdown-item" to="/voluntarioDashboard/:theid">Mi perfil</Link></li>
-                            <li><Link className="dropdown-item" to="/campaign">Todas las campañas</Link></li>
-                            <li><button className="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                         <button className="btn btn-warning dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 							Favorites
 							<span className="btn btn-warningprimary text-ligth">{favoritesMap.length > 0 ? favoritesMap.length : " " }</span>
 						</button>
@@ -61,9 +55,19 @@ export const Navbar = () => {
 									</span>
 								</li>
 							))}
-						</ul></li>
+                        
                             
                         </ul>
+                        <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                Voluntarios
+                </button>
+                <ul className="dropdown-menu">
+
+                    <li><Link className="dropdown-item" to={`/voluntarioDashboard/${localStorage.getItem("id")}`}>Mi perfil</Link></li>
+                    <li><Link className="dropdown-item" to="/campaign">Todas las campañas</Link></li>
+                   
+                </ul>
+                        
                         <button onClick={handleLogout} className="btn btn-primary">Logout</button>
                     </div>
                 }

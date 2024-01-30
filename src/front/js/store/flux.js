@@ -121,39 +121,61 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 			voluntarioLogin: (email, password) => {
-                console.log('Login desde flux')
-                 const requestOptions = {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(
-                        {
-                            "email":email,
-                            "password":password
-                        }
-                    )
-                };
-                fetch(process.env.BACKEND_URL + "/api/voluntarioLogin/", requestOptions)
-                    .then(response => {
-                        console.log(response.status)
-                        if(response.status === 200){
-                            setStore({ auth_voluntario: true });
-                        }
+				console.log('Login desde flux');
+				const requestOptions = {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({
+						"email": email,
+						"password": password
+					})
+				};
+			
+				fetch(process.env.BACKEND_URL + "/api/voluntarioLogin/", requestOptions)
+					.then(response => {
+						console.log(response.status);
+						if (response.status === 200) {
+							setStore({ auth_voluntario: true });
+						}
 						console.log(response);
-						var response_body = response.json();
-						console.log(response_body);
-                        return response_body;
-
-                    })
-                    .then(data => {
-						console.log(data)
-                        localStorage.setItem("token", data.access_token);
-						console.log(data.voluntario_data)
-						localStorage.setItem("id", data.voluntario_data.id);
-                        console.log(data)
-    
-                    });
-            },
-
+						return response.json();
+					})
+					.then(data => {
+						console.log(data);
+						const expirationTime = Date.now() + 12 * 60 * 60 * 1000; // 12 horas en milisegundos
+						localStorage.setItem("token", data.access_token);
+						localStorage.setItem("tokenExpiry", expirationTime);
+						localStorage.setItem("userType", "voluntario"); // Indicador de tipo de usuario
+						console.log(data);
+					});
+			},
+			
+			checkLoggedIn: () => {
+				const token = localStorage.getItem("token");
+				const tokenExpiry = localStorage.getItem("tokenExpiry");
+				const userType = localStorage.getItem("userType");
+			
+				if (token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+					// Token existe y no ha caducado, verificar tipo de usuario
+					if (userType === "ong") {
+						setStore({ auth_ong: true });
+					} else if (userType === "admin") {
+						setStore({ auth_admin: true });
+					} else if (userType === "voluntario") {
+						setStore({ auth_voluntario: true });
+					} else {
+						// Tipo de usuario desconocido
+						console.error("Tipo de usuario desconocido");
+						setStore({ auth_ong: false, auth_admin: false, auth_voluntario: false });
+					}
+				} else {
+					// Token no existe o ha caducado
+					setStore({ auth_ong: false, auth_admin: false, auth_voluntario: false });
+				}
+			},
+			
+			
+			
             voluntarioSignup: (email, password) => {
                 const requestOptions = {
                     method: 'POST',
@@ -283,37 +305,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 		   .then(console.log(process.env.BACKEND_URL + "/api/ong/"+ id));
   		 },	
 
-
-	
-		   ongLogin: (email,password) => {
-			console.log('Login desde flux')
-			 const requestOptions = {
+		
+		ongLogin: (email, password) => {
+			console.log('Login desde flux');
+			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(
-					{
-						"email":email,
-						"password":password
-					}
-				)
+				body: JSON.stringify({
+					"email": email,
+					"password": password
+				})
 			};
+		
 			fetch(process.env.BACKEND_URL + "/api/ongLogin/", requestOptions)
 				.then(response => {
-					console.log(response.status)
-					if(response.status === 200){
-
+					console.log(response.status);
+					if (response.status === 200) {
 						setStore({ auth_ong: true });
-
 					}
-					return response.json()
+					console.log(response);
+					return response.json();
 				})
 				.then(data => {
+					console.log(data);
+					const expirationTime = Date.now() + 12 * 60 * 60 * 1000; // 12 horas en milisegundos
 					localStorage.setItem("token", data.access_token);
-					console.log(data)
-
+					localStorage.setItem("tokenExpiry", expirationTime);
+					localStorage.setItem("userType", "ong"); // Indicador de tipo de usuario
+					console.log(data);
 				});
 		},
-		
+
 		ongLogout: () => {
 			setStore({ auth_ong: false });
 			localStorage.removeItem("token");				
@@ -395,7 +417,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 	// admin login system 
 	adminLogin: (email,password) => {
 		console.log('Login desde flux')
-		 const requestOptions = {
+		const requestOptions = {
 			method: 'POST',
 			headers: { 'Content-Type': 'application/json' },
 			body: JSON.stringify(
@@ -415,10 +437,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 			})
 			.then(data => {
 				localStorage.setItem("token", data.access_token);
+				localStorage.setItem("userType", "admin"); // Indicador de tipo de usuario
 				console.log(data)
-
 			});
 	},
+
 	adminSignup: (email, password) => {
 		const requestOptions = {
 			method: 'POST',
