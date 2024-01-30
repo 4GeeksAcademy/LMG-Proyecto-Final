@@ -415,35 +415,7 @@ def get_tuOng(ong_id):
 
     return jsonify(ong_data), 200
 # Login Voluntario        
-# @api.route("/voluntarioLogin", methods=["POST"])
-# def voluntario_login():
-#     email = request.json.get("email", None)
-#     password = request.json.get("password", None)
-#     voluntario = Voluntario.query.filter_by(email=email).first()
-#     print(voluntario)
 
-#     if voluntario == None:
-#         return jsonify({"msg":"Could not find email"}), 401
-#     if email != voluntario.email or password != voluntario.password:
-#         return jsonify({"msg": "Wrong email or password"}), 401
-    
-#      # Obtener las claves y valores del objeto Voluntario
-#     voluntario_data = {
-#         "email": voluntario.email,
-#         "nombre": voluntario.nombre,
-#         "id": voluntario.id,  # Reemplaza "name" con el nombre del atributo correspondiente en tu clase Voluntario
-#         # Agrega más campos si es necesario
-#     }
-
-#     access_token = create_access_token(identity=email)
-#     return jsonify(access_token=access_token, voluntario_data=voluntario_data,)
-
-
-
-# @api.route('/voluntarioDashboard/<int:voluntario_id>', methods=['GET'])
-# def get_voluntarioDashboard(voluntario_id):
-#     results = Voluntario.query.filter_by(id=voluntario_id).first()
-#     return jsonify(results), 200
 @api.route("/voluntarioLogin", methods=["POST"])
 def voluntario_login():
     email = request.json.get("email", None)
