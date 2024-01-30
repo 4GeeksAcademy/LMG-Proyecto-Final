@@ -92,7 +92,7 @@ def post_campaign():
                 fecha_inicio=body['fecha_inicio'],
                 fecha_finalizacion=body['fecha_finalizacion'],
                 nombre=body['nombre'],
-                ong_id=body['ong_id'],
+                ong_name=body['ong_name'],
                 objetivo=body['objetivo'],
                 articulos=body['articulos'])
     
@@ -188,7 +188,7 @@ def update_campaign(campaign_id):
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
         campaign.nombre = body.get('nombre', campaign.nombre)
-        campaign.ong_id = body.get('ong_id', campaign.ong_id)
+        campaign.ong_name = body.get('ong_name', campaign.ong_name)
        
 
         db.session.commit()

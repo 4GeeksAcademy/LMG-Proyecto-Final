@@ -13,7 +13,10 @@ export const OngForm = () => {
     const [ciudad, setCiudad] = useState("");
     const [email, setEmail] = useState("");
     const [direccion, setDireccion] = useState("");
-    
+   
+    useEffect(() => {
+        actions.getApi();
+    }, []);
 
 
     const inputNif = (eNif) => {
@@ -80,6 +83,7 @@ export const OngForm = () => {
     return (
        
             <>
+            <button onClick={()=>console.log(store.ongApi)}>Get</button>
             <div className="container text-center">
                 <h1>Crear Ong</h1>
             </div>

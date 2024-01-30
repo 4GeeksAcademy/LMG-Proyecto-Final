@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 
 			campaign: [],
+			campaigns: [],
 			auth_admin: false,
 			ongs: [],
 			ong:{},
@@ -146,6 +147,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const expirationTime = Date.now() + 12 * 60 * 60 * 1000; // 12 horas en milisegundos
 						localStorage.setItem("token", data.access_token);
 						localStorage.setItem("tokenExpiry", expirationTime);
+						localStorage.setItem("id", data.voluntario_data.id);
+						setStore({voluntarioid: data.voluntario_data.id})
 						localStorage.setItem("userType", "voluntario"); // Indicador de tipo de usuario
 						console.log(data);
 					});
@@ -350,18 +353,20 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 		// campaign actions
-		loadCampaigns:() => {
-			const requestOptions = {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' },
-				mode: 'cors',
-			};
-			fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
-			.then((response) => response.json())
-			.then((data) => {
-				setStore({ campaign: data });
-			})
-		},
+		 // campaign actions
+		 loadCampaigns:() => {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+            };
+            fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                setStore({ campaign: data });
+            })
+        },
+		
 		addCampaign(newCampaign) {
 			const requestOptions = {
 				method: 'POST',
@@ -374,7 +379,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					"nombre":newCampaign.nombre,
 					"objetivo":newCampaign.objetivo,
 					"articulos":newCampaign.articulos,
-					"ong_id": newCampaign.ong_id,
+					"ong_name": newCampaign.ong_name,
 
 				})
 			};
@@ -413,8 +418,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				"fecha_inicio": editCampaign.fecha_inicio,
 				"nombre":editCampaign.nombre,
 				"objetivo":editCampaign.objetivo,
-				"ong_id": editCampaign.ong_id,
-
+				"ong_name": editCampaign.ong_name,
 		   })
 	   };
 	   fetch(process.env.BACKEND_URL + "/api/campaign/" + id, editOptions)
@@ -490,6 +494,21 @@ const getState = ({ getStore, getActions, setStore }) => {
 		setStore({favorites: newFavorite});
 
 	},
+
+	getCampaignById: (id) => {
+		const requestOptions = {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' },
+			mode: 'cors',
+		};
+		fetch(process.env.BACKEND_URL + "/api/campaign/" + id, requestOptions)
+		.then((response) => response.json())
+		.then((data) => {
+		console.log(data)
+		console.log(id)
+			setStore({ campaign: data });
+		})
+	 },
 
 
 	getApi: async () => {

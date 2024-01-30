@@ -10,9 +10,7 @@ export const Home = () => {
 
     return (
         <>
-        <button onClick={()=> actions.getApi()}>Get</button>
-        <button onClick={()=>console.log(store.ongApi)}>Get</button>
-
+        
 
             <div className="container text-center">
                 <h1>Let me Give</h1>
