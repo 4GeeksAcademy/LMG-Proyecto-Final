@@ -25,6 +25,7 @@ export const TuOng = () => {
                             <div>{store.ong.nombre}</div>
                             <div>{store.ong.email}</div>
                             <div>{store.ong.ciudad}</div>
+                            <div>{store.ong.direccion}</div>
                             
                             
                         </div>

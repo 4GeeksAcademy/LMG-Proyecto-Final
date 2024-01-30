@@ -10,7 +10,8 @@ export const OngEditForm = () => {
         nombre: "",
         email: "",
         password: "",
-        ciudad: ""
+        ciudad: "",
+        direccion: "",
     });
 
     const handleInputChange = (e) => {
@@ -31,8 +32,8 @@ export const OngEditForm = () => {
                 ciudad: "",
                 actividad: "",
                 aprobado: "",
-                lat: "",
-                lng: "",
+                direccion: "",
+                
             });
         } else {
             alert("Por favor, complete todos los campos.");
@@ -116,23 +117,15 @@ export const OngEditForm = () => {
                     placeholder="Contraseña"/>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Latitud</label>
+                    <label>Direccion</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
-                    value={ong.lat}
-                    name="lat"
-                    placeholder="Latitud"/>
+                    value={ong.direccion}
+                    name="direccion"
+                    placeholder="Direccion"/>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Longitud</label>
-                    <input 
-                    className="form-control mx-auto"
-                    onChange={handleInputChange}
-                    value={ong.lng}
-                    name = "lng"
-                    placeholder="Longitud"/>
-                </div>
+                
 
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>

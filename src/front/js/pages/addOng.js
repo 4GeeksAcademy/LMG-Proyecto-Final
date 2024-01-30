@@ -10,10 +10,10 @@ export const OngForm = () => {
     const [password, setPassword] = useState("");
     const [actividad, setActividad] = useState("");
     const [aprobado, setAprobado] = useState("");
-    const [ciudad, setCiudad] = useState();
-    const [email, setEmail] = useState();
-    const [lat, setLat] = useState();
-    const [lng, setLng] = useState();
+    const [ciudad, setCiudad] = useState("");
+    const [email, setEmail] = useState("");
+    const [direccion, setDireccion] = useState("");
+    
 
 
     const inputNif = (eNif) => {
@@ -44,13 +44,11 @@ export const OngForm = () => {
         setEmail(eEmail.target.value);
     };
 
-    const inputLat = (eLat) => {
-        setLat(eLat.target.value);
+    const inputDireccion = (eDireccion) => {
+        setDireccion(eDireccion.target.value);
     };
 
-    const inputLng = (eLng) => {
-        setLng(eLng.target.value);
-    };
+  
 
     const handleSave = () => {
 
@@ -63,8 +61,8 @@ export const OngForm = () => {
             actividad: actividad,
             aprobado:  aprobado,
             password:  password,
-            lat:  lat,
-            lng:  lng
+            direccion:  direccion
+            
 
         });
 
@@ -75,8 +73,8 @@ export const OngForm = () => {
         setActividad("");
         setAprobado("");
         setPassword("");
-        setLat();
-        setLng();
+        setDireccion("");
+       
     };
 
     return (
@@ -117,13 +115,10 @@ export const OngForm = () => {
                     <input className="form-control mx-auto" onChange={inputPassword} value={password} placeholder="Contraseña"></input>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Latitud</label>
-                    <input className="form-control mx-auto" onChange={inputLat} value={lat} placeholder="Latitud"></input>
+                    <label>Direccion</label>
+                    <input className="form-control mx-auto" onChange={inputDireccion} value={direccion} placeholder="Direccion"></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Longitud</label>
-                    <input className="form-control mx-auto" onChange={inputLng} value={lng} placeholder="Longitud"></input>
-                </div>
+                
 
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>
