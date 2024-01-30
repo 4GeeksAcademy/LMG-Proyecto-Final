@@ -92,7 +92,7 @@ def post_campaign():
                 fecha_inicio=body['fecha_inicio'],
                 fecha_finalizacion=body['fecha_finalizacion'],
                 nombre=body['nombre'],
-                ong_id=body['ong_id'],
+                ong_name=body['ong_name'],
                 objetivo=body['objetivo'],
                 articulos=body['articulos'])
     
@@ -111,7 +111,7 @@ def post_ong():
     try:
         body = request.get_json()
         # Verifica la existencia de las claves requeridas en el cuerpo de la solicitud
-        required_keys = ['nif', 'nombre', 'email', 'ciudad', 'actividad', 'aprobado', 'password', 'lat', 'lng']
+        required_keys = ['nif', 'nombre', 'email', 'ciudad', 'actividad', 'aprobado', 'password', 'direccion']
         for key in required_keys:
             if key not in body:
                 raise APIException(f"Campo '{key}' no proporcionado en el cuerpo de la solicitud", status_code=400)
@@ -123,8 +123,7 @@ def post_ong():
             actividad=body['actividad'],
             aprobado=body['aprobado'],
             password=body['password'],
-            lat=body['lat'],
-            lng=body['lng']
+            direccion=body['direccion']
         )
         db.session.add(ong)
         db.session.commit()
@@ -189,7 +188,7 @@ def update_campaign(campaign_id):
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
         campaign.nombre = body.get('nombre', campaign.nombre)
-        campaign.ong_id = body.get('ong_id', campaign.ong_id)
+        campaign.ong_name = body.get('ong_name', campaign.ong_name)
        
 
         db.session.commit()
@@ -221,8 +220,8 @@ def update_ong(ong_id):
         ong.actividad = body.get('actividad', ong.actividad)
         ong.aprobado = body.get('aprobado', ong.aprobado)
         ong.password = body.get('password', ong.password)
-        ong.lat = body.get('lat', ong.lat)
-        ong.lng = body.get('lng', ong.lng)
+        ong.direccion = body.get('direccion', ong.direccion)
+        
 
         db.session.commit()
 

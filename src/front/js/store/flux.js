@@ -4,6 +4,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 		store: {
 
 			campaign: [],
+			campaigns: [],
 			auth_admin: false,
 			ongs: [],
 			ong:{},
@@ -12,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 			voluntario: {},
             auth_voluntario: false,
 			favorites: [],
-			favorite: []
+			favorite: [],
+			ongApi:[],
 		},
 		actions: {
 			//	voluntario actions
@@ -145,6 +147,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						const expirationTime = Date.now() + 12 * 60 * 60 * 1000; // 12 horas en milisegundos
 						localStorage.setItem("token", data.access_token);
 						localStorage.setItem("tokenExpiry", expirationTime);
+						localStorage.setItem("id", data.voluntario_data.id);
+						setStore({voluntarioid: data.voluntario_data.id})
 						localStorage.setItem("userType", "voluntario"); // Indicador de tipo de usuario
 						console.log(data);
 					});
@@ -216,9 +220,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				fetch(process.env.BACKEND_URL + "/api/ongs/", requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
-					setStore({ ongs: data });
+					setStore({ ong: data });
 				})
 			},
+
+			
 
 			getOngById: (id) => {
                 const requestOptions = {
@@ -226,7 +232,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     headers: { 'Content-Type': 'application/json' },
                     mode: 'cors',
                 };
-                fetch(process.env.BACKEND_URL + "/api/ong/" + id, requestOptions)
+                fetch(process.env.BACKEND_URL + `/api/ong/${localStorage.id}`, requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
 				console.log(data)
@@ -248,8 +254,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						"actividad":newOng.actividad,
 						"aprobado": newOng.aprobado,
 						"password": newOng.password,
-						"lat": newOng.lat,
-						"lng": newOng.lng,
+						"direccion": newOng.direccion,
+						
 						
 					})
 				};
@@ -295,9 +301,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					"actividad":editOng.actividad,
 					"aprobado": editOng.aprobado,
 					"password": editOng.password,
-					"lat": editOng.lat,
-					"lng": editOng.lng,
-
+					"direccion": editOng.direccion,
+					
 			   })
 		   };
 		   fetch(process.env.BACKEND_URL + "/api/ong/" + id, editOptions)
@@ -331,6 +336,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					const expirationTime = Date.now() + 12 * 60 * 60 * 1000; // 12 horas en milisegundos
 					localStorage.setItem("token", data.access_token);
 					localStorage.setItem("tokenExpiry", expirationTime);
+					localStorage.setItem("id", data.ong_data.id);
+					setStore({ongid: data.ong_data.id})
 					localStorage.setItem("userType", "ong"); // Indicador de tipo de usuario
 					console.log(data);
 				});
@@ -338,23 +345,28 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		ongLogout: () => {
 			setStore({ auth_ong: false });
-			localStorage.removeItem("token");				
+			localStorage.removeItem("token");
+			localStorage.removeItem("id");
+			localStorage.removeItem("tokenExpiry");
+			localStorage.removeItem("userType");			
 		},
 
 
 		// campaign actions
-		loadCampaigns:() => {
-			const requestOptions = {
-				method: 'GET',
-				headers: { 'Content-Type': 'application/json' },
-				mode: 'cors',
-			};
-			fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
-			.then((response) => response.json())
-			.then((data) => {
-				setStore({ campaign: data });
-			})
-		},
+		 // campaign actions
+		 loadCampaigns:() => {
+            const requestOptions = {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+                mode: 'cors',
+            };
+            fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
+            .then((response) => response.json())
+            .then((data) => {
+                setStore({ campaign: data });
+            })
+        },
+		
 		addCampaign(newCampaign) {
 			const requestOptions = {
 				method: 'POST',
@@ -367,7 +379,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					"nombre":newCampaign.nombre,
 					"objetivo":newCampaign.objetivo,
 					"articulos":newCampaign.articulos,
-					"ong_id": newCampaign.ong_id,
+					"ong_name": newCampaign.ong_name,
 
 				})
 			};
@@ -406,8 +418,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				"fecha_inicio": editCampaign.fecha_inicio,
 				"nombre":editCampaign.nombre,
 				"objetivo":editCampaign.objetivo,
-				"ong_id": editCampaign.ong_id,
-
+				"ong_name": editCampaign.ong_name,
 		   })
 	   };
 	   fetch(process.env.BACKEND_URL + "/api/campaign/" + id, editOptions)
@@ -482,6 +493,48 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		setStore({favorites: newFavorite});
 
+	},
+
+	getCampaignById: (id) => {
+		const requestOptions = {
+			method: 'GET',
+			headers: { 'Content-Type': 'application/json' },
+			mode: 'cors',
+		};
+		fetch(process.env.BACKEND_URL + "/api/campaign/" + id, requestOptions)
+		.then((response) => response.json())
+		.then((data) => {
+		console.log(data)
+		console.log(id)
+			setStore({ campaign: data });
+		})
+	 },
+
+
+	getApi: async () => {
+		const apiUrl = 'https://api.charityapi.org/api/organizations/search/miami';
+const apiKey = 'live-SjALIo8higRQpV8gp8hC-9BXj5d06WksGHq6rOdl4NCtVbMH6X5f6KEB452GMxzxtqNYrKSOk1yHQHez'; // Reemplaza 'keyhere' con tu clave real
+fetch(apiUrl, {
+    method: 'GET',
+    headers: {
+        'apikey': apiKey
+    },
+})
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`Error de red - ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        // Imprimir datos en la consola
+        console.log('Datos de la API de ONG:', data);
+        // Almacenar la variable en el estado del store
+        setStore({ ongApi: data });
+    })
+    .catch(error => {
+        console.error('Error al hacer la solicitud:', error.message);
+    });
 	},
 
 		}

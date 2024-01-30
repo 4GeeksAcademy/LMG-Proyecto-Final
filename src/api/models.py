@@ -1,4 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import ForeignKey
 
 db = SQLAlchemy()
 
@@ -49,13 +50,12 @@ class Ongs(db.Model):
     nombre = db.Column(db.String(80), unique=False, nullable=False)
     ciudad = db.Column(db.String(80), unique=False, nullable=False)
     nif = db.Column(db.String(80), unique=False, nullable=False)
-    actividad = db.Column(db.String(80), unique=False, nullable=False)
+    actividad = db.Column(db.String(500), unique=False, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     aprobado = db.Column(db.String(120), unique=False, nullable=False)
-    lat = db.Column(db.Float, unique=True, nullable=False)
-    lng = db.Column(db.Float, unique=True, nullable=False)
-    campaigns = db.relationship ('Campaign', backref=db.backref('ongs', lazy=True))
+    direccion = db.Column(db.String(500), unique=False, nullable=False)
+    # campaigns = db.relationship ('Campaign', backref=db.backref('ongs', lazy=True))
 
 
 
@@ -71,6 +71,8 @@ class Ongs(db.Model):
             "actividad": self.actividad,
             "email": self.email,
             "aprobado": self.aprobado,
+            "direccion": self.direccion,
+            
             # do not serialize the password, its a security breach
         }
 class Campaign(db.Model):
@@ -80,8 +82,9 @@ class Campaign(db.Model):
     nombre = db.Column(db.String(80), nullable=False)
     objetivo = db.Column(db.String(80), nullable=False)
     articulos = db.Column(db.String(80), nullable=False)
-    ong_id = db.Column(db.Integer, db.ForeignKey('ongs.id'), nullable=False)
-    
+    nombre_ong_id = db.Column(db.Integer, ForeignKey('ongs.id'))  # Added this lines
+    nombre_ong = db.relationship('Ongs', backref=db.backref('campaigns_associated', lazy=True))
+   
     def __repr__(self):
         return f'<Campaign {self.nombre}>'
 
@@ -93,5 +96,5 @@ class Campaign(db.Model):
             "nombre": self.nombre,
             "objetivo": self.objetivo,
             "articulos": self.articulos,
-            "ong_id": self.ong_id,
+            "ong_name": self.nombre_ong.nombre,
         }

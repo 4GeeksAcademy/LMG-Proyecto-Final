@@ -34,8 +34,8 @@ export const Ong = () => {
                             <p className="ongElements">{ong.aprobado}</p>
                             <p className="ongElements">{ong.ciudad}</p>
 							<p className="ongElements">{ong.email}</p>
-							<p className="ongElements">{ong.lat}</p>
-							<p className="ongElements">{ong.lng}</p>
+							<p className="ongElements">{ong.direccion}</p>
+							
                         </div>
                         {store.auth_admin === true ?
                         <div className="col-md-1 p-3 editButton">

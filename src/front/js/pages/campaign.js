@@ -28,16 +28,16 @@ export const Campaign = () => {
                     <div className="row gx-1">
                         <div className="col-md-8">
                             <p className="campaignName">{campaign.nombre}</p>
+                            <p className="campaignElements"><strong>{campaign.ong_name}</strong></p>
                             <p className="campaignElements">{campaign.fecha_inicio}</p>
                             <p className="campaignElements">{campaign.fecha_finalizacion}</p>
                             <p className="campaignElements">{campaign.articulos}</p>
-                            <p className="campaignElements">{campaign.ong}</p>
                             <p className="campaignElements">{campaign.objetivo}</p>
                             <span className="btn btn-outline-warning" onClick={() => toggleFavorite(campaign.nombre)}>
                                 <i id="hover-black-heart" className={isFavorite ? "fas fa-heart" : "far fa-heart"} style={{ color: isFavorite ? "black" : "#fdf51c" }}></i>
                             </span>
                         </div>
-                        {store.auth_admin === true &&
+                         {store.auth_admin || store.auth_ong ?
                             <div className="col-md-1 p-3 editButton">
                                 <Link to={`/editCampaign/${campaign.id}`} key={campaign.id}>
                                     <button className="sideButtons">
@@ -47,8 +47,9 @@ export const Campaign = () => {
                                     </button>
                                 </Link>
                             </div>
+                            : null
                         }
-                        {store.auth_admin === true &&
+                        {store.auth_admin || store.auth_ong ?
                             <div className="col-md-1 p-3">
                                 <button type="button" className="btn sideButtons" data-bs-toggle="modal" data-bs-target={`#exampleModal${campaign.id}`}>
                                     <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
@@ -73,19 +74,18 @@ export const Campaign = () => {
                                     </div>
                                 </div>
                             </div>
+                            : null
                         }
                     </div>
                 </div>
             ))}
-            <div className="container mt-5 mb-3">
-                {store.auth_admin === true ? 
+           <div className="container mt-5 mb-3">
+                {(store.auth_admin || store.auth_ong) ?
                     <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
                         Crear campaña
-                    </Link> 
-                    : 
-                    <Link className="btn btn-primary" style={{ width: "90%" }} to="/ongLogin">
-                        Crear campaña
                     </Link>
+                    :
+                   null
                 }
             </div>
         </>

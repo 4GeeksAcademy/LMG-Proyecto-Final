@@ -10,12 +10,13 @@ export const CampaignEditForm = () => {
     const [fecha_inicio, setFechaInicio] = useState("");
     const [nombre, setNombre] = useState("");
     const [objetivo, setObjetivo] = useState("");
-    const [ongId, setOngId] = useState(0);
+    // const [ongId, setOngId] = useState(0);
     const { theid } = useParams();
+    const [ongName, setOngName] = useState("");
 
-    const inputOng = (eOng) => {
-        setOngId(eOng.target.value);
-    };
+    // const inputOng = (eOng) => {
+    //     setOngId(eOng.target.value);
+    // };
 
     const inputFechaInicio = (eFechaInicio) => {
         setFechaInicio(eFechaInicio.target.value);
@@ -41,6 +42,10 @@ export const CampaignEditForm = () => {
         console.log(`El id del elemento es ----->${theid}`);
     };
 
+    const inputOngName = (eOngName) => {
+        setOngName(eOngName.target.value);
+    };
+
     const handleSave = () => {
         actions.editCampaign({
             articulos: articulos,
@@ -48,14 +53,16 @@ export const CampaignEditForm = () => {
             fecha_inicio: fecha_inicio,
             nombre: nombre,
             objetivo: objetivo,
-            ong_id: ongId,
+            ong_name: ongName,
+            // ong_id: ongId,
         }, theid);
         setArticulos("");
         setFechaFinalizacion("");
         setFechaInicio("");
         setNombre("");
         setObjetivo("");
-        setOngId(0);
+        setOngName("");
+        // setOngId(0);
     };
 
     return (
@@ -84,10 +91,18 @@ export const CampaignEditForm = () => {
                     <label>Objetivo a cumplir</label>
                     <input className="form-control mx-auto" onChange={inputObjetivo} value={objetivo} placeholder="Objetivo campaña"></input>
                 </div>
+
+
                 <div className="col-12 mb-3">
+                <label>Nombre de la ONG</label>
+                <input className="form-control mx-auto" onChange={inputOngName} value={ongName} placeholder="Nombre de la ONG"></input>
+                 </div>
+                {/* <div className="col-12 mb-3">
                     <label>Id Ong</label>
                     <input className="form-control mx-auto" onChange={inputOng} value={ongId} placeholder="Id Ong"></input>
-                </div>
+                </div> */}
+
+                
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar campaña</button>
                 </div>
