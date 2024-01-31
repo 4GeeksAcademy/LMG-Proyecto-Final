@@ -203,8 +203,12 @@ def update_campaign(campaign_id):
         campaign.fecha_inicio = body.get('fecha_inicio', campaign.fecha_inicio)
         campaign.fecha_finalizacion = body.get('fecha_finalizacion', campaign.fecha_finalizacion)
         campaign.nombre = body.get('nombre', campaign.nombre)
-        campaign.ong_name = body.get('ong_name', campaign.ong_name)
-       
+
+        ong_name = body.get('ong_name', None)
+        if ong_name:
+            ong = Ongs.query.filter_by(nombre=ong_name).first()
+            if ong:
+                campaign.nombre_ong = ong
 
         db.session.commit()
         response_body = {
@@ -214,6 +218,7 @@ def update_campaign(campaign_id):
     except Exception as e:
         print("Error:", str(e))
         raise APIException("Campaign updating error", status_code=500)
+
 
 # # Update an ONG by ID
 @api.route('/ong/<int:ong_id>', methods=['PUT'])
