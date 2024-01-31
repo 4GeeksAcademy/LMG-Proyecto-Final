@@ -81,7 +81,7 @@ export const Navbar = () => {
                                 <li><a className="dropdown-item" href="/voluntarioLogin">Iniciar sesión</a></li>
                             </>
                         )}
-             </ul>            
+             </ul>  
           </div>
         </header>
       </div>
