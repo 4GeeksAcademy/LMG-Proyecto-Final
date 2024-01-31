@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
     const [isFavorite, setIsFavorite] = useState(false);
+    const navigate = useNavigate();
     console.log("All Campaigns:", store.allCampaigns);
 
 
@@ -37,9 +38,13 @@ export const Campaign = () => {
                             <p className="campaignElements">{campaign.fecha_finalizacion}</p>
                             <p className="campaignElements">{campaign.articulos}</p>
                             <p className="campaignElements">{campaign.objetivo}</p>
-                            <span className="btn btn-outline-warning" onClick={() => toggleFavorite(campaign.nombre)}>
+                        
+                     
+                            <span className="btn btn-outline-warning" onClick={store.auth_voluntario === true ? () => toggleFavorite(campaign.nombre) : () => navigate("/voluntarioLogin/")}>
                                 <i id="hover-black-heart" className={isFavorite ? "fas fa-heart" : "far fa-heart"} style={{ color: isFavorite ? "black" : "#fdf51c" }}></i>
                             </span>
+
+                            
                         </div>
                          {store.auth_admin || store.auth_ong ?
                             <div className="col-md-1 p-3 editButton">

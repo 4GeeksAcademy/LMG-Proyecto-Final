@@ -89,6 +89,7 @@ def get_voluntario(voluntario_id):
     results = list(map(lambda voluntario: voluntario.serialize(),all_voluntarios))
     
     return jsonify(voluntario.serialize()), 200
+
     
 # Create a new campaign
 
@@ -154,7 +155,7 @@ def post_voluntario():
         body = request.get_json()
 
         # Validar que todos los campos necesarios estén presentes
-        required_fields = ['nombre', 'email', 'password', 'ciudad', 'lat', 'lng']
+        required_fields = ['nombre', 'email', 'password', 'ciudad', 'direccion']
         for field in required_fields:
             if field not in body:
                 return jsonify({"error": f"El campo '{field}' es obligatorio"}), 400
@@ -165,8 +166,7 @@ def post_voluntario():
             email=body['email'],
             password=body['password'],  # Deberías almacenar la contraseña de forma segura
             ciudad=body['ciudad'],
-            lat=body['lat'],
-            lng=body['lng']
+            direccion=body['direccion']
         )
 
         # Guardar en la base de datos
@@ -259,8 +259,7 @@ def update_voluntario(voluntario_id):
         voluntario.email = body.get('email', voluntario.email)
         voluntario.password = body.get('password', voluntario.password)
         voluntario.ciudad = body.get('ciudad', voluntario.ciudad)
-        voluntario.lat = body.get('lat', voluntario.lat)
-        voluntario.lng = body.get('lng', voluntario.lng)
+        voluntario.direccion = body.get('direccion', voluntario.direccion)
 
         db.session.commit()
 

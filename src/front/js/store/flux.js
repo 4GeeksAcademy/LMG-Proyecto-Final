@@ -45,6 +45,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     setStore({ voluntario: data });
                 })
              },
+
     
             addVoluntario(newVoluntario) {
                 const requestOptions = {
@@ -56,8 +57,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     "email": newVoluntario.email,
                     "password": newVoluntario.password,
                     "ciudad": newVoluntario.ciudad,
-                    "lat":newVoluntario.lat,
-                    "lng": newVoluntario.lng,
+                    "direccion":newVoluntario.direccion,
                     
                     })
                 };
@@ -108,8 +108,7 @@ const getState = ({ getStore, getActions, setStore }) => {
                     "email": editVoluntario.email,
                     "password": editVoluntario.password,
                     "ciudad": editVoluntario.ciudad,
-                    "lat": editVoluntario.lat,
-                    "lng": editVoluntario.lng
+                    "direccion": editVoluntario.direccion,
                   })
                 };
               
@@ -120,7 +119,6 @@ const getState = ({ getStore, getActions, setStore }) => {
                     console.log(process.env.BACKEND_URL + "/api/voluntario/" + id);
                   });
             },
-
 
 			voluntarioLogin: (email, password) => {
 				console.log('Login desde flux');
@@ -158,7 +156,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const token = localStorage.getItem("token");
 				const tokenExpiry = localStorage.getItem("tokenExpiry");
 				const userType = localStorage.getItem("userType");
-			
+				const id = localStorage.getItem("id");
+				const favs = localStorage.getItem("favorites")
+				
 				if (token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
 					// Token existe y no ha caducado, verificar tipo de usuario
 					if (userType === "ong") {
@@ -172,11 +172,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 						console.error("Tipo de usuario desconocido");
 						setStore({ auth_ong: false, auth_admin: false, auth_voluntario: false });
 					}
+					
+					// Si el ID coincide con el ID del token, guardar los favoritos
+					if (id === token) {
+						const favoritesToSave = ["favorito1", "favorito2", "favorito3"]; // Lista de favoritos que deseas guardar
+						favoritesToSave.forEach(favorite => addFavorites(favorite));
+					}
 				} else {
 					// Token no existe o ha caducado
 					setStore({ auth_ong: false, auth_admin: false, auth_voluntario: false });
 				}
 			},
+			
 			
 			
 			
@@ -504,13 +511,30 @@ const getState = ({ getStore, getActions, setStore }) => {
 		setStore({ auth_admin: false });
 		localStorage.removeItem("token");				
 	},
-	//3. Añadir a favortios
+	
 	addFavorites: (favorite) => {
-		const favoritesState = getStore().favorites.concat(favorite);
-		setStore({...getStore, favorites: favoritesState})
+		const favorites = getStore().favorites;
+		const index = favorites.indexOf(favorite);
+	
+		let updatedFavorites;
+	
+		if (index === -1) {
+			// Si el elemento no está en la lista de favoritos, agrégalo.
+			updatedFavorites = favorites.concat(favorite);
+		} else {
+			// Si el elemento está en la lista de favoritos, elimínalo.
+			updatedFavorites = [...favorites.slice(0, index), ...favorites.slice(index + 1)];
+		}
+		
+		// Actualiza el estado con los favoritos actualizados
+		setStore({ ...getStore(), favorites: updatedFavorites });
+		
+		// Actualiza LocalStorage con los favoritos
+		localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 	},
 	
-	//4. Eliminar favorito
+	
+
 	deleteFavorite: (name) => {
 		const store = getStore()
 		const newFavorite = store.favorites.filter((item) => item !== name);
