@@ -16,7 +16,7 @@ export const VoluntarioDashboard = () => {
     return (
         
         <div className="container">
-            <h1>Voluntarios</h1>
+            <h1>Hola de nuevo, {store.voluntario.nombre}</h1>
             {store.auth_voluntario === true ?
             <>
             <ul className="list-group">
@@ -25,11 +25,11 @@ export const VoluntarioDashboard = () => {
                             <div>{store.voluntario.nombre}</div>
                             <div>{store.voluntario.email}</div>
                             <div>{store.voluntario.ciudad}</div>
+                            <div>{store.voluntario.direccion}</div>
+
                             
                             
                         </div>
-
-                        
                             <>
                                 <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Eliminar
@@ -72,3 +72,5 @@ export const VoluntarioDashboard = () => {
         </div>
     );
   };
+
+  
