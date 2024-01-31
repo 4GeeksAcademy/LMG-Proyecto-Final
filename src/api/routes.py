@@ -89,7 +89,6 @@ def get_voluntario(voluntario_id):
     results = list(map(lambda voluntario: voluntario.serialize(),all_voluntarios))
     
     return jsonify(voluntario.serialize()), 200
-
     
 # Create a new campaign
 
