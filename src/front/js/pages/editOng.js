@@ -7,12 +7,24 @@ export const OngEditForm = () => {
     const { actions } = useContext(Context);
     const { theid } = useParams();
     const [ong, setOng] = useState({
+        nif: "", 
         nombre: "",
         email: "",
         password: "",
         ciudad: "",
         direccion: "",
+        actividad: "",
+        aprobado: "",
+        lat: "", 
+        lng: ""
     });
+    
+
+    //added 
+    useEffect(() => {
+        actions.getOngById();
+    }, []); 
+
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -21,7 +33,9 @@ export const OngEditForm = () => {
 
     const handleSave = () => {
         // Validar campos requeridos antes de guardar
-        if (ong.nif && ong.nombre && ong.email && ong.password && ong.actividad && ong.aprobado && ong.lat && ong.lng && ong.ciudad) {
+        console.log("ong state:", ong);
+
+        if (ong.nif && ong.nombre && ong.email && ong.password && ong.actividad && ong.aprobado && ong.ciudad) {
             actions.editOng(ong, theid);
             // Limpiar los campos después de guardar
             setOng({
@@ -33,12 +47,13 @@ export const OngEditForm = () => {
                 actividad: "",
                 aprobado: "",
                 direccion: "",
-                
             });
         } else {
             alert("Por favor, complete todos los campos.");
         }
     };
+
+
 
 
     return (

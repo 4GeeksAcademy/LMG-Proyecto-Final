@@ -3,8 +3,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 	return {
 		store: {
 
-			campaign: [],
 			campaigns: [],
+			allCampaigns: [],
 			auth_admin: false,
 			ongs: [],
 			ong:{},
@@ -224,22 +224,23 @@ const getState = ({ getStore, getActions, setStore }) => {
 				})
 			},
 
-			
-
 			getOngById: (id) => {
-                const requestOptions = {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' },
-                    mode: 'cors',
-                };
-                fetch(process.env.BACKEND_URL + `/api/ong/${localStorage.id}`, requestOptions)
-                .then((response) => response.json())
-                .then((data) => {
-				console.log(data)
-				console.log(id)
-                    setStore({ ong: data });
-                })
-             },
+				const requestOptions = {
+					method: 'GET',
+					headers: { 'Content-Type': 'application/json' },
+					mode: 'cors',
+				};
+				fetch(process.env.BACKEND_URL + `/api/ong/${id}`, requestOptions)
+					.then((response) => response.json())
+					.then((data) => {
+						console.log(data);
+						setStore({ ong: data });
+					})
+					.catch(error => {
+						console.error('Error fetching ONG by ID:', error);
+					});
+			},
+			
 
 			addOng(newOng) {
 				const requestOptions = {
@@ -353,19 +354,37 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 		// campaign actions
-		 // campaign actions
-		 loadCampaigns:() => {
-            const requestOptions = {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' },
-                mode: 'cors',
-            };
-            fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
-            .then((response) => response.json())
-            .then((data) => {
-                setStore({ campaign: data });
-            })
-        },
+		loadAllCampaigns: () => {
+			const requestOptions = {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+				mode: 'cors',
+			};
+			fetch(process.env.BACKEND_URL + "/api/campaign", requestOptions)
+				.then((response) => response.json())
+				.then((data) => {
+					setStore({ allCampaigns: data }); // Use 'allCampaigns' instead of 'campaign'
+				})
+				.catch((error) => {
+					console.error("Error loading all campaigns:", error);
+				});
+		},
+
+		loadCampaignsByOng: (ongId) => {
+			const requestOptions = {
+				method: 'GET',
+				headers: { 'Content-Type': 'application/json' },
+				mode: 'cors',
+			};
+			fetch(process.env.BACKEND_URL + `/api/campaigns/${ongId}`, requestOptions)
+				.then((response) => response.json())
+				.then((data) => {
+					setStore({ campaigns: data }); // Use 'campaigns' instead of 'campaign'
+				})
+				.catch((error) => {
+					console.error("Error loading campaigns by ONG:", error);
+				});
+		},
 		
 		addCampaign(newCampaign) {
 			const requestOptions = {
@@ -405,6 +424,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 			})
 		}))
 		},
+
+
+		// //update campaing after deletion
+		// setCampaigns: (campaigns) => {
+		// 	setStore({ campaigns: campaigns });
+		// },
 
 		editCampaign: (editCampaign, id) => {
 			const editOptions = {

@@ -5,9 +5,11 @@ import { Context } from "../store/appContext";
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
     const [isFavorite, setIsFavorite] = useState(false);
+    console.log("All Campaigns:", store.allCampaigns);
+
 
     useEffect(() => {
-        actions.loadCampaigns();
+        actions.loadAllCampaigns()
     }, []);
 
     const toggleFavorite = (campaignName) => {
@@ -23,7 +25,9 @@ export const Campaign = () => {
 
     return (
         <>
-            {store.campaign.map((campaign, index) => (
+        
+            {store.allCampaigns.map((campaign, index) => (
+
                 <div className="container border" key={index}>
                     <div className="row gx-1">
                         <div className="col-md-8">

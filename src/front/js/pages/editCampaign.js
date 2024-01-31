@@ -10,13 +10,10 @@ export const CampaignEditForm = () => {
     const [fecha_inicio, setFechaInicio] = useState("");
     const [nombre, setNombre] = useState("");
     const [objetivo, setObjetivo] = useState("");
-    // const [ongId, setOngId] = useState(0);
     const { theid } = useParams();
-    const [ongName, setOngName] = useState("");
+    const [ongName, setOngName] = useState(store.ong.nombre);
 
-    // const inputOng = (eOng) => {
-    //     setOngId(eOng.target.value);
-    // };
+
 
     const inputFechaInicio = (eFechaInicio) => {
         setFechaInicio(eFechaInicio.target.value);
@@ -54,7 +51,6 @@ export const CampaignEditForm = () => {
             nombre: nombre,
             objetivo: objetivo,
             ong_name: ongName,
-            // ong_id: ongId,
         }, theid);
         setArticulos("");
         setFechaFinalizacion("");
@@ -62,8 +58,12 @@ export const CampaignEditForm = () => {
         setNombre("");
         setObjetivo("");
         setOngName("");
-        // setOngId(0);
     };
+
+    useEffect(() => {
+        var id = localStorage.getItem("id");
+        actions.getOngById(id);
+    }, []);
 
     return (
         <>
@@ -96,19 +96,14 @@ export const CampaignEditForm = () => {
                 <div className="col-12 mb-3">
                 <label>Nombre de la ONG</label>
                 <input className="form-control mx-auto" onChange={inputOngName} value={ongName} placeholder="Nombre de la ONG"></input>
-                 </div>
-                {/* <div className="col-12 mb-3">
-                    <label>Id Ong</label>
-                    <input className="form-control mx-auto" onChange={inputOng} value={ongId} placeholder="Id Ong"></input>
-                </div> */}
+                 </div>   
 
-                
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar campaña</button>
                 </div>
                 <div className="container mb-3">
-                    <Link to="/campaign">
-                        Volver a campañas
+                    <Link to={`/TuOng/${localStorage.getItem("id")}`}>
+                    Volver a tu cuenta
                     </Link>
                 </div>
             </div>
