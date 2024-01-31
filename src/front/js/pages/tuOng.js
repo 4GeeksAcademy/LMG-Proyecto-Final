@@ -3,25 +3,26 @@ import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom"; // Import Navigate
 
 export const TuOng = () => {
-  const { store, actions } = useContext(Context);
-  const navigate = useNavigate();
-  
-  const botonEliminarCampana = (id) => {
-    actions.deleteCampaign(id);
+    const { store, actions } = useContext(Context);
+    const navigate = useNavigate();
+
+    const botonEliminarCampana = (id) => {
+        actions.deleteCampaign(id);
+
 };
 
 const botonEliminarOng = (id) => {
     actions.deleteOng(id);
+    navigate("/");
 };
 
-    useEffect(() => {
-        var id = localStorage.getItem("id");
-        console.log(id)
-        actions.getOngById(id);
-        console.log(store.ong)
-        actions.loadCampaigns(id);
-        console.log(store.campaign)
-    }, []);
+useEffect(() => {
+    var ongId = localStorage.getItem("id");
+    actions.getOngById(ongId);
+    actions.loadCampaignsByOng(ongId); // Load campaigns associated with the current ONG ID
+}, []);
+
+
     
 
     return (
@@ -43,7 +44,7 @@ const botonEliminarOng = (id) => {
 
                         
                             <>
-                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteOng">
                                     Eliminar
                                 </button>
 
@@ -53,7 +54,7 @@ const botonEliminarOng = (id) => {
                             </>
                         
 
-                        <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div className="modal fade" id="deleteOng" tabIndex="-1" aria-labelledby="deleteOngLabel" aria-hidden="true">
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -66,7 +67,6 @@ const botonEliminarOng = (id) => {
                                     <div className="modal-footer">
                                         <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Mejor no</button>
                                         <button onClick={() => botonEliminarOng(store.ong.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button>
-                                        {/* <button className="btn btn-primary" onClick={() => actions.deleteOng(store.ong.id)}>Eliminar</button> */}
                                     </div>
                                 </div>
                             </div>
@@ -75,7 +75,8 @@ const botonEliminarOng = (id) => {
             </ul>
             <h1>Tus campañas</h1>
             <ul className="list-group">
-               {store.campaign.map(item => (
+               {store.campaigns.map(item => (
+
                     <li key={item.id} className="list-group-item d-flex justify-content-between">
                         <div>
                             <div>{item.nombre}</div>
@@ -86,14 +87,17 @@ const botonEliminarOng = (id) => {
                             <div>{item.articulos}</div>
                         </div>
                             <>
-                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                            {/* <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target={`#deleteCampaign${item.id}`}> */}
+                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteCampaign">
                                     Eliminar
                                 </button>
                                 <button onClick={() => navigate(`/editCampaign/${item.id}`)} className="btn btn-primary">
                                     Editar
                                 </button>
                             </>
-                        <div className="modal fade" id="deleteModal" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        <div className="modal fade" id="deleteCampaign" tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+                        {/* <div className="modal fade" id={`deleteCampaign${item.id}`} tabIndex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true"> */}
+
                             <div className="modal-dialog">
                                 <div className="modal-content">
                                     <div className="modal-header">
@@ -130,3 +134,4 @@ const botonEliminarOng = (id) => {
   };
 
 
+  export default TuOng;

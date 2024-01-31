@@ -82,7 +82,7 @@ class Campaign(db.Model):
     nombre = db.Column(db.String(80), nullable=False)
     objetivo = db.Column(db.String(80), nullable=False)
     articulos = db.Column(db.String(80), nullable=False)
-    nombre_ong_id = db.Column(db.Integer, ForeignKey('ongs.id'))  # Added this lines
+    nombre_ong_id = db.Column(db.Integer, ForeignKey('ongs.id'))  
     nombre_ong = db.relationship('Ongs', backref=db.backref('campaigns_associated', lazy=True))
    
     def __repr__(self):

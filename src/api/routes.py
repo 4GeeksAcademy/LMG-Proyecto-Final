@@ -59,6 +59,14 @@ def get_campaign_id(campaign_id):
         return jsonify(result)
     else:
         return jsonify({"error": "Campaign not found"}), 404
+    
+
+#  Get campaigns by ONG ID
+@api.route('/campaigns/<int:ong_id>', methods=['GET'])
+def get_campaigns_by_ong(ong_id):
+    campaigns = Campaign.query.filter_by(nombre_ong_id=ong_id).all()
+    return jsonify([campaign.serialize() for campaign in campaigns])
+
 
 #  Get an specific ONG by ID   
 @api.route('/ong/<int:ong_id>', methods=['GET'])

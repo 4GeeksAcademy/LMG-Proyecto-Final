@@ -21,17 +21,49 @@ const injectContext = PassedComponent => {
 			})
 		);
 
-		useEffect(() => {
+		// useEffect(() => {
 			
-			/**
-			 * EDIT THIS!
-			 * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
-			 * you should do your ajax requests or fetch api requests here. Do not use setState() to save data in the
-			 * store, instead use actions, like this:
-			 **/
-			/*state.actions.getMessage(); // <---- calling this function from the flux.js actions*/
+		// 	/**
+		// 	 * EDIT THIS!
+		// 	 * This function is the equivalent to "window.onLoad", it only runs once on the entire application lifetime
+		// 	 * you should do your ajax requests or fetch api requests here. Do not use setState() to save data in the
+		// 	 * store, instead use actions, like this:
+		// 	 **/
+		// 	/*state.actions.getMessage(); // <---- calling this function from the flux.js actions*/
+
+		// 	
+
+		// 	state.actions.checkLoggedIn();
+		// }, []);
+
+		useEffect(() => {
+		//added actions to filter campaign by ong 
+            const actions = {
+                loadCampaigns: async (ongId) => {
+                    try {
+						const response = await fetch(process.env.BACKEND_URL + `/api/campaigns/${ongId}`);
+                        const data = await response.json();
+                        setState(prevState => ({
+                            ...prevState,
+                            store: {
+                                ...prevState.store,
+                                campaigns: data // assuming your campaigns are stored in the store
+                            }
+                        }));
+                    } catch (error) {
+                        console.error("Error loading campaigns:", error);
+                    }
+                },
+            };
+
+            setState(prevState => ({
+                ...prevState,
+                actions: { ...prevState.actions, ...actions }
+            }));
+
 			state.actions.checkLoggedIn();
-		}, []);
+
+        }, []);
 
 		// The initial value for the context is not null anymore, but the current state of this component,
 		// the context will now have a getStore, getActions and setStore functions available, because they were declared
