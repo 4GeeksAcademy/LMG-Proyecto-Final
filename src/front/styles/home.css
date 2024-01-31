@@ -13,20 +13,42 @@
     border-color: #F2E641;
 }
 
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {   
+    color: #074040;
+    background-color: #b7d2f8;
+    border-color: #b7d2f8;
+}
+/* open>.dropdown-toggle.btn-primary  */
+
 .btn-secondary {
     color: #074040;
     background-color: #b7d2f8;
     border-color: #b7d2f8;
 }
 
-/* Navbar*/
-.navbar{
-    background-color: #032121;
+.btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus {   
+    color: #074040;
+    background-color: #F2E641;
+    border-color: #F2E641;
 }
 
-.navbar-brand{
-    color:#b7d2f8;
-}
+/* Navbar*/
+    .header-container{
+        background-color: #032121;
+    }
+
+    a .brand-name{
+        color:#b7d2f8;
+        
+    }
+
+    .nav-link{
+        color:#b7d2f8;
+    }
+
+    .nav-link:hover, .nav-link:active, .nav-link:focus{
+        color:#EDF252;
+    }
 
 
 /*Hero banner*/
