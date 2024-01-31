@@ -5,3 +5,66 @@
     one more css for each page that will contain the selected used 
     on that page only (the ones not reused in other pages).
 */
+
+/* Buttons*/
+.btn-primary {
+    color: #074040;
+    background-color: #F2E641;
+    border-color: #F2E641;
+}
+
+.btn-primary:hover, .btn-primary:active, .btn-primary:focus {   
+    color: #074040;
+    background-color: #b7d2f8;
+    border-color: #b7d2f8;
+}
+/* open>.dropdown-toggle.btn-primary  */
+
+.btn-secondary {
+    color: #074040;
+    background-color: #b7d2f8;
+    border-color: #b7d2f8;
+}
+
+.btn-secondary:hover, .btn-secondary:active, .btn-secondary:focus {   
+    color: #074040;
+    background-color: #F2E641;
+    border-color: #F2E641;
+}
+
+/* Navbar*/
+    .header-container{
+        background-color: #032121;
+    }
+
+    a .brand-name{
+        color:#b7d2f8;
+        
+    }
+
+    .nav-link{
+        color:#b7d2f8;
+    }
+
+    .nav-link:hover, .nav-link:active, .nav-link:focus{
+        color:#EDF252;
+    }
+
+
+/*Hero banner*/
+.hero-banner{
+    padding-top: 7rem!important;
+    margin-top: 0rem!important;
+    height:75vh;
+    background-color: #032121;
+}
+
+.hero-banner h1{
+    font-size: 7rem;
+    color: #b7d2f8;
+}
+
+.hero-banner p{
+    color: #b7d2f8;
+    font-size:18px;
+}
