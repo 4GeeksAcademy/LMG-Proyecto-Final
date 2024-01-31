@@ -538,29 +538,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 	getApi: async () => {
 		const apiUrl = 'https://api.charityapi.org/api/organizations/search/miami';
-const apiKey = 'live-SjALIo8higRQpV8gp8hC-9BXj5d06WksGHq6rOdl4NCtVbMH6X5f6KEB452GMxzxtqNYrKSOk1yHQHez'; // Reemplaza 'keyhere' con tu clave real
-fetch(apiUrl, {
-    method: 'GET',
-    headers: {
-        'apikey': apiKey
+		const apiKey = 'live-SjALIo8higRQpV8gp8hC-9BXj5d06WksGHq6rOdl4NCtVbMH6X5f6KEB452GMxzxtqNYrKSOk1yHQHez'; // Reemplaza 'keyhere' con tu clave real
+		fetch(apiUrl, {
+    			method: 'GET',
+   				headers: {
+        		'apikey': apiKey
     },
 })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error(`Error de red - ${response.status}`);
-        }
-        return response.json();
-    })
-    .then(data => {
-        // Imprimir datos en la consola
-        console.log('Datos de la API de ONG:', data);
-        // Almacenar la variable en el estado del store
-        setStore({ ongApi: data });
-    })
-    .catch(error => {
-        console.error('Error al hacer la solicitud:', error.message);
-    });
-	},
+    			.then(response => {
+				if (!response.ok) {
+					throw new Error(`Error de red - ${response.status}`);
+				}
+				return response.json();
+			})
+			.then(data => {
+				// Imprimir datos en la consola
+				console.log('Datos de la API de ONG:', data);
+				// Almacenar la variable en el estado del store
+				setStore({ ongApi: data });
+			})
+			.catch(error => {
+				console.error('Error al hacer la solicitud:', error.message);
+			});
+			},
 
 		}
 	};
