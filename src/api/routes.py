@@ -95,23 +95,30 @@ def get_voluntario(voluntario_id):
 @api.route('/campaign', methods=['POST'])
 def post_campaign():
     body = request.get_json()
-    new_campaign = Campaign(
 
-                fecha_inicio=body['fecha_inicio'],
-                fecha_finalizacion=body['fecha_finalizacion'],
-                nombre=body['nombre'],
-                ong_name=body['ong_name'],
-                objetivo=body['objetivo'],
-                articulos=body['articulos'])
-    
+    # Busca la ONG por nombre
+    ong = Ongs.query.filter_by(nombre=body['ong_name']).first()
+
+    # Comprueba si la ONG existe
+    if ong is None:
+        return jsonify({"error": "ONG no encontrada"}), 404
+
+    # Crea la nueva campaña con la referencia a la ONG
+    new_campaign = Campaign(
+        fecha_inicio=body['fecha_inicio'],
+        fecha_finalizacion=body['fecha_finalizacion'],
+        nombre=body['nombre'],
+        nombre_ong=ong,  # Asigna el objeto Ongs, no solo el nombre
+        objetivo=body['objetivo'],
+        articulos=body['articulos']
+    )
 
     db.session.add(new_campaign)
     db.session.commit()
     response_body = {
-        "msg": "new campaign created"
+        "msg": "Nueva campaña creada"
     }
     return jsonify(response_body), 200
-
 
 # Create a new ONG
 @api.route('/ong', methods=['POST'])
