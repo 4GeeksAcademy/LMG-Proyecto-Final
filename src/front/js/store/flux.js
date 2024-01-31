@@ -217,10 +217,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					headers: { 'Content-Type': 'application/json' },
 					mode: 'cors',
 				};
-				fetch(process.env.BACKEND_URL + "/api/ongs/", requestOptions)
+				fetch(process.env.BACKEND_URL + "/api/ong/", requestOptions)
 				.then((response) => response.json())
 				.then((data) => {
-					setStore({ ong: data });
+					setStore({ ongs: data });
 				})
 			},
 
