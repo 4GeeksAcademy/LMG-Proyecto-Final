@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Corregir la importación
 import { Context } from "../store/appContext";
 /* import "../../styles/form.css"; */
 
@@ -10,9 +10,7 @@ export const CampaignForm = () => {
     const [fecha_inicio, setFechaInicio] = useState("");
     const [nombre, setNombre] = useState("");
     const [objetivo, setObjetivo] = useState("");
-    // const [ongName, setOngName] = useState("");
     const [ongName, setOngName] = useState(store.ong.nombre);
-
 
     const inputFechaInicio = (eFechaInicio) => {
         setFechaInicio(eFechaInicio.target.value);
@@ -46,11 +44,8 @@ export const CampaignForm = () => {
             objetivo: objetivo,
             articulos: articulos,
             ong_name: ongName,
-
-
-
         });
-        
+
         setFechaFinalizacion("");
         setFechaInicio("");
         setNombre("");
@@ -59,22 +54,21 @@ export const CampaignForm = () => {
         setOngName("");
     };
 
-
-
     useEffect(() => {
         var id = localStorage.getItem("id");
         actions.getOngById(id);
     }, []);
-    
+
+    const navigate = useNavigate(); // Agregar useNavigate
 
     return (
         <>
-        {store.auth_ong === true ?     
-            <> 
-            <div className="container text-center">
-                <h1>Crear campaña</h1>
-            </div>
-            <div className="row ms-5 p-3">
+            {store.auth_ong === true ? (
+                <>
+                    <div className="container text-center">
+                        <h1>Crear campaña</h1>
+                    </div>
+                    <div className="row ms-5 p-3">
                 <div className="col-12 mb-3">
                     <label>Lista de artículos</label>
                     <input className="form-control mx-auto" onChange={inputArticulos} value={articulos} placeholder="Lista de articulos"></input>
@@ -108,15 +102,15 @@ export const CampaignForm = () => {
                 </div>
 
                 <div className="container mb-3">
-                    <Link to={`/TuOng/${localStorage.getItem("id")}`}>
-                    Volver a tu cuenta
-                    </Link>
-                </div>
-            </div>
-            </>
-
-           : <Navigate to="/ongLogin" /> }
-
+                            <Link to={`/TuOng/${localStorage.getItem("id")}`}>
+                                Volver a tu cuenta
+                            </Link>
+                        </div>
+                    </div>
+                </>
+            ) : (
+                <Navigate to="/ongLogin" />
+            )}
         </>
     );
 };
