@@ -25,8 +25,8 @@ class Voluntario(db.Model):
     email = db.Column(db.String(120), unique=True, nullable=False)
     password = db.Column(db.String(80), unique=False, nullable=False)
     ciudad = db.Column(db.String(80), unique=False, nullable=False)
-    lat = db.Column(db.Float, unique=False, nullable=False)
-    lng = db.Column(db.Float, unique=False, nullable=False)
+    direccion = db.Column(db.String(250), unique=False, nullable=False)
+
     #campaign_id = db.Column(db.Integer, db.ForeignKey('campaign.id'), nullable=False)
     #campaigns = db.relationship('Campaign', backref='voluntario', lazy=True)
 
@@ -41,6 +41,7 @@ class Voluntario(db.Model):
             "nombre": self.nombre,
             "ciudad": self.ciudad,
             "email": self.email,
+            "direccion":self.direccion,
             #"campaigns": [campaign.nombre for campaign in self.campaigns],
             # do not serialize the password, its a security breach
         }
@@ -75,6 +76,7 @@ class Ongs(db.Model):
             
             # do not serialize the password, its a security breach
         }
+    
 class Campaign(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     fecha_inicio = db.Column(db.Date, nullable=False)

@@ -9,7 +9,8 @@ export const EditVoluntario = () => {
         nombre: "",
         email: "",
         password: "",
-        ciudad: ""
+        ciudad: "",
+        direccion:"",
     });
 
     const handleInputChange = (e) => {
@@ -26,7 +27,8 @@ export const EditVoluntario = () => {
                 nombre: "",
                 email: "",
                 password: "",
-                ciudad: ""
+                ciudad: "",
+                direccion:"",
             });
         } else {
             alert("Por favor, complete todos los campos.");
@@ -84,6 +86,18 @@ export const EditVoluntario = () => {
                             value={voluntario.ciudad}
                             onChange={handleInputChange}
                             placeholder="Ciudad"
+                        />
+                    </div>
+
+                    <div className="mb-3">
+                        <label>Direccion</label>
+                        <input
+                            className="form-control inputs"
+                            type="text"
+                            name="direccion"
+                            value={voluntario.direccion}
+                            onChange={handleInputChange}
+                            placeholder="Direccion"
                         />
                     </div>
 

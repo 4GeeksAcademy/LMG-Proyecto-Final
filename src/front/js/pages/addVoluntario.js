@@ -8,8 +8,6 @@ export const AddForm
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ciudad, setCiudad] = useState("");
-  const [lat, setLat] = useState("");
-  const [lng, setLng] = useState("");
   const [voluntarioLink, setVoluntarioLink] = useState(null);
 const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -21,10 +19,8 @@ const handleInputChange = (e) => {
       setPassword(value);
     } else if (name === "ciudad") {
       setCiudad(value);
-    } else if (name === "lat") {
-      setLat(value);
-    } else if (name === "lng") {
-      setLng(value);
+    } else if (name === "direccion") {
+      setDireccion(value);
     } 
   };
   const addVoluntario = () => {
@@ -33,8 +29,7 @@ const handleInputChange = (e) => {
       email: email,
       password: password,
       ciudad: ciudad,
-      lat: lat,
-      lng: lng
+      direccion: direccion,
     };
 
     setVoluntarioLink(newVoluntario);
@@ -47,8 +42,7 @@ const handleInputChange = (e) => {
     setEmail("");
     setPassword("");
     setCiudad("");
-    setLat("");
-    setLng("");
+    setDireccion("");
   };
 
   const handleKeyPress = (e) => {
@@ -128,35 +122,19 @@ const handleInputChange = (e) => {
           </div>
 
           <div className="mb-3">
-            <label htmlFor="lat" className="form-label">
-              Latitud
+            <label htmlFor="direccion" className="form-label">
+              Direccion
             </label>
             <input
-              type="number"
-              name="lat"
-              value={lat}
+              type="string"
+              name="direccion"
+              value={direccion}
               onChange={handleInputChange}
               className="form-control"
-              id="lat"
+              id="direccion"
               onKeyDown={handleKeyPress}
             />
           </div>
-
-          <div className="mb-3">
-            <label htmlFor="lng" className="form-label">
-              Longitud
-            </label>
-            <input
-              type="number"
-              name="lng"
-              value={lng}
-              onChange={handleInputChange}
-              className="form-control"
-              id="lng"
-              onKeyDown={handleKeyPress}
-            />
-          </div>
-
         
           <button
             type="button"
