@@ -307,7 +307,7 @@ export const OngForm = () => {
                 </div>
 
                 <div className="container mb-3">
-                    <Link to="/ong">
+                    <Link to="/ongLogin">
                         Volver a ong
                     </Link>
                 </div>
