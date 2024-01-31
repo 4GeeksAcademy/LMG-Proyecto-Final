@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
-/* import "../../styles/form.css"; */
 
 export const OngForm = () => {
     const { store, actions } = useContext(Context);
@@ -13,11 +12,40 @@ export const OngForm = () => {
     const [ciudad, setCiudad] = useState("");
     const [email, setEmail] = useState("");
     const [direccion, setDireccion] = useState("");
-   
+    const [apiDataLoaded, setApiDataLoaded] = useState(false);
+
     useEffect(() => {
-        actions.getApi();
+        const fetchData = async () => {
+            await actions.getApi();
+            setApiDataLoaded(true);
+        };
+
+        fetchData();
     }, []);
 
+    useEffect(() => {
+        // Verificar si la ruta actual es "/addong"
+        if (location.pathname === "/addong") {
+            setNombre("");
+            setNif("");
+            setPassword("");
+            setActividad("");
+            setAprobado("");
+            setCiudad("");
+            setEmail("");
+            setDireccion("");
+        } else {
+            // Limpiar solo si no estamos en la ruta "/addong"
+            setNombre("");
+            setNif("");
+            setPassword("");
+            setActividad("");
+            setAprobado("");
+            setCiudad("");
+            setEmail("");
+            setDireccion("");
+        }
+    }, [location.pathname]);
 
     const inputNif = (eNif) => {
         setNif(eNif.target.value);
@@ -51,22 +79,16 @@ export const OngForm = () => {
         setDireccion(eDireccion.target.value);
     };
 
-  
-
     const handleSave = () => {
-
         actions.addOng({
-
             nif: nif,
             email: email,
             ciudad: ciudad,
             nombre: nombre,
             actividad: actividad,
-            aprobado:  aprobado,
-            password:  password,
-            direccion:  direccion
-            
-
+            aprobado: aprobado,
+            password: password,
+            direccion: direccion
         });
 
         setNif("");
@@ -77,16 +99,41 @@ export const OngForm = () => {
         setAprobado("");
         setPassword("");
         setDireccion("");
-       
     };
 
+    const handleFillFromApi = async () => {
+        if (!apiDataLoaded) {
+            await fetchData();
+        }
 
-    
+        if (store.ongApi && Array.isArray(store.ongApi.data) && store.ongApi.data.length > 0) {
+            const randomIndex = Math.floor(Math.random() * store.ongApi.data.length);
+            const ongData = store.ongApi.data[randomIndex];
+            console.log('Datos de la API de ONG:', ongData);
+            setNombre(ongData.name || "");
+            setNif(ongData.ein || "");
+            setCiudad(ongData.city || "");
+            setEmail(ongData.email || "");
+            setActividad(ongData.activity || "");
+            setPassword(ongData.income_amt || "");
+            setDireccion(ongData.street || "");
+        }
+    };
 
     return (
-       
-            <>
-            <button onClick={()=>console.log(store.ongApi)}>Get</button>
+        <>
+            {store.auth_admin && (
+                <>
+                    <button onClick={() => console.log(store.ongApi)}>Get</button>
+                    <button
+                        onClick={() => handleFillFromApi()}
+                        disabled={!apiDataLoaded}
+                    >
+                        Rellenar desde la API.
+                    </button>
+                </>
+            )}
+
             <div className="container text-center">
                 <h1>Crear Ong</h1>
             </div>
@@ -97,13 +144,11 @@ export const OngForm = () => {
                 </div>
                 <div className="col-12 mb-3">
                     <label>Email</label>
-
                     <input className="form-control mx-auto" type="email" onChange={inputEmail} value={email} placeholder="Email"></input>
                 </div>
                 <div className="col-12 mb-3">
                     <label>Ciudad</label>
                     <input className="form-control mx-auto" type="text" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
-
                 </div>
                 <div className="col-12 mb-3">
                     <label>Nombre</label>
@@ -125,19 +170,17 @@ export const OngForm = () => {
                     <label>Direccion</label>
                     <input className="form-control mx-auto" onChange={inputDireccion} value={direccion} placeholder="Direccion"></input>
                 </div>
-                
 
                 <div className="col-12 mb-3">
                     <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>
                 </div>
 
                 <div className="container mb-3">
-                    <Link to="/ong">
-                        Volver a ong
+                    <Link to="/onglogin">
+                        Ir a Login
                     </Link>
                 </div>
             </div>
-            </>
-           
+        </>
     );
 };
