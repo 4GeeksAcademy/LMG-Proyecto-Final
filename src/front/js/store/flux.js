@@ -157,9 +157,9 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const tokenExpiry = localStorage.getItem("tokenExpiry");
 				const userType = localStorage.getItem("userType");
 				const id = localStorage.getItem("id");
-				const favs = localStorage.getItem("favorites")
+				const favs = localStorage.getItem("favorites");
 				
-				if (token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
+				if (favs && token && tokenExpiry && Date.now() < parseInt(tokenExpiry)) {
 					// Token existe y no ha caducado, verificar tipo de usuario
 					if (userType === "ong") {
 						setStore({ auth_ong: true });
@@ -175,8 +175,12 @@ const getState = ({ getStore, getActions, setStore }) => {
 					
 					// Si el ID coincide con el ID del token, guardar los favoritos
 					if (id === token) {
-						const favoritesToSave = ["favorito1", "favorito2", "favorito3"]; // Lista de favoritos que deseas guardar
-						favoritesToSave.forEach(favorite => addFavorites(favorite));
+						const favoritesToSave = [
+							{ campaignName: "favorito1", ongName: "ong1" }, 
+							{ campaignName: "favorito2", ongName: "ong2" }, 
+							{ campaignName: "favorito3", ongName: "ong3" }
+						]; // Lista de favoritos que deseas guardar
+						favoritesToSave.forEach(favorite => actions.addFavorites(favorite.campaignName, favorite.ongName));
 					}
 				} else {
 					// Token no existe o ha caducado
@@ -184,9 +188,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			
-			
-			
-			
+					
             voluntarioSignup: (email, password) => {
                 const requestOptions = {
                     method: 'POST',
@@ -512,18 +514,18 @@ const getState = ({ getStore, getActions, setStore }) => {
 		localStorage.removeItem("token");				
 	},
 	
-	addFavorites: (favorite) => {
+	addFavorites: (campaignName, ongName) => {
 		const favorites = getStore().favorites;
-		const index = favorites.indexOf(favorite);
+		const index = favorites.findIndex(favorite => favorite.campaignName === campaignName && favorite.ongName === ongName);
 	
 		let updatedFavorites;
 	
 		if (index === -1) {
 			// Si el elemento no está en la lista de favoritos, agrégalo.
-			updatedFavorites = favorites.concat(favorite);
+			updatedFavorites = [...favorites, { campaignName, ongName }];
 		} else {
 			// Si el elemento está en la lista de favoritos, elimínalo.
-			updatedFavorites = [...favorites.slice(0, index), ...favorites.slice(index + 1)];
+			updatedFavorites = favorites.filter(favorite => !(favorite.campaignName === campaignName && favorite.ongName === ongName));
 		}
 		
 		// Actualiza el estado con los favoritos actualizados
@@ -532,6 +534,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 		// Actualiza LocalStorage con los favoritos
 		localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
 	},
+	
+	
 	
 	
 
