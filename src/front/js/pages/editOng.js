@@ -4,7 +4,7 @@ import { Context } from "../store/appContext";
 import { useParams } from "react-router-dom";
 
 export const OngEditForm = () => {
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const { theid } = useParams();
     const [ong, setOng] = useState({
         nif: "", 
@@ -14,7 +14,7 @@ export const OngEditForm = () => {
         ciudad: "",
         direccion: "",
         actividad: "",
-        aprobado: "",
+        // aprobado: "",
         // lat: "", 
         // lng: ""
     });
@@ -24,6 +24,13 @@ export const OngEditForm = () => {
     useEffect(() => {
         actions.getOngById();
     }, []); 
+
+    useEffect(() => {
+        var id = localStorage.getItem("id");
+        console.log(id)
+        actions.getOngById(id);
+        console.log(store.ong)
+    }, []);
 
 
     const handleInputChange = (e) => {
@@ -35,7 +42,8 @@ export const OngEditForm = () => {
         // Validar campos requeridos antes de guardar
         console.log("ong state:", ong);
 
-        if (ong.nif && ong.nombre && ong.email && ong.password && ong.actividad && ong.aprobado && ong.ciudad) {
+        if (ong.nif && ong.nombre && ong.email && ong.password && ong.actividad && ong.ciudad) {
+            // && ong.aprobado
             actions.editOng(ong, theid);
             // Limpiar los campos después de guardar
             setOng({
@@ -45,9 +53,10 @@ export const OngEditForm = () => {
                 password: "",
                 ciudad: "",
                 actividad: "",
-                aprobado: "",
+                // aprobado: "",
                 direccion: "",
             });
+            alert ("ONG editada correctamente")
         } else {
             alert("Por favor, completa todos los campos.");
         }
@@ -71,6 +80,7 @@ export const OngEditForm = () => {
                     name="nif"
                     onChange={handleInputChange}
                     value={ong.nif}
+                    placeholder= {store.ong.nif}
                     />      
                 </div>
                 <div className="mb-3">
@@ -81,6 +91,7 @@ export const OngEditForm = () => {
                             name="email"
                             value={ong.email}
                             onChange={handleInputChange}
+                            placeholder= {store.ong.email}
                             
                         />
                     </div>
@@ -92,6 +103,7 @@ export const OngEditForm = () => {
                     onChange={handleInputChange} 
                     value={ong.ciudad} 
                     name="ciudad"
+                    placeholder= {store.ong.ciudad}
                 />
                 </div>
                 <div className="mb-3">
@@ -101,6 +113,7 @@ export const OngEditForm = () => {
                     onChange={handleInputChange}
                     value={ong.nombre}
                     name="nombre"
+                    placeholder= {store.ong.nombre}
                     />
                 </div>
                 <div className="mb-3">
@@ -110,9 +123,10 @@ export const OngEditForm = () => {
                     onChange={handleInputChange}
                     value={ong.actividad}
                     name="actividad"
+                    placeholder= {store.ong.actividad}
                     />
                 </div>
-                <div className="mb-3">
+                {/* <div className="mb-3">
                     <label className="form-label">Aprobado</label>
                     <input 
                     className="form-control mx-auto"
@@ -120,7 +134,7 @@ export const OngEditForm = () => {
                     value={ong.aprobado}
                     name="aprobado"
                     />
-                </div>
+                </div> */}
                 <div className="mb-3">
                     <label className="form-label">Password</label>
                     <input 
@@ -128,15 +142,20 @@ export const OngEditForm = () => {
                     onChange={handleInputChange}
                     value={ong.password}
                     name="password"
+                    placeholder= "*********"
                    />
                 </div>
                 <div className="mb-3">
-                    <label className="form-label">Direccion</label>
+                    <label className="form-label">Dirección</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.direccion}
                     name="direccion"
+                    placeholder= {store.ong.direccion}
+
+
+                    
                     />
                 </div>
                 

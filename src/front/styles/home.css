@@ -77,6 +77,11 @@ a:hover, a:active, a:focus {
     border-color: #074040!important;
 }
 
+/*card*/
+.card-body {
+    border: 1px solid  #032121;
+}
+
 /* Navbar*/
     .header-container{
         background-color: #032121;

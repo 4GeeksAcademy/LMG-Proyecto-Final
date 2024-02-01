@@ -1,9 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect} from "react";
 import { Link, useParams } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 export const EditVoluntario = () => {
-    const { actions } = useContext(Context);
+    const { store, actions } = useContext(Context);
     const { theid } = useParams();
     const [voluntario, setVoluntario] = useState({
         nombre: "",
@@ -13,6 +13,14 @@ export const EditVoluntario = () => {
         direccion:"",
     });
 
+    useEffect(() => {
+        var id = localStorage.getItem("id");
+        console.log(id)
+        actions.getVoluntarioById(id);
+        console.log(store.voluntario)
+    }, []);
+
+    
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setVoluntario({ ...voluntario, [name]: value });
@@ -48,6 +56,7 @@ export const EditVoluntario = () => {
                             name="nombre"
                             value={voluntario.nombre}
                             onChange={handleInputChange}
+                            placeholder= {store.voluntario.nombre}
                         />
                     </div>
                     <div className="mb-3">
@@ -58,6 +67,7 @@ export const EditVoluntario = () => {
                             name="email"
                             value={voluntario.email}
                             onChange={handleInputChange}
+                            placeholder= {store.voluntario.email}
                         />
                     </div>
 
@@ -69,6 +79,7 @@ export const EditVoluntario = () => {
                             name="password"
                             value={voluntario.password}
                             onChange={handleInputChange}
+                            placeholder= "**********"
                         />
                     </div>
 
@@ -80,17 +91,19 @@ export const EditVoluntario = () => {
                             name="ciudad"
                             value={voluntario.ciudad}
                             onChange={handleInputChange}
+                            placeholder= {store.voluntario.ciudad}
                         />
                     </div>
 
                     <div className="mb-3">
-                        <label className="form-label">Direccion</label>
+                        <label className="form-label">Dirección</label>
                         <input
                             className="form-control inputs"
                             type="text"
                             name="direccion"
                             value={voluntario.direccion}
                             onChange={handleInputChange}
+                            placeholder= {store.voluntario.direccion}
                         />
                     </div>
 
