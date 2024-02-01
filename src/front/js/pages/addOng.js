@@ -138,7 +138,7 @@ export const OngForm = () => {
             <div className="border border-dark rounded-3 p-4 w-75">
             <h1 className="page-title mb-3">Crea tu cuenta de ONG</h1>
                 <div className="mb-3">
-                    <label>Nombre Organización</label>
+                    <label className="form-label">Nombre Organización</label>
                     <input className="form-control mx-auto" onChange={inputNombre} value={nombre}></input>
                 </div>
                 <div className="mb-3">
