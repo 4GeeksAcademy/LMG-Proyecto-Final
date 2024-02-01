@@ -4,19 +4,22 @@ import { Context } from "../store/appContext";
 
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
-    const [isFavorite, setIsFavorite] = useState(false);
+    const [favorites, setFavorites] = useState([]);
     const navigate = useNavigate();
     console.log("All Campaigns:", store.allCampaigns);
 
-
     useEffect(() => {
-        actions.loadAllCampaigns()
+        actions.loadAllCampaigns();
     }, []);
 
-    const toggleFavorite = (campaignName) => {
-        setIsFavorite(!isFavorite);
+    const toggleFavorite = (campaignName, ongName) => {
+        const isFavorite = favorites.some(favorite => favorite.campaignName === campaignName && favorite.ongName === ongName);
         if (!isFavorite) {
-            actions.addFavorites(campaignName);
+            setFavorites([...favorites, { campaignName, ongName }]);
+            actions.addFavorites(campaignName, ongName);
+        } else {
+            setFavorites(favorites.filter(favorite => !(favorite.campaignName === campaignName && favorite.ongName === ongName)));
+            actions.removeFavorites(campaignName, ongName);
         }
     };
 
@@ -26,9 +29,7 @@ export const Campaign = () => {
 
     return (
         <>
-        
             {store.allCampaigns.map((campaign, index) => (
-
                 <div className="container border" key={index}>
                     <div className="row gx-1">
                         <div className="col-md-8">
@@ -38,68 +39,24 @@ export const Campaign = () => {
                             <p className="campaignElements">{campaign.fecha_finalizacion}</p>
                             <p className="campaignElements">{campaign.articulos}</p>
                             <p className="campaignElements">{campaign.objetivo}</p>
-                        
-                     
-                            <span className="btn btn-outline-warning" onClick={store.auth_voluntario === true ? () => toggleFavorite(campaign.nombre) : () => navigate("/voluntarioLogin/")}>
-                                <i id="hover-black-heart" className={isFavorite ? "fas fa-heart" : "far fa-heart"} style={{ color: isFavorite ? "black" : "#fdf51c" }}></i>
+                            <span className="btn btn-outline-warning" onClick={store.auth_voluntario === true ? () => toggleFavorite(campaign.nombre, campaign.ong_name) : () => navigate("/voluntarioLogin/")}>
+                                <i className={favorites.some(favorite => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name) ? "fas fa-heart" : "far fa-heart"} style={{ color: favorites.some(favorite => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name) ? "black" : "#fdf51c" }}></i>
                             </span>
-
-                            
                         </div>
-                         {store.auth_admin || store.auth_ong ?
-                            <div className="col-md-1 p-3 editButton">
-                                <Link to={`/editCampaign/${campaign.id}`} key={campaign.id}>
-                                    <button className="sideButtons">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
-                                            <path d="..."/>
-                                        </svg>
-                                    </button>
-                                </Link>
-                            </div>
-                            : null
-                        }
-                        {store.auth_admin || store.auth_ong ?
-                            <div className="col-md-1 p-3">
-                                <button type="button" className="btn sideButtons" data-bs-toggle="modal" data-bs-target={`#exampleModal${campaign.id}`}>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" className="bi bi-trash3-fill" viewBox="0 0 16 16">
-                                        <path d="..."/>
-                                    </svg>
-                                </button>
-                                <div className="modal fade" id={`exampleModal${campaign.id}`} tabIndex="-1" aria-labelledby={`exampleModalLabel${campaign.id}`} aria-hidden="true">
-                                    <div className="modal-dialog">
-                                        <div className="modal-content">
-                                            <div className="modal-header">
-                                                <h1 className="modal-title fs-5" id={`exampleModalLabel${campaign.id}`}>Eliminar Campaña</h1>
-                                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div className="modal-body">
-                                                Seguro que quieres eliminar esta campaña?
-                                            </div>
-                                            <div className="modal-footer">
-                                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">No.</button>
-                                                <button onClick={() => botonEliminarCampana(campaign.id)} type="button" className="btn btn-primary">Sí, quiero borrarla</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            : null
-                        }
                     </div>
                 </div>
             ))}
-           <div className="container mt-5 mb-3">
-                {(store.auth_admin || store.auth_ong) ?
+            <div className="container mt-5 mb-3">
+                {(store.auth_admin || store.auth_ong) &&
                     <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
                         Crear campaña
                     </Link>
-                    :
-                   null
                 }
             </div>
         </>
     );
 };
+
 
 // import React, { useState, useEffect, useContext } from "react";
 // import { Link } from "react-router-dom";
