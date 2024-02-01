@@ -273,6 +273,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				.then(response => response.json())
 				.then(data => {
 					setStore({ ong: data });
+					alert("ONG creada correctamente");
 				})
 				.catch(error => {
 					console.error('Error adding ONG:', error);
@@ -401,38 +402,56 @@ const getState = ({ getStore, getActions, setStore }) => {
 				headers: { 'Content-Type': 'application/json' },
 				mode: 'cors',
 				body: JSON.stringify({
-					
-					"fecha_finalizacion":newCampaign.fecha_finalizacion,
+					"fecha_finalizacion": newCampaign.fecha_finalizacion,
 					"fecha_inicio": newCampaign.fecha_inicio,
-					"nombre":newCampaign.nombre,
-					"objetivo":newCampaign.objetivo,
-					"articulos":newCampaign.articulos,
+					"nombre": newCampaign.nombre,
+					"objetivo": newCampaign.objetivo,
+					"articulos": newCampaign.articulos,
 					"ong_name": newCampaign.ong_name,
-
 				})
 			};
 			fetch(process.env.BACKEND_URL + "/api/campaign/", requestOptions)
-
+				.then(response => response.json())
+				.then(data => {
+					// Aquí puedes agregar alguna acción adicional si lo necesitas
+					// Por ejemplo, puedes mostrar la respuesta del servidor
+					console.log('Campaign added successfully:', data);
+					// Alerta de campaña creada correctamente
+					alert("Campaña creada correctamente");
+				})
+				.catch(error => {
+					console.error('Error adding campaign:', error);
+				});
 		},
+		
 
 
 		deleteCampaign: (id) => {
 			const deleteOptions = {
 				method: "DELETE",
 				mode: 'cors',
-				headers: { 'Content-Type': 'application/json'  },
+				headers: { 'Content-Type': 'application/json' },
 			};
 			fetch(process.env.BACKEND_URL + "/api/campaign/" + id, deleteOptions)
-
 				.then(response => response.json())
-				.then((data =>{
+				.then(() => {
+					// Aquí puedes agregar alguna acción adicional si lo necesitas
+					// Por ejemplo, puedes mostrar la respuesta del servidor
+					console.log('Campaign deleted successfully');
+					// Alerta de campaña eliminada correctamente
+					alert("Campaña eliminada correctamente");
+					// Actualizar la lista de campañas en el store si es necesario
 					fetch(process.env.BACKEND_URL + "/api/campaign/")
-						.then((response) => response.json())
-						.then((data) => {
+						.then(response => response.json())
+						.then(data => {
 							setStore({ campaign: data });
-			})
-		}))
+						});
+				})
+				.catch(error => {
+					console.error('Error deleting campaign:', error);
+				});
 		},
+		
 
 
 		// //update campaing after deletion
@@ -442,23 +461,33 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 		editCampaign: (editCampaign, id) => {
 			const editOptions = {
-		   method: "PUT",
-		   headers: { 'Content-Type': 'application/json' },
-		   mode: 'cors',
-		   body: JSON.stringify({
-			   "ong": editCampaign.ong,
-				"articulos":editCampaign.articulos,
-				"fecha_finalizacion":editCampaign.fecha_fin,
-				"fecha_inicio": editCampaign.fecha_inicio,
-				"nombre":editCampaign.nombre,
-				"objetivo":editCampaign.objetivo,
-				"ong_name": editCampaign.ong_name,
-		   })
-	   };
-	   fetch(process.env.BACKEND_URL + "/api/campaign/" + id, editOptions)
-	   .then(response => response.json())
-	   .then(console.log(process.env.BACKEND_URL + "/api/campaign/"+ id));
-	   },	
+				method: "PUT",
+				headers: { 'Content-Type': 'application/json' },
+				mode: 'cors',
+				body: JSON.stringify({
+					"ong": editCampaign.ong,
+					"articulos": editCampaign.articulos,
+					"fecha_finalizacion": editCampaign.fecha_fin,
+					"fecha_inicio": editCampaign.fecha_inicio,
+					"nombre": editCampaign.nombre,
+					"objetivo": editCampaign.objetivo,
+					"ong_name": editCampaign.ong_name,
+				})
+			};
+			fetch(process.env.BACKEND_URL + "/api/campaign/" + id, editOptions)
+				.then(response => response.json())
+				.then(data => {
+					// Aquí puedes agregar alguna acción adicional si lo necesitas
+					// Por ejemplo, puedes mostrar la respuesta del servidor
+					console.log('Campaign edited successfully:', data);
+					// Alerta de campaña editada correctamente
+					alert("Campaña editada correctamente");
+				})
+				.catch(error => {
+					console.error('Error editing campaign:', error);
+				});
+		},
+			
 	// admin login system 
 	adminLogin: (email,password) => {
 		console.log('Login desde flux')
