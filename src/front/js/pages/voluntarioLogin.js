@@ -16,12 +16,12 @@
 
 
     return (
-      <div className="container mt-3">
-         {store.auth_voluntario === true ? <Navigate to={`/voluntarioDashboard/${localStorage.getItem("id")}`} /> : 
-          <form className="w-50 mx-auto" onSubmit={sendData}>
+      <>
+      {store.auth_voluntario === true ? <Navigate to={`/voluntarioDashboard/${localStorage.getItem("id")}`} /> : 
+      <div className="page-container container mt-5 py-5 w-50 mx-auto">
+          <h1 className="page-title mb-3">Entra a tu cuenta de voluntario</h1>
+          <form  onSubmit={sendData}>
             <div className="mb-3">
-            <h1>Login voluntario</h1>
-              <p>Accede a tu cuenta de voluntario</p>
               <label htmlFor="inputEmail" className="form-label">Email</label>
               <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="emailInput" className="form-control"></input>
             </div>
@@ -29,13 +29,17 @@
               <label htmlFor="inputPassword" className="form-label">Contraseña</label>
               <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="passwordInput"></input>
             </div>
-            <button type="submit" style={{ width: "100%" }}  className="btn btn-primary">
-            Acceder
+            <div className="mb-4 mt-3">
+            <button type="submit" style={{ width: "100%" }}  className="btn btn-primary btn-form">
+            Iniciar sesión
             </button>
-              <p className="mt-3">¿Todavía no tienes cuenta? <Link to="/voluntarioSignup">puedes crearla aquí</Link></p>
+            </div>
+              <p className="mt-3 text-center">¿Todavía no tienes cuenta? <Link to="/voluntarioSignup">puedes crearla aquí</Link></p>
           </form>
+        </div>
         }
-      </div>
+        </>
+     
     );
   }
 

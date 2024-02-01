@@ -67,46 +67,45 @@ export const CampaignEditForm = () => {
 
     return (
         <>
-            <div className="container text-center">
-                <h1>Editar Campaña</h1>
-            </div>
-            <div className="row ms-5 p-3">
-                <div className="col-12 mb-3">
-                    <label>Lista de artículos</label>
-                    <input className="form-control mx-auto" onChange={inputArticulos} value={articulos} placeholder="Lista de articulos"></input>
+            <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
+            <div className="border border-dark rounded-3 p-4 w-75">
+                <h1 className="page-title mb-3">Editar Campaña</h1>
+                <div className="mb-3">
+                    <label className="form-label">Lista de artículos</label>
+                    <input className="form-control mx-auto" onChange={inputArticulos} value={articulos} ></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Fecha Finalizacion</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputFechaFinalizacion} value={fecha_finalizacion} placeholder="Fecha finalizacion"></input>
+                <div className="mb-3">
+                    <label className="form-label">Fecha Finalizacion</label>
+                    <input className="form-control mx-auto" type="date" onChange={inputFechaFinalizacion} value={fecha_finalizacion} ></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Fecha Inicio</label>
-                    <input className="form-control mx-auto" type="date" onChange={inputFechaInicio} value={fecha_inicio} placeholder="Fecha inicio"></input>
+                <div className="mb-3">
+                    <label className="form-label">Fecha Inicio</label>
+                    <input className="form-control mx-auto" type="date" onChange={inputFechaInicio} value={fecha_inicio} ></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Nombre de la campaña</label>
-                    <input className="form-control mx-auto" onChange={inputNombre} value={nombre} placeholder="Nombre campaña"></input>
+                <div className="mb-3">
+                    <label className="form-label">Nombre de la campaña</label>
+                    <input className="form-control mx-auto" onChange={inputNombre} value={nombre} ></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Objetivo a cumplir</label>
-                    <input className="form-control mx-auto" onChange={inputObjetivo} value={objetivo} placeholder="Objetivo campaña"></input>
+                <div className="mb-3">
+                    <label className="form-label">Objetivo a cumplir</label>
+                    <input className="form-control mx-auto" onChange={inputObjetivo} value={objetivo}></input>
                 </div>
-
-
-                <div className="col-12 mb-3">
-                <label>Nombre de la ONG</label>
-                <input className="form-control mx-auto" onChange={inputOngName} value={ongName} placeholder="Nombre de la ONG"></input>
+                <div className="mb-3">
+                <label className="form-label">Nombre de la ONG</label>
+                <input className="form-control mx-auto" onChange={inputOngName} value={ongName} ></input>
                  </div>   
 
-                <div className="col-12 mb-3">
-                    <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar campaña</button>
+                <div className="mb-4 mt-3">
+                    <button className="btn btn-primary btn-form" style={{ width: "100%" }} onClick={handleSave}>Guardar cambios</button>
                 </div>
                 <div className="container mb-3">
                     <Link to={`/TuOng/${localStorage.getItem("id")}`}>
                     Volver a tu cuenta
                     </Link>
                 </div>
-            </div>
+                </div>
+                </div>
+
         </>
     );
 };

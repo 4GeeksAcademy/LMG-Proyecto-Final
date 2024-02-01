@@ -37,84 +37,77 @@ export const EditVoluntario = () => {
 
     return (
         <>
-            
-            <div className="container d-flex justify-content-center align-items-center vh-100">
+        <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
                 <div className="border border-dark rounded-3 p-4 w-75">
-                <h1>Edita un perfil de voluntario</h1>
+                <h1 className="page-title mb-3">Edita tu perfil</h1>
                     <div className="mb-3">
-                        <label>Nombre</label>
+                        <label className="form-label">Nombre</label>
                         <input
                             className="form-control inputs"
                             type="text"
                             name="nombre"
                             value={voluntario.nombre}
                             onChange={handleInputChange}
-                            placeholder="Nombre"
                         />
                     </div>
-
                     <div className="mb-3">
-                        <label>Email</label>
+                        <label className="form-label">Email</label>
                         <input
                             className="form-control inputs"
                             type="email"
                             name="email"
                             value={voluntario.email}
                             onChange={handleInputChange}
-                            placeholder="Email"
                         />
                     </div>
 
                     <div className="mb-3">
-                        <label>Password</label>
+                        <label className="form-label">Password</label>
                         <input
                             className="form-control inputs"
                             type="password"
                             name="password"
                             value={voluntario.password}
                             onChange={handleInputChange}
-                            placeholder="Password"
                         />
                     </div>
 
                     <div className="mb-3">
-                        <label>Ciudad</label>
+                        <label className="form-label">Ciudad</label>
                         <input
                             className="form-control inputs"
                             type="text"
                             name="ciudad"
                             value={voluntario.ciudad}
                             onChange={handleInputChange}
-                            placeholder="Ciudad"
                         />
                     </div>
 
                     <div className="mb-3">
-                        <label>Direccion</label>
+                        <label className="form-label">Direccion</label>
                         <input
                             className="form-control inputs"
                             type="text"
                             name="direccion"
                             value={voluntario.direccion}
                             onChange={handleInputChange}
-                            placeholder="Direccion"
                         />
                     </div>
 
-                    <div className="mb-3">
-                        <button className="btn btn-primary" onClick={handleSave}>
-                            Guardar
+                    <div className="mb-3 mt-3">
+                        <button className="btn btn-primary btn-form" onClick={handleSave} style={{ width: "100%" }}>
+                            Guardar cambios
                         </button>
                     </div>
 
                     <div className="mb-3">
-                        <Link to="/voluntarioDashboard/${`id`}" className="btn btn-secondary">
+                        <Link to="/voluntarioDashboard/${`id`}" className="btn btn-secondary btn-form" style={{ width: "100%" }}>
                             Volver a tu cuenta 
                         </Link>
                     </div>
 
-                    <div className="mb-3">
-                        <Link to="/" className="btn btn-secondary">
+                    <div className="mb-3 text-center">
+                        <Link to="/" >
                             Volver a Home
                         </Link>
                     </div>

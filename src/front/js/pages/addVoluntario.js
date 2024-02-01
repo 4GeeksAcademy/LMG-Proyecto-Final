@@ -8,6 +8,7 @@ export const AddForm
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [ciudad, setCiudad] = useState("");
+  const [direccion, setDireccion] = useState(""); // Added this line for 'direccion'
   const [voluntarioLink, setVoluntarioLink] = useState(null);
 const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,6 +31,7 @@ const handleInputChange = (e) => {
       password: password,
       ciudad: ciudad,
       direccion: direccion,
+
     };
 
     setVoluntarioLink(newVoluntario);
@@ -52,9 +54,9 @@ const handleInputChange = (e) => {
     }
   };
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="border border-dark rounded-3 p-4 w-75">
-        <h1>Crea un nuevo voluntario</h1>
+    <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
+    <div className="border border-dark rounded-3 p-4 w-75">
+        <h1 className="page-title mb-3">Crea un nuevo voluntario</h1>
         <form>
           <div className="mb-3">
             <label htmlFor="nombre" className="form-label">
@@ -86,10 +88,9 @@ const handleInputChange = (e) => {
               aria-describedby="emailHelp"
               onKeyDown={handleKeyPress}
             />
-            <div id="emailHelp" className="form-text">
+            {/* <div id="emailHelp" className="form-text">
               Tu correo electrónico
-            </div>
-
+            </div> */}
           </div>
           <div className="mb-3">
             <label htmlFor="password" className="form-label">
@@ -139,22 +140,23 @@ const handleInputChange = (e) => {
           <button
             type="button"
             onClick={addVoluntario}
-            className="btn btn-primary"
+            className="btn btn-primary btn-form"
+            style={{ width: "100%" }}
           >
             Guardar
           </button>
         </form>
         
-        <div className="mb-3">
-                        <Link to="/voluntarios" className="btn btn-secondary">
-                            Volver a Voluntarios
+        <div className="mt-3">
+                        <Link to="/voluntarios">
+                            Volver a la lista de Voluntarios
                         </Link>
-                    </div>
-        <div className="mb-3">
-                        <Link to="/" className="btn btn-secondary">
+        </div>
+        {/* <div className="mb-3">
+                        <Link to="/" >
                             Volver a Home
                         </Link>
-                    </div>
+          </div> */}
       </div>
      
     </div>

@@ -15,8 +15,8 @@ export const OngEditForm = () => {
         direccion: "",
         actividad: "",
         aprobado: "",
-        lat: "", 
-        lng: ""
+        // lat: "", 
+        // lng: ""
     });
     
 
@@ -49,7 +49,7 @@ export const OngEditForm = () => {
                 direccion: "",
             });
         } else {
-            alert("Por favor, complete todos los campos.");
+            alert("Por favor, completa todos los campos.");
         }
     };
 
@@ -60,95 +60,95 @@ export const OngEditForm = () => {
      
        
          <>
-            <div className="container text-center">
-                <h1>Edita tu Ong</h1>
-            </div>
-            <div className="row ms-5 p-3">
-                <div className="col-12 mb-3">
-                    <label>Nif</label>
+            <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
+            <div className="border border-dark rounded-3 p-4 w-75">
+                <h1 className="page-title mb-3">Edita tu perfil de Ong</h1>
+                <div className="mb-3">
+                    <label className="form-label">Nif</label>
                     <input 
                     className="form-control mx-auto"
                     type="text"
                     name="nif"
                     onChange={handleInputChange}
                     value={ong.nif}
-                    placeholder="Nif"/>      
+                    />      
                 </div>
                 <div className="mb-3">
-                        <label>Email</label>
+                        <label className="form-label">Email</label>
                         <input
                             className="form-control inputs"
                             type="email"
                             name="email"
                             value={ong.email}
                             onChange={handleInputChange}
-                            placeholder="Email"
+                            
                         />
                     </div>
-                <div className="col-12 mb-3">
-                    <label>Ciudad</label>
+                <div className="mb-3">
+                    <label className="form-label">Ciudad</label>
                     <input 
                     className="form-control mx-auto" 
                     type="text" 
                     onChange={handleInputChange} 
                     value={ong.ciudad} 
                     name="ciudad"
-                    placeholder="Ciudad"/>
+                />
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Nombre</label>
+                <div className="mb-3">
+                    <label className="form-label">Nombre Organización</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.nombre}
                     name="nombre"
-                    placeholder="Nombre Ong"/>
+                    />
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Actividad</label>
+                <div className="mb-3">
+                    <label className="form-label">Actividad</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.actividad}
                     name="actividad"
-                    placeholder="Actividad"/>
+                    />
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Aprobado</label>
+                <div className="mb-3">
+                    <label className="form-label">Aprobado</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.aprobado}
                     name="aprobado"
-                    placeholder="Aprobado"/>
+                    />
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Password</label>
+                <div className="mb-3">
+                    <label className="form-label">Password</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.password}
                     name="password"
-                    placeholder="Contraseña"/>
+                   />
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Direccion</label>
+                <div className="mb-3">
+                    <label className="form-label">Direccion</label>
                     <input 
                     className="form-control mx-auto"
                     onChange={handleInputChange}
                     value={ong.direccion}
                     name="direccion"
-                    placeholder="Direccion"/>
+                    />
                 </div>
                 
 
-                <div className="col-12 mb-3">
-                    <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>
+                <div className="mb-4 mt-3">
+                    <button className="btn btn-primary btn-form" style={{ width: "100%" }} onClick={handleSave}>Guardar cambios</button>
                 </div>
                 <div className="container mb-3">
                     <Link to="/tuOng/${`id`}">
                         Volver a tu cuenta
                     </Link>
+                </div>
                 </div>
             </div>
         </>

@@ -70,7 +70,7 @@ export const Navbar = () => {
                                     </li>
                                 ))}
                                 <hr className="dropdown-divider"/>
-                                <li><a className="dropdown-item" to={`/voluntarioDashboard/${localStorage.getItem("id")}`}>Mi perfil</a></li>
+                                <li><a className="dropdown-item" href={`/voluntarioDashboard/${localStorage.getItem("id")}`}>Mi perfil</a></li>
                                 <li>
                                     <a onClick={handleLogout} className="dropdown-item">Cerrar Sesión</a>
                                 </li>

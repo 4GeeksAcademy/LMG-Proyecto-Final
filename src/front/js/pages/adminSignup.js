@@ -17,15 +17,15 @@ export const AdminSignup = () => {
     }
 
     return (
-        <div className="container mt-3">
+        <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
+            <div className="border border-dark rounded-3 p-4 w-75">
             {store.auth_admin ? 
                 <Navigate to="/Admin" />
              : (
         
-                <form className="w-50 mx-auto" onSubmit={sendData}>
-                    <div className="mb-3">
-                        <h1>Signup Admin</h1>
-                        <p>Crea a tu cuenta de administrador</p>
+                <form onSubmit={sendData}>
+                    <h1 className="page-title mb-3">Crea a tu cuenta de administrador</h1>
+                    <div className="mb-3">     
                         <label htmlFor="emailInput" className="form-label">Email</label>
                         <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="emailInput" aria-describedby="emailHelp" />
                     </div>
@@ -37,6 +37,7 @@ export const AdminSignup = () => {
                     <p className="mt-3">¿Ya tienes cuenta? <Link to="/adminLogin">accede aquí</Link></p>
                 </form>
             )}
+            </div>
         </div>
     );
 };
