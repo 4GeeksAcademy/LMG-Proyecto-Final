@@ -17,6 +17,7 @@ body{
 /* Buttons*/
 .btn{
     border-radius: 4.5rem;
+    font-weight:600;
 }
 .btn-primary {
     color: #074040;
