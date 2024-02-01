@@ -29,7 +29,6 @@ body{
     background-color: #b7d2f8;
     border-color: #b7d2f8;
 }
-/* open>.dropdown-toggle.btn-primary  */
 
 .btn-secondary {
     color: #074040;
@@ -47,6 +46,12 @@ body{
     border-radius: 0.25rem;
     padding: 10px;
 }
+
+.btn-action{
+    max-height: 3rem;
+    border-radius: 0.25rem;
+}
+
 
 /* Links */
 a{
@@ -99,7 +104,7 @@ a:hover, a:active, a:focus {
     }
 
 
-/*Hero banner*/
+/*Section Hero banner*/
 .hero-banner{
     padding-top: 7rem!important;
     margin-top: 0rem!important;
@@ -116,3 +121,71 @@ a:hover, a:active, a:focus {
     color: #b7d2f8;
     font-size:18px;
 }
+
+/*Section registra ong */
+.section-ong{
+    color: #074040;
+    background-color: #b7d2f8;
+    padding: 8rem!important;
+}
+
+.section-ong li{
+    padding: 0.25rem 0rem;
+    font-size: 18px;
+}
+
+.section-ong .btn:hover, .btn:active, .btn:focus{
+    border-color: #074040;
+}
+
+
+/*Section Registra Voluntario*/
+.section-voluntario{
+    padding: 9rem!important;
+}
+.section-voluntario h1{
+    font-size: 6rem;
+}
+
+.section-voluntario p{
+    font-size: 18px;
+}
+
+.section-voluntario .btn{
+    color: #032121;
+    background-color: white;
+    border-color: #032121;
+}
+
+.section-voluntario .btn:active, .btn:hover, .btn:focus {
+    color: white;
+    background-color: #074040;
+    border-color: #032121;
+}
+
+
+/* Modal */
+.modal-content{
+  border: 1px solid  #032121;
+}
+
+.modal-header{
+    border-bottom: 1px solid  #032121;
+}
+
+.modal-footer{
+    border-top: none;
+}
+
+/* Footer */
+.footer{
+    background-color: #032121;
+    /* position: absolute;
+    bottom: 0;
+    width: 100%; */
+}
+.footer p{
+   color: #b7d2f8;
+}
+
+
