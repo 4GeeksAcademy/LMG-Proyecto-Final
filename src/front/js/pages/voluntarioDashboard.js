@@ -1,6 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
+import corazon from "../../img/corazon.gif";
+import rigoImageUrl from "../../img/rigo-baby.jpg";
 
 export const VoluntarioDashboard = () => {
     const { store, actions } = useContext(Context);
@@ -17,24 +19,27 @@ export const VoluntarioDashboard = () => {
     }, []);
 
     return (
-        <div className="container">
-            <h1>Hola de nuevo, {store.voluntario.nombre}</h1>
+        <div className="container w-75 page-container mt-3">
             {store.auth_voluntario === true ?
                 <>
-                    <ul className="list-group">
-                        <li key={store.voluntario.id} className="list-group-item d-flex justify-content-between">
+                    <div key={store.voluntario.id} className="p-4 mb-3">
+                    <h1>Hola de nuevo, {store.voluntario.nombre}</h1>
+                          
                             <div>
-                                <div>{store.voluntario.nombre}</div>
-                                <div>{store.voluntario.email}</div>
-                                <div>{store.voluntario.ciudad}</div>
-                                <div>{store.voluntario.direccion}</div>
+                                <p>
+                                <strong>Nombre: </strong> {store.voluntario.nombre}<br/>
+                                <strong>Email: </strong>{store.voluntario.email}<br/>
+                                <strong>Ciudad: </strong>{store.voluntario.ciudad}<br/>
+                                <strong>Dirección: </strong>{store.voluntario.direccion}<br/>
+                                </p>
                             </div>
+
                             <>
-                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <button type="button" className="me-2 btn btn-action btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Eliminar
                                 </button>
 
-                                <button onClick={() => navigate(`/editVoluntario/${store.voluntario.id}`)} className="btn btn-primary">
+                                <button type="button" className="btn btn-action btn-primary" onClick={() => navigate(`/editVoluntario/${store.voluntario.id}`)} >
                                     Editar
                                 </button>
                             </>
@@ -50,16 +55,16 @@ export const VoluntarioDashboard = () => {
                                             Estás a punto de borrar este perfil
                                         </div>
                                         <div className="modal-footer">
-                                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Mejor no</button>
-                                            <button className="btn btn-primary" onClick={() => actions.deleteVoluntario(store.voluntario.id)}>Eliminar</button>
+                                            <button type="button" className="btn btn-action btn-secondary" data-bs-dismiss="modal">Mejor no</button>
+                                            <button className="btn btn-action btn-primary" onClick={() => actions.deleteVoluntario(store.voluntario.id)}>Eliminar</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </li>
-                    </ul>
-                    <br />
-                    <h2>Has colaborado en estas campañas</h2>
+                        </div>
+                
+                    <div className="container ">
+                    <h3>Has colaborado en estas campañas</h3>
                     <div className="row">
                         {favorites.map((favorite, index) => (
                             <div key={index} className="col-md-4">
@@ -72,13 +77,27 @@ export const VoluntarioDashboard = () => {
                             </div>
                         ))}
                     </div>
-                    <br />
-                    <h2>Insignias</h2>
-            
-                    <br />
+                    </div>
+
+                    <div className="container mt-3">
+                    <h3>Insignias</h3>
+                    
+                    {favorites.length === 0 && (
+                        <h1>hola</h1>
+                    )}
+                    {favorites.length >= 3 && (
+                        <h1>holaaaaaaaa</h1>
+                    )}
+                    {favorites.length >= 5 && (
+                        <h1>holaaaaaaaaaaaaaaaa</h1>
+                    )}
+                    </div>
+
+                    <div className="container mb-3">
                     <Link to="/">
-                        <button className="btn btn-primary">Volver a Home</button>
+                    Volver a la Home
                     </Link>
+                     </div>
                     <br />
                     <br />
                 </>

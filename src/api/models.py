@@ -67,6 +67,7 @@ class Ongs(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "nif":self.nif,
             "nombre": self.nombre,
             "ciudad": self.ciudad,
             "actividad": self.actividad,
