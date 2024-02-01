@@ -17,7 +17,10 @@ body{
 /* Buttons*/
 .btn{
     border-radius: 4.5rem;
+    font-weight:600;
 }
+
+
 .btn-primary {
     color: #074040;
     background-color: #F2E641;
@@ -151,17 +154,17 @@ a:hover, a:active, a:focus {
     font-size: 18px;
 }
 
-.section-voluntario .btn{
+.btn-voluntario{
     color: #032121;
     background-color: white;
     border-color: #032121;
 }
 
-.section-voluntario .btn:active, .btn:hover, .btn:focus {
+.btn-voluntario:active, .btn-voluntario:hover, .btn-voluntario:focus {
     color: white;
     background-color: #074040;
     border-color: #032121;
-}
+} 
 
 
 /* Modal */
