@@ -60,9 +60,24 @@ export const Navbar = () => {
                         </>
                     )}
                 </ul>
-             <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <button type="button" className="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     Voluntarios
             </button>
+            <ul className="dropdown-menu">
+                     {store.auth_voluntario ? (
+                            <>
+                                <li><a className="dropdown-item" href={`/voluntarioDashboard/${localStorage.getItem("id")}`}>Mi perfil</a></li>
+                                <li>
+                                    <a onClick={handleLogout} className="dropdown-item">Cerrar Sesión</a>
+                                </li>
+                            </>
+                        ) : (
+                            <>
+                                <li><a className="dropdown-item" href="/voluntarioSignup">Crear cuenta</a></li>
+                                <li><a className="dropdown-item" href="/voluntarioLogin">Iniciar sesión</a></li>
+                            </>
+                        )}
+             </ul>
         
           </div>
         </header>
