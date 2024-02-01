@@ -83,7 +83,13 @@ a:hover, a:active, a:focus {
 /* Navbar*/
     .header-container{
         background-color: #032121;
+        /* background-color: red; */
+
     }
+
+    /* .transparent-bg {
+        background-color: transparent;
+      } */
 
     a .brand-name{
         color:#b7d2f8;
@@ -109,20 +115,23 @@ a:hover, a:active, a:focus {
 
 /*Section Hero banner*/
 .hero-banner{
-    padding-top: 7rem!important;
+    /* padding-top: 7rem!important; */
+    padding-top: 6rem!important; 
     margin-top: 0rem!important;
-    height:75vh;
+    /* height:75vh; */
+    height:85vh;
     background-color: #032121;
 }
 
 .hero-banner h1{
-    font-size: 7rem;
+    font-size: 13rem;
     color: #b7d2f8;
 }
 
 .hero-banner p{
     color: #b7d2f8;
-    font-size:18px;
+    font-size:24px;
+    font-weight: 300;
 }
 
 /*Section registra ong */

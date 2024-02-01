@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation} from "react-router-dom";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
 
@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 export const Navbar = () => {
     const { store, actions } = useContext(Context);
     const navigate = useNavigate(); 
+    // const location = useLocation();
+
 
     function handleLogout() {
         actions.ongLogout();
@@ -14,10 +16,14 @@ export const Navbar = () => {
         actions.voluntarioLogout();
         navigate('/');
     }
+
+    // Check if the current location is the homepage
+    // const isHomePage = location.pathname === '/';
     
     return (
         <>
         <div className="container-fluid header-container">
+        {/* <div className={`container-fluid header-container${isHomePage ? ' transparent-bg' : ''}`}> */}
         <header className="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start py-3">
 
           <a href="/" class="me-5 brand-name d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
@@ -35,10 +41,10 @@ export const Navbar = () => {
           <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
        
             {/* <li><a href="#" className="nav-link px-2 link-secondary">Home</a></li> */}
-            <li><a href="#" className="nav-link px-2">Features</a></li>
-            <li><a href="#" className="nav-link px-2">Pricing</a></li>
-            <li><a href="#" className="nav-link px-2">FAQs</a></li>
-            <li><a href="#" className="nav-link px-2">About</a></li>
+            <li><a href="#" className="nav-link px-2">Campañas</a></li>
+            <li><a href="#" className="nav-link px-2">Causas</a></li>
+            <li><a href="#" className="nav-link px-2">Donativos</a></li>
+            <li><a href="#" className="nav-link px-2">ONGs</a></li>
           </ul>
     
           <div className="col-md-3 text-end">
