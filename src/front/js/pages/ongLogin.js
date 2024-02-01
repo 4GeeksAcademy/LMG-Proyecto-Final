@@ -18,12 +18,10 @@ export const OngLogin = () => {
 
        <>
       {store.auth_ong === true ? <Navigate to={`/tuOng/${localStorage.getItem("id")}`} /> : 
-      <div className="container mt-3">
-        <form className="w-50 mx-auto" onSubmit={sendData}>
+      <div className="page-container container mt-5 py-5 w-50 mx-auto">
+        <h1 className="page-title mb-3">Entra a tu cuenta de ONG</h1>
+        <form  onSubmit={sendData}>
           <div className="mb-3">
-            <h1>Login ong</h1>
-
-            <p>Accede a tu cuenta de ong</p>
             <label htmlFor="inputEmail" className="form-label">Email</label>
             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="emailInput" className="form-control"></input>
           </div>
@@ -31,11 +29,12 @@ export const OngLogin = () => {
             <label htmlFor="inputPassword" className="form-label">Contraseña</label>
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="passwordInput"></input>
           </div>
-
-          <button type="submit" style={{ width: "100%" }} className="btn btn-primary">
-            Acceder
+          <div className="mb-4 mt-3">
+          <button type="submit" className="btn btn-primary btn-form" style={{ width: "100%" }}>
+            Iniciar sesión
           </button>
-          <p className="mt-3">¿Todavía no tienes cuenta? <Link to="/addOng">puedes crearla aquí</Link></p>
+          </div>
+          <p className="mt-3 text-center">¿Todavía no tienes cuenta? <Link to="/addOng">puedes crearla aquí</Link></p>
         </form>
       </div>
       }

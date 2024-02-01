@@ -53,10 +53,9 @@ export const VoluntarioSignup = () => {
       }
     };
     return (
-      <div className="container d-flex justify-content-center align-items-center vh-100">
+      <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
         <div className="border border-dark rounded-3 p-4 w-75">
-        <h1>Signup Voluntario</h1>
-                        <p>Crea a tu cuenta y forma parte del cambio</p>
+        <h1 className="page-title mb-3">Crea a tu cuenta y forma parte del cambio</h1>
           <form>
             <div className="mb-3">
               <label htmlFor="nombre" className="form-label">
@@ -88,9 +87,9 @@ export const VoluntarioSignup = () => {
                 aria-describedby="emailHelp"
                 onKeyDown={handleKeyPress}
               />
-              <div id="emailHelp" className="form-text">
+              {/* <div id="emailHelp" className="form-text">
                 Tu correo electrónico
-              </div>
+              </div> */}
   
             </div>
             <div className="mb-3">
@@ -137,15 +136,17 @@ export const VoluntarioSignup = () => {
                 onKeyDown={handleKeyPress}
               />
             </div>
-            
+            <div className="mb-4 mt-3">
             <button
+              style={{ width: "100%" }}
               type="button"
               onClick={addVoluntario}
-              className="btn btn-primary"
+              className="btn btn-primary btn-form"
             >
-              Guardar
+              Hazte voluntario
             </button>
-            <p className="mt-3">¿Ya tienes cuenta? <Link to="/voluntarioLogin">accede aquí</Link></p>
+            </div>
+            <p className="mt-3 text-center">¿Ya tienes cuenta? <Link to="/voluntarioLogin">Inicia sesión aquí</Link></p>
           </form>
         </div>
       </div>

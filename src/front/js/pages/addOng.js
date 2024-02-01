@@ -122,6 +122,7 @@ export const OngForm = () => {
 
     return (
         <>
+          {/* Añadir estilo botones del api  */}
             {store.auth_admin && (
                 <>
                     <button onClick={() => console.log(store.ongApi)}>Get</button>
@@ -133,52 +134,48 @@ export const OngForm = () => {
                     </button>
                 </>
             )}
-
-            <div className="container text-center">
-                <h1>Crear Ong</h1>
-            </div>
-            <div className="row ms-5 p-3">
-                <div className="col-12 mb-3">
-                    <label>Nif</label>
-                    <input className="form-control mx-auto" onChange={inputNif} value={nif} placeholder="Nif"></input>
+      <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
+            <div className="border border-dark rounded-3 p-4 w-75">
+            <h1 className="page-title mb-3">Crea tu cuenta de ONG</h1>
+                <div className="mb-3">
+                    <label>Nombre Organización</label>
+                    <input className="form-control mx-auto" onChange={inputNombre} value={nombre}></input>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Email</label>
+                    <input className="form-control mx-auto" type="email" onChange={inputEmail} value={email}></input>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Contraseña</label>
+                    <input className="form-control mx-auto" onChange={inputPassword} value={password}></input>
+                </div>
+                <div className="mb-3">
+                    <label className="form-label">Nif</label>
+                    <input className="form-control mx-auto" onChange={inputNif} value={nif}></input>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Email</label>
-                    <input className="form-control mx-auto" type="email" onChange={inputEmail} value={email} placeholder="Email"></input>
+                    <label className="form-label">Actividad</label>
+                    <input className="form-control mx-auto" onChange={inputActividad} value={actividad}></input>
                 </div>
                 <div className="col-12 mb-3">
-                    <label>Ciudad</label>
-                    <input className="form-control mx-auto" type="text" onChange={inputCiudad} value={ciudad} placeholder="Ciudad"></input>
+                    <label className="form-label">Direccion</label>
+                    <input className="form-control mx-auto" onChange={inputDireccion} value={direccion}></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Nombre</label>
-                    <input className="form-control mx-auto" onChange={inputNombre} value={nombre} placeholder="Nombre Ong"></input>
+                <div className=" mb-3">
+                    <label className="form-label">Ciudad</label>
+                    <input className="form-control mx-auto" type="text" onChange={inputCiudad} value={ciudad} ></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Actividad</label>
-                    <input className="form-control mx-auto" onChange={inputActividad} value={actividad} placeholder="Actividad"></input>
+                <div className="mb-3">
+                    <label className="form-label">Aprobado</label>
+                    <input className="form-control mx-auto" onChange={inputAprobado} value={aprobado}></input>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Aprobado</label>
-                    <input className="form-control mx-auto" onChange={inputAprobado} value={aprobado} placeholder="Aprobado"></input>
+                <div className="mb-4 mt-3">
+                    <button className="btn btn-primary btn-form" style={{ width: "100%" }} onClick={handleSave}>Crear cuenta</button>
                 </div>
-                <div className="col-12 mb-3">
-                    <label>Password</label>
-                    <input className="form-control mx-auto" onChange={inputPassword} value={password} placeholder="Contraseña"></input>
-                </div>
-                <div className="col-12 mb-3">
-                    <label>Direccion</label>
-                    <input className="form-control mx-auto" onChange={inputDireccion} value={direccion} placeholder="Direccion"></input>
-                </div>
-
-                <div className="col-12 mb-3">
-                    <button className="btn btn-primary" style={{ width: "90%" }} onClick={handleSave}>Guardar Ong</button>
-                </div>
-
-                <div className="container mb-3">
-                    <Link to="/onglogin">
-                        Ir a Login
+                <p className="mt-3 text-center">¿Ya tienes cuenta? <Link to="/onglogin">
+                         Inicia sesión aquí
                     </Link>
+                </p>
                 </div>
             </div>
         </>

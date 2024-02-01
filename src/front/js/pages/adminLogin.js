@@ -15,12 +15,12 @@ const AdminLogin = () => {
   }
 
   return (
-    <div className="container mt-3">
-       {store.auth_admin === true ? <Navigate to="/admin" /> : 
-        <form className="w-50 mx-auto" onSubmit={sendData}>
+    <>
+    {store.auth_admin === true ? <Navigate to="/admin" /> : 
+    <div className="page-container container mt-5 py-5 w-50 mx-auto">
+        <h1 className="page-title mb-3">Accede como administrador</h1>
+        <form onSubmit={sendData}>
           <div className="mb-3">
-          <h1>Login admin</h1>
-            <p>Accede a tu cuenta de administrador</p>
             <label htmlFor="inputEmail" className="form-label">Email</label>
             <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" id="emailInput" className="form-control"></input>
           </div>
@@ -28,13 +28,15 @@ const AdminLogin = () => {
             <label htmlFor="inputPassword" className="form-label">Contraseña</label>
             <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" className="form-control" id="passwordInput"></input>
           </div>
-          <button type="submit" style={{ width: "100%" }}  className="btn btn-primary">
-          Acceder
+          <div class="mb-4 mt-3">
+          <button type="submit" style={{ width: "100%" }}  className="btn btn-primary btn-form">
+          Iniciar sesión
           </button>
-            
+          </div>
         </form>
+        </div>
       }
-    </div>
+      </>
   );
 }
 

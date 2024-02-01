@@ -6,7 +6,18 @@
     on that page only (the ones not reused in other pages).
 */
 
+body{
+    color:#074040;
+}
+
+.page-title{
+    font-size: 3rem !important;
+}
+
 /* Buttons*/
+.btn{
+    border-radius: 4.5rem;
+}
 .btn-primary {
     color: #074040;
     background-color: #F2E641;
@@ -32,6 +43,35 @@
     border-color: #F2E641;
 }
 
+.btn-form{
+    border-radius: 0.25rem;
+    padding: 10px;
+}
+
+/* Links */
+a{
+color:#639ff4;
+}
+
+a:hover, a:active, a:focus { 
+    color:#074040;
+  }
+
+/* Pages */
+.page-container{
+    padding-bottom: 150px !important;
+
+}
+
+/*form*/
+.form-control{
+    padding:9px;
+}
+
+.border-dark {
+    border-color: #074040!important;
+}
+
 /* Navbar*/
     .header-container{
         background-color: #032121;
@@ -48,6 +88,14 @@
 
     .nav-link:hover, .nav-link:active, .nav-link:focus{
         color:#EDF252;
+    }
+
+    .dropdown-item{
+        color:#032121;
+    }
+
+    .dropdown-menu.show{
+        border-radius: 0.5rem;
     }
 
 
