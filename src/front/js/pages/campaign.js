@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
-
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
     const [showDonationModal, setShowDonationModal] = useState(false);
     const [donatedCampaignInfo, setDonatedCampaignInfo] = useState(null);
     const navigate = useNavigate();
-
     useEffect(() => {
         actions.loadAllCampaigns();
     }, []);
-
     const handleDonation = (campaign) => {
         if (store.auth_voluntario) {
             if (campaign) {
@@ -20,11 +17,9 @@ export const Campaign = () => {
                     campaignName: campaign.nombre,
                     ongName: campaign.ong_name,
                 });
-
                 const isFavorite = store.favorites.some(
                     (favorite) => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name
                 );
-
                 if (!isFavorite) {
                     actions.addFavorites(campaign.nombre, campaign.ong_name);
                 } else {
@@ -35,44 +30,41 @@ export const Campaign = () => {
             navigate("/voluntarioLogin/");
         }
     };
-
     const handleEditCampaign = (id) => {
         navigate(`/editCampaign/${id}`);
     };
-
     const handleDeleteCampaign = (id) => {
         if (window.confirm("¿Estás seguro de que quieres eliminar esta campaña?")) {
             actions.deleteCampaign(id);
         }
     };
-
     return (
+        <div className="container w-75 page-container mt-4 py-4">
+        <h1 className="page-title mb-3">Listado de Campañas</h1>
         <>
             {store.allCampaigns.map((campaign, index) => (
-                <div className="container border" key={index}>
-                    <div className="row gx-1">
-                        <div className="col-md-8">
-                            <p className="campaignName">{campaign.nombre}</p>
-                            <p className="campaignElements"><strong>{campaign.ong_name}</strong></p>
-                            <p className="campaignElements">{campaign.fecha_inicio}</p>
-                            <p className="campaignElements">{campaign.fecha_finalizacion}</p>
-                            <p className="campaignElements">{campaign.articulos}</p>
-                            <p className="campaignElements">{campaign.objetivo}</p>
-                            <span className="btn btn-outline-success" onClick={() => handleDonation(campaign)}>
+                <div className="d-flex justify-content-between border border-dark rounded-3 p-4 mb-3" key={index}>
+                        <div>
+                            <h4 className="campaignName">{campaign.nombre}</h4>
+                            <p className="campaignElements"><strong>ONG: </strong>{campaign.ong_name}</p>
+                            <p className="campaignElements"><strong>Donativo: </strong>{campaign.articulos}<br/>
+                            <strong>Objetivo: </strong>{campaign.objetivo}</p>
+                            <p className="campaignElements"><strong>Fecha de inicio: </strong>{campaign.fecha_inicio}<br/>
+                            <strong>Fecha de finalización: </strong>{campaign.fecha_finalizacion}</p>
+                            <span className="btn btn-action btn-primary" onClick={() => handleDonation(campaign)}>
                                 Donar
                             </span>
                             {(store.auth_admin || store.auth_ong) && (
                                 <>
-                                    <button className="btn btn-outline-primary mx-2" onClick={() => handleEditCampaign(campaign.id)}>
+                                    <button className="btn btn-action btn-primary mx-2" onClick={() => handleEditCampaign(campaign.id)}>
                                         Editar
                                     </button>
-                                    <button className="btn btn-outline-danger" onClick={() => handleDeleteCampaign(campaign.id)}>
+                                    <button className="btn btn-action btn-secondary" onClick={() => handleDeleteCampaign(campaign.id)}>
                                         Eliminar
                                     </button>
                                 </>
                             )}
                         </div>
-                    </div>
                 </div>
             ))}
             {showDonationModal && (
@@ -87,13 +79,13 @@ export const Campaign = () => {
                                 <p>Tu donación es de gran ayuda. ¡Gracias por tu generosidad!</p>
                                 {donatedCampaignInfo && (
                                     <>
-                                        <p>Nombre de la campaña donada: {donatedCampaignInfo.campaignName}</p>
-                                        <p>ONG: {donatedCampaignInfo.ongName}</p>
+                                        <p><strong>Has colaborado en: </strong> {donatedCampaignInfo.campaignName}</p>
+                                        <p><strong>ONG: </strong> {donatedCampaignInfo.ongName}</p>
                                     </>
                                 )}
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => setShowDonationModal(false)}>Cerrar</button>
+                                <button type="button" className="btn btn-action btn-primary" data-bs-dismiss="modal" onClick={() => setShowDonationModal(false)}>Cerrar</button>
                             </div>
                         </div>
                     </div>
@@ -101,7 +93,7 @@ export const Campaign = () => {
             )}
             <div className="container mt-5 mb-3">
                 {(store.auth_admin || store.auth_ong) &&
-                    <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
+                    <Link to="/addCampaign" className="btn btn-form btn-primary" style={{ width: "100%" }}>
                         Crear campaña
                     </Link>
                 }
@@ -119,9 +111,9 @@ export const Campaign = () => {
        </div>
        }
         </>
+        </div>
     );
 };
-
 
 // import React, { useState, useEffect, useContext } from "react";
 // import { Link } from "react-router-dom";
