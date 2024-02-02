@@ -12,26 +12,25 @@ export const Voluntarios = () => {
     }, []);
 
     return (
-        <div className="container">
-            <h1>Voluntarios</h1>
-            <ul className="list-group">
+        <div className="container w-75 page-container mt-3">
+            <h1 className="page-title mb-3">Listado de Voluntarios </h1>
                 {store.voluntarios.map(item => (
-                    <li key={item.id} className="list-group-item d-flex justify-content-between">
+                    <div key={item.id} className="d-flex justify-content-between border border-dark rounded-3 p-4 mb-3">
                         <div>
-                            <div>{item.nombre}</div>
-                            <div>{item.email}</div>
-                            <div>{item.ciudad}</div>
-                            <div>{item.id}</div>
-                            <div>{item.actividad}</div>
+                            <div><strong>Nombre: </strong>{item.nombre}</div>
+                            <div><strong>Email: </strong>{item.email}</div>
+                            <div><strong>Ciudad: </strong>{item.ciudad}</div>
+                            <div><strong>Id: </strong>{item.id}</div>
+                            <div><strong>Actividad: </strong>{item.actividad}</div>
                         </div>
 
                         {store.auth_admin === true ?
                             <>
-                                <button type="button" className="btn btn-primary" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                                <button type="button" className="btn btn-action btn-secondary" data-bs-toggle="modal" data-bs-target="#deleteModal">
                                     Eliminar
                                 </button>
 
-                                <button onClick={() => navigate(`/editForm/${item.id}`)} className="btn btn-primary">
+                                <button onClick={() => navigate(`/editVoluntario/${item.id}`)} className="btn btn-action btn-primary">
                                     Editar
                                 </button>
                             </>
@@ -59,26 +58,30 @@ export const Voluntarios = () => {
                                         Estás a punto de borrar este perfil
                                     </div>
                                     <div className="modal-footer">
-                                        <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Mejor no</button>
-                                        <button className="btn btn-primary" onClick={() => actions.deleteVoluntario(item.id)}>Eliminar</button>
+                                        <button type="button" className="btn btn-action btn-secondary" data-bs-dismiss="modal">Mejor no</button>
+                                        <button className="btn btn-action btn-primary" onClick={() => actions.deleteVoluntario(item.id)}>Eliminar</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
-            <br />
-            <Link to="/">
-                <button className="btn btn-primary">Volver a Home</button>
-            </Link>
-            <br />
-            <br />
-            {store.auth_voluntario && (
+           
+         
+            {store.auth_admin === true?
+            <>
+            <div className="mb-3 px-2">
                 <Link to="/addVoluntario">
-                    <button className="btn btn-primary">Crear Voluntario</button>
+                    <button className="btn btn-form btn-primary" style={{ width: "100%" }}>Crear Voluntario</button>
                 </Link>
-            )}
+                </div>
+                <div className="container mb-3">
+                 <Link to="/admin">
+                 Volver a a tu cuenta de administrador
+              </Link>
+              </div>
+              </>
+            :null}
         </div>
     );
 };

@@ -7,14 +7,17 @@ const SectionRegistraONG = () => {
       <div className="row">
         <div className="col-7">
           <h1 className="display-5 fw-bold">Eres imprescindible, <br/> déjate ayudar </h1>
-          <p>Tu proyecto puede ser parte de este cambio. Empieza hoy mismo.</p>
+          <p>Descubre cómo tu ONG puede ser una parte crucial de esta transformación
+            <br/>
+            Únete a nuestra red solidaria y colabora con voluntarios comprometidos.
+          </p>
           <ul className="list-unstyled">
-            <li> - Crea un perfil</li>
-            <li> - Crea una campaña</li>
-            <li> - Forma equipo</li>
+            <li><strong>- Diseña campañas que conecten con corazones solidarios.</strong></li>
+            <li><strong>- Potencia el impacto de tu ONG con nuestra red internacional.</strong></li>
+            <li><strong>- Obtén apoyo continuo de nuestro equipo.</strong></li>
           </ul>
-          <Link to="/addOng" className="btn btn-primary" style={{ width: "60%" }} >
-            Registra tu Ong
+          <Link to="/addOng" className="btn btn-ong btn-primary" style={{ width: "80%" }} >
+            Registra tu ONG
         </Link>
         </div>
         <div className="col-5">
@@ -23,7 +26,7 @@ const SectionRegistraONG = () => {
             alt="Imagen cedida por Educo"
             className="img-fluid w-100"
           />
-          <p>Banco de alimentos Madrid</p>
+          <p className="text-note">Banco de alimentos Madrid</p>
         </div>
       </div>
     </div>

@@ -163,11 +163,20 @@ export const OngEditForm = () => {
                 <div className="mb-4 mt-3">
                     <button className="btn btn-primary btn-form" style={{ width: "100%" }} onClick={handleSave}>Guardar cambios</button>
                 </div>
-                <div className="container mb-3">
-                    <Link to="/tuOng/${`id`}">
-                        Volver a tu cuenta
-                    </Link>
+               
+                {store.auth_admin === true ?
+                 <div className="container mb-3">
+                 <Link to="/adminLogin/">
+                     Volver a tu cuenta de administrador
+                 </Link>
                 </div>
+                : 
+                <div className="container mb-3">
+                <Link to="/tuOng/${`id`}">
+                    Volver a tu cuenta
+                </Link>
+                </div>
+                }
                 </div>
             </div>
         </>
