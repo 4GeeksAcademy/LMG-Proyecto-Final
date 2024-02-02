@@ -73,7 +73,7 @@ export const VoluntarioDashboard = () => {
 
                     <div className="container mb-3">
                         {/* <Link to="/">Volver a la Home</Link> */}
-                        <a href="/campaign">Ver campañas activas</a>
+                        <a href="/campaign">Ver todas las campañas</a>
                     </div>
                 </>
                 : null

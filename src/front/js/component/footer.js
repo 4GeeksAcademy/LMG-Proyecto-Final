@@ -29,7 +29,7 @@ export const Footer = () => {
 
         <ul className="nav col-md-4 justify-content-end">
         {store.auth_admin === false ? (
-                <li className="nav-item"><a href="/adminlogin" className="nav-link px-2 text-body-secondary">Inicia sesión como admin</a></li>
+                <li className="nav-item"><a href="/adminlogin" className="nav-link px-2 text-body-secondary">Acceso admin</a></li>
 
             ) : <li className="nav-item"><a className="nav-link px-2 text-body-secondary" onClick={handleLogout}>Cerrar sesión</a></li>}
         </ul>
