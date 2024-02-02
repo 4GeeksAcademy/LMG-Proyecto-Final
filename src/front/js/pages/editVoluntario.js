@@ -112,18 +112,26 @@ export const EditVoluntario = () => {
                             Guardar cambios
                         </button>
                     </div>
-
+                    <>
+                    {store.auth_admin === true?
                     <div className="mb-3">
+                    <Link to="/admin" className="btn btn-secondary btn-form" style={{ width: "100%" }}>
+                        Volver a tu cuenta de administrador
+                    </Link>
+                </div>
+                    : <div className="mb-3">
                         <Link to="/voluntarioDashboard/${`id`}" className="btn btn-secondary btn-form" style={{ width: "100%" }}>
                             Volver a tu cuenta 
                         </Link>
                     </div>
-
+                   }
+                    </>
                     <div className="mb-3 text-center">
                         <Link to="/" >
                             Volver a Home
                         </Link>
-                    </div>
+                    </div> 
+                    
                 </div>
             </div>
         </>

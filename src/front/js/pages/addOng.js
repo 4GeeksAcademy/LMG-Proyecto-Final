@@ -116,20 +116,20 @@ export const OngForm = () => {
 
     return (
         <>
-            {store.auth_admin && (
-                <>
-                    <button onClick={() => console.log(store.ongApi)}>Get</button>
-                    <button
-                        onClick={() => handleFillFromApi()}
-                        disabled={!apiDataLoaded}
-                    >
-                        Rellenar desde la API.
-                    </button>
-                </>
-            )}
             <div className="page-container container d-flex justify-content-center align-items-center mt-3 py-5 ">
                 <div className="border border-dark rounded-3 p-4 w-75">
                     <h1 className="page-title mb-3">Crea tu cuenta de ONG</h1>
+                    {store.auth_admin && (
+                <>
+                    <button
+                        onClick={() => handleFillFromApi()}
+                        disabled={!apiDataLoaded}
+                        className="mb-3 btn btn-action btn-secondary"
+                    >
+                        Rellenar datos desde la API.
+                    </button>
+                </>
+            )}
                     <div className="mb-3">
                         <label className="form-label">Nombre Organización</label>
                         <input className="form-control mx-auto" onChange={inputNombre} value={nombre}></input>
@@ -166,10 +166,16 @@ export const OngForm = () => {
                     <div className="mb-4 mt-3">
                         <button className="btn btn-primary btn-form" style={{ width: "100%" }} onClick={handleSave}>Crear cuenta</button>
                     </div>
-                    <p className="mt-3 text-center">¿Ya tienes cuenta? <Link to="/onglogin">
-                        Inicia sesión aquí
+                    <>
+                    { store.auth_admin === true ?
+                    <Link to="/admin">
+                        Vuelve a tu cuenta de administrador
                     </Link>
-                    </p>
+                    :  <p className="mt-3 text-center">¿Ya tienes cuenta? <Link to="/onglogin">
+                    Inicia sesión aquí
+                </Link>
+                </p>}
+                    </>
                 </div>
             </div>
         </>
