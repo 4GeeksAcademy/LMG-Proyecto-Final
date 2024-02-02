@@ -17,7 +17,7 @@ const AdminLogin = () => {
   return (
     <>
     {store.auth_admin === true ? <Navigate to="/admin" /> : 
-    <div className="page-container container mt-5 py-5 w-50 mx-auto">
+    <div className="page-container container mt-5 py-5 w-50 mx-auto" style={{ marginBottom: "80px" }}>
         <h1 className="page-title mb-3">Accede como administrador</h1>
         <form onSubmit={sendData}>
           <div className="mb-3">
