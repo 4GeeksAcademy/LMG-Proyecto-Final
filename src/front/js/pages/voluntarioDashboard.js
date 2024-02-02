@@ -18,6 +18,8 @@ export const VoluntarioDashboard = () => {
         setFavorites(favoritesFromStorage);
     }, []);
 
+        
+
     return (
         <div className="container w-75 page-container mt-3">
             {store.auth_voluntario === true ?
