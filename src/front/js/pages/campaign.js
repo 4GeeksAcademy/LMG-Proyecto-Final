@@ -4,7 +4,8 @@ import { Context } from "../store/appContext";
 
 export const Campaign = () => {
     const { store, actions } = useContext(Context);
-    const [favorites, setFavorites] = useState([]);
+    const [showDonationModal, setShowDonationModal] = useState(false);
+    const [donatedCampaignInfo, setDonatedCampaignInfo] = useState(null);
     const navigate = useNavigate();
     console.log("All Campaigns:", store.allCampaigns);
 
@@ -12,19 +13,34 @@ export const Campaign = () => {
         actions.loadAllCampaigns();
     }, []);
 
-    const toggleFavorite = (campaignName, ongName) => {
-        const isFavorite = favorites.some(favorite => favorite.campaignName === campaignName && favorite.ongName === ongName);
-        if (!isFavorite) {
-            setFavorites([...favorites, { campaignName, ongName }]);
-            actions.addFavorites(campaignName, ongName);
-        } else {
-            setFavorites(favorites.filter(favorite => !(favorite.campaignName === campaignName && favorite.ongName === ongName)));
-            actions.removeFavorites(campaignName, ongName);
-        }
-    };
+    const handleDonation = (campaign) => {
+        // Verificar si el voluntario está autenticado
+        if (store.auth_voluntario) {
+            // Puedes realizar cualquier lógica de donación aquí
+            // Actualmente, simplemente muestra información de la primera campaña en la lista
+            if (campaign) {
+                // Mostrar información de la campaña donada en la alerta
+                setShowDonationModal(true);
+                setDonatedCampaignInfo({
+                    campaignName: campaign.nombre,
+                    ongName: campaign.ong_name,
+                });
 
-    const botonEliminarCampana = (id) => {
-        actions.deleteCampaign(id);
+                // Toggle de favorito
+                const isFavorite = store.favorites.some(
+                    (favorite) => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name
+                );
+
+                if (!isFavorite) {
+                    actions.addFavorites(campaign.nombre, campaign.ong_name);
+                } else {
+                    actions.removeFavorites(campaign.nombre, campaign.ong_name);
+                }
+            }
+        } else {
+            // Redirigir al voluntario a la página de inicio de sesión si no está autenticado
+            navigate("/voluntarioLogin/");
+        }
     };
 
     return (
@@ -39,13 +55,39 @@ export const Campaign = () => {
                             <p className="campaignElements">{campaign.fecha_finalizacion}</p>
                             <p className="campaignElements">{campaign.articulos}</p>
                             <p className="campaignElements">{campaign.objetivo}</p>
-                            <span className="btn btn-outline-warning" onClick={store.auth_voluntario === true ? () => toggleFavorite(campaign.nombre, campaign.ong_name) : () => navigate("/voluntarioLogin/")}>
-                                <i className={favorites.some(favorite => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name) ? "fas fa-heart" : "far fa-heart"} style={{ color: favorites.some(favorite => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name) ? "black" : "#fdf51c" }}></i>
+                            <span className="btn btn-outline-success" onClick={() => handleDonation(campaign)}>
+                                Donar
                             </span>
                         </div>
                     </div>
                 </div>
             ))}
+            {/* Modal de agradecimiento por la donación */}
+            {showDonationModal && (
+                <div className="modal fade show" id="donationModal" tabIndex="-1" aria-labelledby="donationModalLabel" aria-hidden="true" style={{ display: 'block' }}>
+                    <div className="modal-dialog modal-dialog-centered">
+                        <div className="modal-content">
+                            <div className="modal-header">
+                                <h5 className="modal-title" id="donationModalLabel">¡Gracias por tu donación!</h5>
+                                <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={() => setShowDonationModal(false)}></button>
+                            </div>
+                            <div className="modal-body">
+                                <p>Tu donación es de gran ayuda. ¡Gracias por tu generosidad!</p>
+                                {/* Mostrar información de la campaña donada */}
+                                {donatedCampaignInfo && (
+                                    <>
+                                        <p>Nombre de la campaña donada: {donatedCampaignInfo.campaignName}</p>
+                                        <p>ONG: {donatedCampaignInfo.ongName}</p>
+                                    </>
+                                )}
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-primary" data-bs-dismiss="modal" onClick={() => setShowDonationModal(false)}>Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
             <div className="container mt-5 mb-3">
                 {(store.auth_admin || store.auth_ong) &&
                     <Link to="/addCampaign" className="btn btn-primary" style={{ width: "90%" }}>
@@ -56,6 +98,8 @@ export const Campaign = () => {
         </>
     );
 };
+
+
 
 
 // import React, { useState, useEffect, useContext } from "react";
