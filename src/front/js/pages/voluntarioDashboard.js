@@ -79,7 +79,7 @@ export const VoluntarioDashboard = () => {
                     </div>
                     </div>
 
-                    <div className="container mt-3">
+                    {/* <div className="container mt-3">
                     <h3>Insignias</h3>
                     
                     {favorites.length === 0 && (
@@ -91,7 +91,7 @@ export const VoluntarioDashboard = () => {
                     {favorites.length >= 5 && (
                         <h1>holaaaaaaaaaaaaaaaa</h1>
                     )}
-                    </div>
+                    </div> */}
 
                     <div className="container mb-3">
                     <Link to="/">
