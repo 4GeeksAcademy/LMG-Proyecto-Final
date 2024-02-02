@@ -106,7 +106,9 @@ export const Campaign = () => {
                     </Link>
                 }
             </div>
-            {store.auth_admin === true?
+
+            {store.auth_admin === true ?
+
             <div className="container mb-3">
                  <Link to="/admin">
                  Volver a a tu cuenta de administrador

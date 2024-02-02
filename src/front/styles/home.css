@@ -164,6 +164,7 @@ a:hover, a:active, a:focus {
     border-color: #074040;
 }
 
+
 .section-ong img{
     border-radius: 0.25rem;
 }
@@ -174,6 +175,11 @@ a:hover, a:active, a:focus {
     padding-top: 7rem!important;
     padding-bottom:7rem !important;
 }
+
+.section-campaigns .card {
+    border-radius:0.25rem;
+}
+
 
 .section-campaigns .card {
     border-radius:0.25rem;

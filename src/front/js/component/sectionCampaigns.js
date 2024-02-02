@@ -1,5 +1,4 @@
 import React from 'react';
-
 const SectionCampaigns = () => {
   return (
     <div className="container-fluid section-campaigns">
@@ -54,9 +53,7 @@ const SectionCampaigns = () => {
         <a href="/campaign" className='btn btn-secondary'>Ver todas las campañas</a>
         </div>
       </div>
-   
+
   );
 };
-
 export default SectionCampaigns;
-
