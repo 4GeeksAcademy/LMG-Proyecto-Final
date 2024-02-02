@@ -7,26 +7,20 @@ export const Campaign = () => {
     const [showDonationModal, setShowDonationModal] = useState(false);
     const [donatedCampaignInfo, setDonatedCampaignInfo] = useState(null);
     const navigate = useNavigate();
-    console.log("All Campaigns:", store.allCampaigns);
 
     useEffect(() => {
         actions.loadAllCampaigns();
     }, []);
 
     const handleDonation = (campaign) => {
-        // Verificar si el voluntario está autenticado
         if (store.auth_voluntario) {
-            // Puedes realizar cualquier lógica de donación aquí
-            // Actualmente, simplemente muestra información de la primera campaña en la lista
             if (campaign) {
-                // Mostrar información de la campaña donada en la alerta
                 setShowDonationModal(true);
                 setDonatedCampaignInfo({
                     campaignName: campaign.nombre,
                     ongName: campaign.ong_name,
                 });
 
-                // Toggle de favorito
                 const isFavorite = store.favorites.some(
                     (favorite) => favorite.campaignName === campaign.nombre && favorite.ongName === campaign.ong_name
                 );
@@ -38,8 +32,17 @@ export const Campaign = () => {
                 }
             }
         } else {
-            // Redirigir al voluntario a la página de inicio de sesión si no está autenticado
             navigate("/voluntarioLogin/");
+        }
+    };
+
+    const handleEditCampaign = (id) => {
+        navigate(`/editCampaign/${id}`);
+    };
+
+    const handleDeleteCampaign = (id) => {
+        if (window.confirm("¿Estás seguro de que quieres eliminar esta campaña?")) {
+            actions.deleteCampaign(id);
         }
     };
 
@@ -58,11 +61,20 @@ export const Campaign = () => {
                             <span className="btn btn-outline-success" onClick={() => handleDonation(campaign)}>
                                 Donar
                             </span>
+                            {(store.auth_admin || store.auth_ong) && (
+                                <>
+                                    <button className="btn btn-outline-primary mx-2" onClick={() => handleEditCampaign(campaign.id)}>
+                                        Editar
+                                    </button>
+                                    <button className="btn btn-outline-danger" onClick={() => handleDeleteCampaign(campaign.id)}>
+                                        Eliminar
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
             ))}
-            {/* Modal de agradecimiento por la donación */}
             {showDonationModal && (
                 <div className="modal fade show" id="donationModal" tabIndex="-1" aria-labelledby="donationModalLabel" aria-hidden="true" style={{ display: 'block' }}>
                     <div className="modal-dialog modal-dialog-centered">
@@ -73,7 +85,6 @@ export const Campaign = () => {
                             </div>
                             <div className="modal-body">
                                 <p>Tu donación es de gran ayuda. ¡Gracias por tu generosidad!</p>
-                                {/* Mostrar información de la campaña donada */}
                                 {donatedCampaignInfo && (
                                     <>
                                         <p>Nombre de la campaña donada: {donatedCampaignInfo.campaignName}</p>
@@ -98,8 +109,6 @@ export const Campaign = () => {
         </>
     );
 };
-
-
 
 
 // import React, { useState, useEffect, useContext } from "react";
