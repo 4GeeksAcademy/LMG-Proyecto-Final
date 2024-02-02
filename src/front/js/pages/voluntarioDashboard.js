@@ -1,3 +1,7 @@
+// VoluntarioDashboard.js
+
+// VoluntarioDashboard.js
+
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
@@ -16,7 +20,7 @@ export const VoluntarioDashboard = () => {
 
     return (
         <div className="container w-75 page-container mt-3">
-            {store.auth_voluntario === true ?
+            {store.auth_voluntario === true ? (
                 <>
                     <div key={store.voluntario.id} className="p-4 mb-3">
                         <h1>Hola de nuevo, {store.voluntario.nombre}</h1>
@@ -55,20 +59,25 @@ export const VoluntarioDashboard = () => {
                         </div>
                     </div>
 
-                    <div className="container ">
+                    <div className="container mb-3">
                         <h3>Has colaborado en estas campañas</h3>
-                        <div className="row">
-                            {favorites.map((favorite, index) => (
-                                <div key={index} className="col-md-4">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <h5 className="card-title">{favorite.campaignName}</h5>
-                                            <p className="card-text">{favorite.ongName}</p>
+
+                        {favorites.length > 0 ? (
+                            <div className="row">
+                                {favorites.map((favorite, index) => (
+                                    <div key={index} className="col-md-4">
+                                        <div className="card">
+                                            <div className="card-body">
+                                                <h5 className="card-title">{favorite.campaignName}</h5>
+                                                <p className="card-text">{favorite.ongName}</p>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <p>Todavía no has realizado donativos</p>
+                        )}
                     </div>
 
                     <div className="container mb-3">
@@ -76,8 +85,7 @@ export const VoluntarioDashboard = () => {
                         <a href="/campaign">Ver todas las campañas</a>
                     </div>
                 </>
-                : null
-            }
+            ) : null}
         </div>
     );
 };
