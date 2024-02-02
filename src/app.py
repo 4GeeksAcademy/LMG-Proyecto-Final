@@ -190,7 +190,7 @@ def post_ong():
                 email= body['email'],
                 ciudad= body['ciudad'],
                 actividad= body['actividad'],
-                aprobado= body['aprobado'],
+                # aprobado= body['aprobado'],
                 password= body['password'],
                 lat= body['lat'],
                 lng= body['lng'])
