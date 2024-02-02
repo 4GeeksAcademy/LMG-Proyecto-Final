@@ -17,8 +17,8 @@ export const Home = () => {
     return (
         <div>
         <SectionHeroBanner/>
-        <SectionCampaigns/>
         <SectionRegistraVoluntario/>
+        <SectionCampaigns/>
         <SectionRegistraONG />
         </div>
     );

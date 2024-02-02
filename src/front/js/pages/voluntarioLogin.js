@@ -18,7 +18,7 @@
     return (
       <>
       {store.auth_voluntario === true ? <Navigate to={`/voluntarioDashboard/${localStorage.getItem("id")}`} /> : 
-      <div className="page-container container mt-5 py-5 w-50 mx-auto">
+      <div className="page-container container mt-5 py-5 w-50 mx-auto" style={{ marginBottom: "40px" }}>
           <h1 className="page-title mb-3">Entra a tu cuenta de voluntario</h1>
           <form  onSubmit={sendData}>
             <div className="mb-3">

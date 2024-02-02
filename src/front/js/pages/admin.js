@@ -25,15 +25,15 @@ export const Admin = () => {
     }
 
     return (
-        <div className="text-center mt-5">
-            <h1>Mi cuenta</h1>
+        <div className="page-container container mt-5 py-5 w-50 mx-auto" style={{ marginBottom: "280px" }}>
+            <h1 className="page-title mb-3">Mi cuenta</h1>
             <p>Bienvenido al perfil de administrador</p>
             {store.auth_admin === true &&
                 <>
-                    <button onClick={() => verVoluntarios()} className="btn btn-primary">Voluntarios</button>
-                    <button onClick={() => verONGs()} className="btn btn-primary">ONGs</button>
-                    <button onClick={() => verCampaigns()} className="btn btn-primary">Campañas</button>
-                    <button onClick={() => crearONG()} className="btn btn-primary">Crear ONG</button>
+                    <button onClick={() => verVoluntarios()} className="btn me-2 btn-action btn-primary">Voluntarios</button>
+                    <button onClick={() => verONGs()} className="btn me-2 btn-action btn-primary">ONGs</button>
+                    <button onClick={() => verCampaigns()} className="btn btn-action btn-primary">Campañas</button>
+                    {/* <button onClick={() => crearONG()} className="btn btn-primary">Crear ONG</button> */}
                 </>
             }
         </div>
