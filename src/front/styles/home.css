@@ -164,6 +164,19 @@ a:hover, a:active, a:focus {
     border-color: #074040;
 }
 
+/*Section Campañas*/
+.section-campaigns{
+    background-color: #EDF252;
+    padding-top: 7rem!important;
+    padding-bottom:7rem !important;
+}
+.section-campaigns .card {
+    border-radius:0.25rem;
+}
+.section-campaigns .card-body {
+    border-radius:0.25rem;
+}
+
 
 /*Section Registra Voluntario*/
 .section-voluntario{
