@@ -115,15 +115,16 @@ a:hover, a:active, a:focus {
 
     .dropdown-menu.show{
         border-radius: 0.5rem;
+        border:1px solid #032121;
     }
+
+
 
 
 /*Section Hero banner*/
 .hero-banner{
-    /* padding-top: 7rem!important; */
     padding-top: 6rem!important; 
     margin-top: 0rem!important;
-    /* height:75vh; */
     height:85vh;
     background-color: #032121;
 }
