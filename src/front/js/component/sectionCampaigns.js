@@ -53,6 +53,7 @@ const SectionCampaigns = () => {
         <a href="/campaign" className='btn btn-view-all btn-secondary' style={{width: "20%"}}>Ver todas las campañas</a>
         </div>
       </div>
+
   );
 };
 export default SectionCampaigns;
