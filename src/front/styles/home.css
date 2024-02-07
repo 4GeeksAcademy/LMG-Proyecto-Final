@@ -188,6 +188,15 @@ a:hover, a:active, a:focus {
 .section-campaigns .card-body {
     border-radius:0.25rem;
 }
+.section-campaigns .btn-view-all{
+    padding:13px;
+}
+
+.btn-view-all:hover , .btn-view-all:active, .btn-view-all:focus{
+    background:#074040;
+    color:white;
+    border:#074040;
+}
 
 
 
